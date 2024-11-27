@@ -6,7 +6,7 @@ mat-toolbar {
   display: flex;
   justify-content: center;
   gap: 5rem;
-  background-color: rgb(15, 23, 44);
+  background-color: rgb(5, 0, 22);
 }
 
 mat-button {
@@ -16,12 +16,12 @@ mat-button {
 .mat-drawer {
   width: 14%;
   padding: 1.5% 1%;
-  background-color: rgb(13, 16, 46)
+  background-color: rgb(10, 12, 39)
 }
 
 .drawer-content {
   padding: 0% 1%;
-  background-color: rgb(14,15,36);
+  background-color: rgb(9, 11, 32);
 }
 
 .side-buttons {
@@ -32,11 +32,11 @@ mat-button {
 }
 
 .side-button {
-  background-color: rgb(212, 121, 2);
+  background-color: rgb(199, 113, 1);
 }
 
 .side-button:hover {
   background-color: rgb(255, 162, 31);
-  color: rgb(146, 1, 1);
+  color: rgb(99, 2, 2);
 }
 
