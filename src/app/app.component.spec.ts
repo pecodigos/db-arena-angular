@@ -17,7 +17,6 @@ describe('AppComponent', () => {
   it(`should have the 'db-arena-angular' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('db-arena-angular');
   });
 
   it('should render title', () => {

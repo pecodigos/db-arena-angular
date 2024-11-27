@@ -1,10 +1,10 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="router.url !== '/in-game'">
     <a mat-button href="/home">HOME PAGE</a>
-    <a mat-button href="/in-game">START PLAYING</a>
+    <a mat-button href="/in-game" target="_blank">START PLAYING</a>
     <a mat-button href="/missions">MISSIONS</a>
     <a mat-button href="/game-manual">GAME MANUAL</a>
 </mat-toolbar>
-<mat-drawer-container class="main-container">
+<mat-drawer-container class="main-container" *ngIf="router.url !== '/in-game'">
   <mat-drawer mode="side" class="mat-drawer" opened>
     <div>Your logged as ...</div>
     <div class="side-buttons">
@@ -19,3 +19,7 @@
     <router-outlet />
   </mat-drawer-content>
 </mat-drawer-container>
+
+<div *ngIf="router.url === '/in-game'">
+  <router-outlet></router-outlet>
+</div>
