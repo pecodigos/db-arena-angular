@@ -1,2 +1,22 @@
-<h1>Hello, world.</h1>
+<mat-toolbar>
+    <a mat-button href="/home">HOME PAGE</a>
+    <a mat-button href="/in-game">START PLAYING</a>
+    <a mat-button href="/missions">MISSIONS</a>
+    <a mat-button href="/game-manual">GAME MANUAL</a>
+</mat-toolbar>
+<mat-drawer-container class="main-container">
+  <mat-drawer mode="side" class="mat-drawer" opened>
+    <div>Your logged as ...</div>
+    <div class="side-buttons">
+      <a mat-stroked-button href="https://www.google.com/" target="_blank">PLAY NOW</a>
+      <a mat-stroked-button href="https://www.google.com/" target="_blank">View profile</a>
+      <a mat-stroked-button href="https://www.google.com/" target="_blank">Account settings</a>
+      <a mat-stroked-button href="https://www.google.com/" target="_blank">Ladder game leaderboard</a>
+      <a mat-stroked-button href="https://www.google.com/" target="_blank">Logout</a>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="drawer-content">
+    Updates, news and character balance here.
+  </mat-drawer-content>
+</mat-drawer-container>
 <router-outlet />
