@@ -1,3 +1,25 @@
-.character-selection {
-  background-color: antiquewhite;
+.main-container {
+  background-color: rgb(24, 24, 24);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.battle-container {
+  margin: 1rem;
+  border: 1px;
+  border-color: aliceblue;
+  border-style: solid;
+  border-radius: 0.25rem;
+  height: 85%;
+  width: 85%;
+  background-color: rgb(25, 25, 25);
+  padding: 1rem;
+}
+
+.character-icon {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+

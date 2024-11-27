@@ -1,4 +1,25 @@
-<main class="battle-container">
-  <h1>IN-GAME</h1>
-  <a mat-button class="battle" href="/battle"></a>
+<main class="main-container">
+  <section>
+    <a mat-button></a>
+  </section>
+  <section class="selection">
+    <div class="character-container">
+      <!-- Character Grid -->
+      <div class="character-grid">
+        <div class="character-card" *ngFor="let character of visibleCharacters">
+          <img [src]="character.image" [alt]="character.name" />
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="navigation-buttons">
+        <a mat-button (click)="previousPage()" [disabled]="currentPage === 0">
+          ← Previous
+        </a>
+        <a mat-button (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
+          Next →
+        </a>
+      </div>
+    </div>
+  </section>
 </main>
