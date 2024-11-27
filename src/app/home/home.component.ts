@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   standalone: true,
   imports: [
     MatSidenavModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

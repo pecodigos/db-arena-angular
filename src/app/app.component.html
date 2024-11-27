@@ -4,7 +4,7 @@
     <a mat-button href="/missions">MISSIONS</a>
     <a mat-button href="/game-manual">GAME MANUAL</a>
 </mat-toolbar>
-<mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle'">
+<mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
   <mat-drawer mode="side" class="mat-drawer" opened>
     <div>Your logged as ...</div>
     <div class="side-buttons">
@@ -20,6 +20,6 @@
   </mat-drawer-content>
 </mat-drawer-container>
 
-<div *ngIf="router.url === '/character-selection' || router.url === '/battle'">
+<div *ngIf="router.url === '/character-selection' || router.url === '/battle' || router.url === '/login' || router.url === '/register'">
   <router-outlet></router-outlet>
 </div>

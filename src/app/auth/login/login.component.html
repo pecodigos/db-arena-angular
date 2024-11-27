@@ -1,0 +1,21 @@
+<main class="main-container">
+  <mat-card>
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Enter your username" [(ngModel)]="username" name="username" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="Enter your password" [(ngModel)]="password" name="password" required>
+      </mat-form-field>
+
+      <button mat-raised-button class="submit-button" type="submit">Login</button>
+    </form>
+  </mat-card>
+  <section class="register-section">
+    Don't have an account? Create one <a class="register-button" href="/register">here</a>.
+  </section>
+</main>
