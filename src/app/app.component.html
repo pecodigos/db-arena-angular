@@ -1,8 +1,12 @@
 <mat-toolbar *ngIf="router.url !== '/character-selection' && router.url !== '/battle'">
-    <a mat-button href="/home">HOME PAGE</a>
-    <a mat-button href="/character-selection" target="_blank">START PLAYING</a>
-    <a mat-button href="/missions">MISSIONS</a>
-    <a mat-button href="/game-manual">GAME MANUAL</a>
+  <a mat-button href="/home">HOME PAGE</a>
+  <a mat-button href="/character-selection" target="_blank">START PLAYING</a>
+  <a mat-button href="/missions">MISSIONS</a>
+  <a mat-button href="/game-manual">GAME MANUAL</a>
+  <mat-button-toggle-group class="toggle">
+    <mat-button-toggle class="button-toggle">Light</mat-button-toggle>
+    <mat-button-toggle class="button-toggle">Dark</mat-button-toggle>
+  </mat-button-toggle-group>
 </mat-toolbar>
 <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
   <mat-drawer mode="side" class="mat-drawer" opened>
