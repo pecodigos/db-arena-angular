@@ -21,8 +21,38 @@ export class CharacterSelectionComponent {
     image: `../../../assets/characters/Character1.png`
   }));
 
+  profile = {
+    image: `../../../assets/profile-picture/ProfilePicture.png`,
+    username: `pecodigos`,
+    clan: `Kobrasol`,
+    level: `31`,
+    fighterRank: `Saiyan`,
+    ladderRank: `1`,
+    ratio: `10/0`,
+    name: `profile picture`,
+  }
+
   currentPage = 0;
   charactersPerPage = 21;
+  charactersPerTeam = 3;
+
+  get profileInfo() {
+    const clan = this.profile.clan;
+    const level = this.profile.level;
+    const fighterRank = this.profile.fighterRank;
+    const ratio = this.profile.ratio;
+    const ladderRank = this.profile.ladderRank;
+
+    return { clan, level, fighterRank, ladderRank, ratio };
+  }
+
+  get teamCharacters() {
+    return this.characters.slice(this.charactersPerTeam);
+  }
+
+  get profilePicture() {
+    return this.profile.image;
+  }
 
   get visibleCharacters() {
     const startIndex = this.currentPage * this.charactersPerPage;

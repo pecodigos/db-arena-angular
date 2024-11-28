@@ -2,22 +2,22 @@
   <section class="buttons-row">
     <div class="button-sub-div">
      <a class="each-button" href="/home">
-      <img src="../../../assets/buttons/logout.png">
+      <img src="../../../assets/buttons/LOGOUT.png">
      </a>
     </div>
     <div>
       <a class="each-button">
-        <img src="../../../assets/buttons/ladder-game.png">
+        <img src="../../../assets/buttons/LADDER-BUTTON.png">
       </a>
     </div>
     <div>
       <a class="each-button">
-        <img src="../../../assets/buttons/quick-game.png">
+        <img src="../../../assets/buttons/QUICK-BUTTON.png">
       </a>
     </div>
     <div>
       <a class="each-button">
-        <img src="../../../assets/buttons/private-game.png">
+        <img src="../../../assets/buttons/PRIVATE-BUTTON.png">
       </a>
     </div>
   </section>
@@ -30,7 +30,6 @@
             <img [src]="character.image" [alt]="character.name" />
           </div>
         </div>
-
       </div>
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
@@ -42,5 +41,16 @@
         </a>
       </div>
     </div>
+      <div class="profile-div">
+        <img [src]="profile.image" [alt]="profile.name">
+        <div class="profile-info">
+          <p>{{ profile.username }}</p>
+          <p>{{ profile.fighterRank }}</p>
+          <p>CLAN: {{ profile.clan }}</p>
+          <p>LEVEL: {{ profile.level }}</p>
+          <p>LADDERRANK: #{{ profile.ladderRank }}</p>
+          <p>RATIO: {{ profile.ratio }} (+10)</p>
+        </div>
+      </div>
   </section>
 </main>
