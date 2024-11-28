@@ -9,20 +9,20 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     MatButtonModule,
     MatCardModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './character-selection.component.html',
   styleUrl: './character-selection.component.scss'
 })
 export class CharacterSelectionComponent {
-  characters = Array.from({ length: 60 }, (_, i) => ({
+  characters = Array.from({ length: 63 }, (_, i) => ({
     id: i + 1,
     name: `Character ${i + 1}`,
-    image: `../../../assets/GokuIcon.png`
+    image: `../../../assets/characters/Character1.png`
   }));
 
   currentPage = 0;
-  charactersPerPage = 20;
+  charactersPerPage = 21;
 
   get visibleCharacters() {
     const startIndex = this.currentPage * this.charactersPerPage;

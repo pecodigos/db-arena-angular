@@ -1,13 +1,19 @@
+body {
+  cursor: url('../../../assets/buttons/cursor.png') 16 16, auto;
+}
+
+
 .main-container {
   background-color: rgb(24, 24, 24);
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
+  flex-direction: column;
 }
 
 .selection {
-  margin: 6rem 2rem;
+  margin: 1rem;
   border: 1px;
   border-color: aliceblue;
   border-style: solid;
@@ -18,17 +24,27 @@
   padding: 1rem;
 }
 
+.buttons-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.each-button {
+  background-color: transparent;
+  cursor: default;
+}
+
 .character-container {
   text-align: center;
-  padding: 20px;
+  padding: 1rem;
 }
 
 .character-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 15px;
+  gap: 1rem;
   justify-items: center;
-  margin-bottom: 20px;
+  padding-right: 30rem;
 }
 
 .character-card:hover {
@@ -65,4 +81,15 @@
 
 .navigation-buttons button:hover:not(:disabled) {
   background-color: #0056b3;
+}
+
+.dragon-ball {
+  height: 50px;
+  width: 50px;
+}
+
+.button-sub-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
