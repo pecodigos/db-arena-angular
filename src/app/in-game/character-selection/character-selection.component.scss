@@ -5,7 +5,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  user-select: none;
 }
+
 
 .selection {
   margin: 1rem;
@@ -14,7 +16,7 @@
   border-style: solid;
   border-radius: 0.1rem;
   height: 38%;
-  width: 53%;
+  width: 52.8%;
   background-color: rgb(248, 248, 255);
   overflow: scroll;
   display: flex;
@@ -63,8 +65,8 @@
 
 .navigation-buttons {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navigation-buttons button {
@@ -73,7 +75,7 @@
   background-color: #007bff;
   color: black;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: default;
   transition: background-color 0.2s ease;
 }
 
@@ -123,5 +125,13 @@
 }
 
 .goku-blue {
-  max-height: 400px;
+  max-height: 350px;
+}
+
+.left-arrow {
+  transform: scaleX(-1);
+}
+
+.arrow-img {
+  height: 2.5rem;
 }
