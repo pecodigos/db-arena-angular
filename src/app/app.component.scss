@@ -30,8 +30,8 @@ mat-button {
 .side-buttons {
   display: flex;
   flex-direction: column;
-  margin-top: 5rem;
-  gap: 0.5rem;
+  margin-top: 2rem;
+  gap: 1rem;
 }
 
 .side-button {
@@ -52,3 +52,6 @@ a:hover {
   color: rgb(99, 2 , 2);
 }
 
+.nickname {
+  color: orange;
+}
