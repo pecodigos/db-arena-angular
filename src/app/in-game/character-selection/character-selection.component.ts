@@ -28,10 +28,10 @@ export class CharacterSelectionComponent {
 
   profile = {
     image: `../../../assets/profile-picture/ProfilePicture.png`,
-    username: `pecodigos`,
-    clan: `Kobrasol`,
+    username: `PECODIGOS`,
+    clan: `KOBRASOL`,
     level: `31`,
-    fighterRank: `Saiyan`,
+    fighterRank: `SAIYAN`,
     ladderRank: `1`,
     ratio: `10/0`,
     name: `profile picture`,

@@ -1,23 +1,24 @@
 <main class="main-container">
+  <img src="../../../assets/etc/Dragon_Ball_logo.png" class="goku-blue">
   <section class="buttons-row">
     <div class="button-sub-div">
      <a class="each-button" href="/home">
-      <img src="../../../assets/buttons/LOGOUT.png">
+      <img src="../../../assets/buttons/logout.png">
      </a>
     </div>
     <div class="buttom-sub-div">
       <a class="each-button" href="/battle">
-        <img src="../../../assets/buttons/LADDER-BUTTON.png">
+        <img src="../../../assets/buttons/ladder-button.png">
       </a>
     </div>
     <div>
       <a class="each-button" href="/battle">
-        <img src="../../../assets/buttons/QUICK-BUTTON.png">
+        <img src="../../../assets/buttons/quick-button.png">
       </a>
     </div>
     <div>
       <a class="each-button" href="/character-selection">
-        <img src="../../../assets/buttons/PRIVATE-BUTTON.png">
+        <img src="../../../assets/buttons/private-button.png">
       </a>
     </div>
   </section>
@@ -33,10 +34,10 @@
       </div>
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
-        <a mat-button (click)="previousPage()" [disabled]="currentPage === 0">
+        <a mat-button color="warn" (click)="previousPage()" [disabled]="currentPage === 0">
           ← Previous
         </a>
-        <a mat-button (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
+        <a mat-button color="warn" (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
           Next →
         </a>
       </div>
