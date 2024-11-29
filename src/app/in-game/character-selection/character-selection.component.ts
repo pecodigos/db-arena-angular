@@ -36,16 +36,6 @@ export class CharacterSelectionComponent {
   charactersPerPage = 21;
   charactersPerTeam = 3;
 
-  get profileInfo() {
-    const clan = this.profile.clan;
-    const level = this.profile.level;
-    const fighterRank = this.profile.fighterRank;
-    const ratio = this.profile.ratio;
-    const ladderRank = this.profile.ladderRank;
-
-    return { clan, level, fighterRank, ladderRank, ratio };
-  }
-
   get teamCharacters() {
     return this.characters.slice(this.charactersPerTeam);
   }

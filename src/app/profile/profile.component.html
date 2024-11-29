@@ -1,1 +1,27 @@
-
+<main class="main-container">
+  <h4>Account information</h4>
+  <mat-card appearance="outlined">
+    <mat-card-header class="player-info">
+      <img [src]="profile.profilePicture">
+      <div>
+        <p><b>Username:</b> {{ profile.username }}</p>
+        <p><b>Site rank:</b> {{ profile.siteRank}} </p>
+        <p><b>Registered on:</b> {{ profile.registerOn }}</p>
+      </div>
+    </mat-card-header>
+  </mat-card>
+  <h4>Ladder information</h4>
+  <mat-card appearance="outlined">
+    <mat-card-header class="ladder-info">
+      <p><b>Level:</b> {{ profile.level }}</p>
+      <p><b>Rank:</b> {{ profile.fighterRank }}</p>
+      <p><b>Ladder Rank:</b> {{ profile.ladderRank }}</p>
+      <p><b>Wins:</b> 10</p>
+      <p><b>Losses:</b> 0</p>
+      <p><b>Win percentage:</b> 100%</p>
+      <p><b>Streak:</b> +10</p>
+      <p><b>Highest Streak:</b> +10</p>
+      <p><b>Highest Level:</b> Level {{ profile.level }}</p>
+    </mat-card-header>
+  </mat-card>
+</main>
