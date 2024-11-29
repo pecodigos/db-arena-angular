@@ -33,7 +33,7 @@ export class CharacterSelectionComponent {
     level: `31`,
     fighterRank: `SAIYAN`,
     ladderRank: `1`,
-    ratio: `10/0`,
+    ratio: `10 - 0`,
     name: `profile picture`,
   }
 

@@ -34,10 +34,10 @@
       </div>
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
-        <a mat-button color="warn" (click)="previousPage()" [disabled]="currentPage === 0">
+        <a mat-button (click)="previousPage()" [disabled]="currentPage === 0">
           ← Previous
         </a>
-        <a mat-button color="warn" (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
+        <a mat-button (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
           Next →
         </a>
       </div>

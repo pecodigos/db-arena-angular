@@ -19,7 +19,7 @@ $db-arena-angular-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$db-arena-angular-theme: mat.define-dark-theme((
+$db-arena-angular-theme: mat.define-light-theme((
   color: (
     primary: $db-arena-angular-primary,
     accent: $db-arena-angular-accent,
