@@ -21,6 +21,11 @@ export class CharacterSelectionComponent {
     image: `../../../assets/characters/Character1.png`
   }));
 
+  team = Array.from({ length: 3 }, (_,i) => ({
+    id: i + 1,
+    image: `../../../assets/characters/Character${i + 1}.png`
+  }));
+
   profile = {
     image: `../../../assets/profile-picture/ProfilePicture.png`,
     username: `pecodigos`,
@@ -37,7 +42,7 @@ export class CharacterSelectionComponent {
   charactersPerTeam = 3;
 
   get teamCharacters() {
-    return this.characters.slice(this.charactersPerTeam);
+    return this.team;
   }
 
   get profilePicture() {

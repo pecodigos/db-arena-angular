@@ -13,10 +13,10 @@
   border-color: aliceblue;
   border-style: solid;
   border-radius: 0.25rem;
-  height: 36%;
-  width: 54%;
+  height: 40%;
+  width: 55%;
   background-color: rgb(0, 7, 36);
-  padding: 1rem;
+  padding: 0.5rem;
   overflow: scroll;
   display: flex;
 }
@@ -41,8 +41,7 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 1rem;
   justify-items: center;
-  padding-right: 1.8rem;
-  padding-bottom: 0.5rem;
+  padding-right: 1rem;
 }
 
 .character-card:hover {
@@ -52,7 +51,9 @@
 .character-card img {
   width: 100%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 0.25rem;
+  border-style: solid;
+  transform: scaleX(-1);
 }
 
 .navigation-buttons {
@@ -85,6 +86,20 @@
   width: 50px;
 }
 
+.right-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-div img {
+  border-style: solid;
+  border-radius: 0.25rem;
+  border-color: whitesmoke;
+  border-width: 0.2cap;
+  max-height: 120px;
+  margin-top: 1.1rem;
+}
+
 .button-sub-div {
   display: flex;
   align-items: center;
@@ -93,16 +108,12 @@
 
 .profile-div {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   color: whitesmoke;
-  padding: 0.8rem;
+  padding: 0.5rem;
 }
 
-.profile-div img {
-  max-height: 120px;
-}
-
-.profile-info {
-  padding: 0%;
-  margin: 0%;
+.team-div {
+  display: flex;
+  gap: 1rem;
 }

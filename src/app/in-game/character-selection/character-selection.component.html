@@ -41,15 +41,22 @@
         </a>
       </div>
     </div>
-      <div class="profile-div">
-        <img [src]="profile.image" [alt]="profile.name">
-        <div class="profile-info">
-          <p>{{ profile.username }}</p>
-          <p>{{ profile.fighterRank }}</p>
-          <p>CLAN: {{ profile.clan }}</p>
-          <p>LEVEL: {{ profile.level }}</p>
-          <p>LADDERRANK: #{{ profile.ladderRank }}</p>
-          <p>RATIO: {{ profile.ratio }} (+10)</p>
+      <div class="right-section">
+        <div class="profile-div">
+          <img [src]="profile.image" [alt]="profile.name">
+          <div class="profile-info">
+            <p>{{ profile.username }}</p>
+            <p>{{ profile.fighterRank }}</p>
+            <p>CLAN: {{ profile.clan }}</p>
+            <p>LEVEL: {{ profile.level }}</p>
+            <p>LADDERRANK: #{{ profile.ladderRank }}</p>
+            <p>RATIO: {{ profile.ratio }} (+10)</p>
+          </div>
+        </div>
+        <div class="team-div">
+          <div class="character-card" *ngFor="let character of teamCharacters">
+            <img [src]="character.image">
+          </div>
         </div>
       </div>
   </section>
