@@ -44,5 +44,32 @@ $db-arena-angular-light-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
+/* Light theme (default) */
+:root {
+  --primary-color: #000000;
+  --background-color: #0088f7;
+  --toolbar-color: #f5f5f5;
+}
+
+/* Dark theme */
+.dark-theme {
+  --primary-color: #ffffff;
+  --background-color: #00012c;
+  --toolbar-color: #00042b;
+}
+
+/* Global styles */
+body {
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+mat-toolbar {
+  background-color: var(--toolbar-color);
+  transition: background-color 0.3s;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

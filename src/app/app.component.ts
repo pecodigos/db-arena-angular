@@ -21,15 +21,25 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(public router: Router, private renderer: Renderer2) {}
+  theme: string = 'light';
 
-  isDarkMode = false;
+  constructor(public router: Router, private renderer: Renderer2) {
+    const storedTheme = localStorage.getItem('theme') || 'light';
+    this.theme = storedTheme;
+    this.applyTheme();
+  }
 
-  toggleTheme(isDarkMode: boolean) {
-    this.isDarkMode = isDarkMode;
+  onThemeChange(theme: string): void {
+    this.theme = theme;
+    localStorage.setItem('theme', theme);
+    this.applyTheme();
+  }
 
-    const themeClass = isDarkMode ? 'dark-theme ' : 'light-theme';
-    this.renderer.removeClass(document.body, isDarkMode ? 'light-theme' : 'dark-theme');
-    this.renderer.addClass(document.body, themeClass);
+  private applyTheme(): void {
+    if (this.theme === 'dark') {
+      this.renderer.addClass(document.body, 'dark-theme');
+    } else {
+      this.renderer.removeClass(document.body, 'dark-theme');
+    }
   }
 }
