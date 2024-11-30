@@ -15,6 +15,12 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './character-selection.component.scss'
 })
 export class CharacterSelectionComponent {
+  clouds = [
+    { top: 10, left: -20, speed: 30 },
+    { top: 50, left: -10, speed: 40 },
+    { top: 70, left: -30, speed: 50},
+  ];
+
   characters = Array.from({ length: 63 }, (_, i) => ({
     id: i + 1,
     name: `Character ${i + 1}`,

@@ -1,27 +1,32 @@
 <main class="main-container">
   <img src="../../../assets/etc/Dragon_Ball_logo.png" class="goku-blue">
+
   <section class="buttons-row">
     <div class="button-sub-div">
      <a class="each-button" href="/home">
       <img src="../../../assets/buttons/logout.png">
      </a>
     </div>
+
     <div class="buttom-sub-div">
       <a class="each-button" href="/battle">
         <img src="../../../assets/buttons/ladder-button.png">
       </a>
     </div>
+
     <div>
       <a class="each-button" href="/battle">
         <img src="../../../assets/buttons/quick-button.png">
       </a>
     </div>
+
     <div>
       <a class="each-button" href="/character-selection">
         <img src="../../../assets/buttons/private-button.png">
       </a>
     </div>
   </section>
+
   <section class="selection">
     <div class="character-container">
       <!-- Character Grid -->
@@ -32,6 +37,7 @@
           </div>
         </div>
       </div>
+
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
         <a mat-button (click)="previousPage()" [disabled]="currentPage === 0">
@@ -42,23 +48,25 @@
         </a>
       </div>
     </div>
-      <div class="right-section">
-        <div class="profile-div">
-          <img [src]="profile.image" [alt]="profile.name">
-          <div class="profile-info">
-            <p>{{ profile.username }}</p>
-            <p>{{ profile.fighterRank }}</p>
-            <p>CLAN: {{ profile.clan }}</p>
-            <p>LEVEL: {{ profile.level }}</p>
-            <p>LADDERRANK: #{{ profile.ladderRank }}</p>
-            <p>RATIO: {{ profile.ratio }} (+10)</p>
-          </div>
-        </div>
-        <div class="team-div">
-          <div class="character-card" *ngFor="let character of teamCharacters">
-            <img [src]="character.image">
-          </div>
+
+    <div class="right-section">
+      <div class="profile-div">
+        <img [src]="profile.image" [alt]="profile.name">
+        <div class="profile-info">
+          <p>{{ profile.username }}</p>
+          <p>{{ profile.fighterRank }}</p>
+          <p>CLAN: {{ profile.clan }}</p>
+          <p>LEVEL: {{ profile.level }}</p>
+          <p>LADDERRANK: #{{ profile.ladderRank }}</p>
+          <p>RATIO: {{ profile.ratio }} (+10)</p>
         </div>
       </div>
+
+      <div class="team-div">
+        <div class="character-card" *ngFor="let character of teamCharacters">
+          <img [src]="character.image">
+        </div>
+      </div>
+    </div>
   </section>
 </main>

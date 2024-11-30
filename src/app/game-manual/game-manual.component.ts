@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
@@ -8,6 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   imports: [
     MatSidenavModule,
     MatButtonModule,
+    MatCardModule
   ],
   templateUrl: './game-manual.component.html',
   styleUrl: './game-manual.component.scss'

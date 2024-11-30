@@ -8,7 +8,6 @@
   user-select: none;
 }
 
-
 .selection {
   margin: 1rem;
   border: 0.125rem;
@@ -18,7 +17,6 @@
   height: 38%;
   width: 52.8%;
   background-color: rgb(248, 248, 255);
-  overflow: scroll;
   display: flex;
 }
 
@@ -98,7 +96,7 @@
   border-radius: 0.25rem;
   border-color: black;
   border-width: 0.2cap;
-  max-height: 120px;
+  max-height: 7rem;
   margin-top: 0.8rem;
 }
 
