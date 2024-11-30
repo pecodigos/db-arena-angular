@@ -1,25 +1,28 @@
 .main-container {
-  background-color: rgb(24, 24, 24);
+  background-color: var(--drawer-content-background-color);
+  color: white;
   height: 100vh;
+  padding: 2rem;
+}
+
+.upper-part {
   display: flex;
-  align-items: center;
+  max-height: 120px;
   justify-content: center;
+  gap: 10rem;
 }
 
-.battle-container {
-  margin: 1rem;
-  border: 1px;
-  border-color: aliceblue;
+.main-player {
+  display: flex;
+  gap: 1rem;
+}
+
+.opponent-player {
+  display: flex;
+  gap: 1rem;
+}
+
+.profile-picture {
+  border: 0.2cap;
   border-style: solid;
-  border-radius: 0.25rem;
-  height: 85%;
-  width: 85%;
-  background-color: rgb(25, 25, 25);
-  padding: 1rem;
 }
-
-.character-icon {
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-

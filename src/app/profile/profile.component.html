@@ -1,18 +1,19 @@
 <main class="main-container">
   <h4>Account information</h4>
   <mat-card appearance="outlined">
-    <mat-card-header class="player-info">
+    <div class="player-info">
       <img [src]="profile.profilePicture" class="profile-picture">
       <div>
         <p><b>Username:</b> {{ profile.username }}</p>
         <p><b>Site rank:</b> {{ profile.siteRank}} </p>
         <p><b>Registered on:</b> {{ profile.registerOn }}</p>
       </div>
-    </mat-card-header>
+    </div>
   </mat-card>
+
   <h4>Ladder information</h4>
   <mat-card appearance="outlined">
-    <mat-card-header class="ladder-info">
+    <div class="ladder-info">
       <p><b>Level:</b> {{ profile.level }}</p>
       <p><b>Rank:</b> {{ profile.fighterRank }}</p>
       <p><b>Ladder Rank:</b> {{ profile.ladderRank }}</p>
@@ -22,6 +23,15 @@
       <p><b>Streak:</b> +10</p>
       <p><b>Highest Streak:</b> +10</p>
       <p><b>Highest Level:</b> Level {{ profile.level }}</p>
-    </mat-card-header>
+    </div>
+  </mat-card>
+
+  <h4>Match History</h4>
+  <mat-card appearance="outlined">
+    <div class="match-history">
+      <p>November 30, 2024 02:03</p>
+      <p>pecodigos vs zecodigos</p>
+      <p>Winner: pecodigos</p>
+    </div>
   </mat-card>
 </main>

@@ -1,13 +1,23 @@
 <main class="main-container">
-  <section class="battle-container">
-    <mat-card class="example-card" appearance="outlined">
-      <mat-card-header>
-        <img class="character-icon" mat-card-sm-image src="../../../assets/characters/Character1.png">
-      </mat-card-header>
-      <mat-card-content>
-      </mat-card-content>
-    </mat-card>
+  <section class="upper-part">
+    <div class="main-player">
+      <div>
+        <h3>{{ player.username }}</h3>
+        <p>{{ player.fighterRank }}</p>
+      </div>
+      <img class="profile-picture" src="../../../assets/profile-picture/ProfilePicture.png">
+    </div>
 
-    <a mat-button class="character-selection" href="/character-selection"></a>
+    <div class="turn-bar">
+      <img src="../../../assets/buttons/turn-bar.png">
+    </div>
+
+    <div class="opponent-player">
+      <img class="profile-picture" src="../../../assets/profile-picture/opponent-profile-pic.png">
+      <div>
+        <h3>{{ opponent.username }}</h3>
+        <p>{{ opponent.fighterRank }}</p>
+      </div>
+    </div>
   </section>
 </main>

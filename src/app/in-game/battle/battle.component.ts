@@ -13,5 +13,13 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './battle.component.scss'
 })
 export class BattleComponent {
+  player = {
+    username: 'PECODIGOS',
+    fighterRank: 'SAIYAN'
+  }
 
+  opponent = {
+    username: 'ZECODIGOS',
+    fighterRank: 'LAST BOSS'
+  }
 }

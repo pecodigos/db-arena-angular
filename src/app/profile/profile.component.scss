@@ -3,20 +3,25 @@
   flex-direction: column;
 }
 
-mat-card-header {
-  background-color: var(--card-color);
-}
-
 .player-info {
   display: flex;
   gap: 1rem;
-  padding: 1rem 0;
+  padding: 1rem;
+  background-color: var(--card-color);
 }
 
 .ladder-info {
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
+  padding-left:1rem;
+  background-color: var(--card-color);
+}
+
+.match-history {
+  display: flex;
+  gap: 1rem;
+  background-color: var(--card-color);
+  padding-left: 1rem;
 }
 
 .profile-picture {
