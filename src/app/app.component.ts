@@ -5,6 +5,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,30 +18,15 @@ import { CommonModule } from '@angular/common';
     MatSidenavModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatSlideToggleModule,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  theme: string = 'light';
+  darkMode = true;
 
-  constructor(public router: Router, private renderer: Renderer2) {
-    const storedTheme = localStorage.getItem('theme') || 'light';
-    this.theme = storedTheme;
-    this.applyTheme();
-  }
-
-  onThemeChange(theme: string): void {
-    this.theme = theme;
-    localStorage.setItem('theme', theme);
-    this.applyTheme();
-  }
-
-  private applyTheme(): void {
-    if (this.theme === 'dark') {
-      this.renderer.addClass(document.body, 'dark-theme');
-    } else {
-      this.renderer.removeClass(document.body, 'dark-theme');
-    }
+  constructor(public router: Router) {
   }
 }

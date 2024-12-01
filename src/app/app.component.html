@@ -3,10 +3,7 @@
   <a mat-button href="/character-selection" target="_blank">START PLAYING</a>
   <a mat-button href="/missions">MISSIONS</a>
   <a mat-button href="/game-manual">GAME MANUAL</a>
-  <mat-button-toggle-group class="toggle" [value]="theme" (change)="onThemeChange($event.value)">
-    <mat-button-toggle value="light" class="button-toggle">Light</mat-button-toggle>
-    <mat-button-toggle value="dark" class="button-toggle">Dark</mat-button-toggle>
-  </mat-button-toggle-group>
+  <mat-slide-toggle [(ngModel)]="darkMode">{{ darkMode ? 'Dark' : 'Light' }}</mat-slide-toggle>
 </mat-toolbar>
 <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
   <mat-drawer mode="side" class="mat-drawer" opened>
@@ -22,7 +19,6 @@
     <router-outlet />
   </mat-drawer-content>
 </mat-drawer-container>
-
 <div *ngIf="router.url === '/character-selection' || router.url === '/battle' || router.url === '/login' || router.url === '/register'">
   <router-outlet></router-outlet>
 </div>

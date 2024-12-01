@@ -13,7 +13,7 @@
 .ladder-info {
   display: flex;
   flex-direction: column;
-  padding-left:1rem;
+  padding: 0.2rem 0.4rem;
   background-color: var(--card-color);
 }
 
@@ -21,7 +21,7 @@
   display: flex;
   gap: 1rem;
   background-color: var(--card-color);
-  padding-left: 1rem;
+  padding-left: 0.5rem;
 }
 
 .profile-picture {

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
-    MatCardModule
+    MatCardModule,
+    MatListModule
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
