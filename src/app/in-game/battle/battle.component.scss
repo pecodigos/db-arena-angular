@@ -7,7 +7,6 @@
   user-select: none;
 }
 
-
 .upper-part {
   display: flex;
   max-height: 120px;
@@ -29,11 +28,18 @@
 .profile-picture {
   border: 0.2cap;
   border-style: solid;
+  border-color: black;
 }
 
 .core-part {
   display: flex;
   justify-content: space-between;
+}
+
+.skill-container {
+  border-style: solid;
+  border-width: 0.1cap;
+  border-color: black;
 }
 
 .left-side {
@@ -70,8 +76,18 @@
   gap: 0.2rem;
 }
 
-.test {
-  display: none;
+.username {
+  color: orange;
+  font-size: 1.4rem;
+}
+
+.fighter-rank {
+  color: black;
+  font-size: 1rem;
+}
+
+.user-rank {
+  align-items: end;
 }
 
 .health-points {

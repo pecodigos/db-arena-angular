@@ -1,9 +1,9 @@
 <main class="main-container" draggable="false">
   <section class="upper-part">
     <div class="main-player">
-      <div>
-        <h3>{{ player.username }}</h3>
-        <p>{{ player.fighterRank }}</p>
+      <div class="user-rank">
+        <h3 class="username">{{ player.username }}</h3>
+        <p class="fighter-rank">{{ player.fighterRank }}</p>
       </div>
       <img class="profile-picture" src="../../../assets/profile-picture/ProfilePicture.png">
     </div>
@@ -14,9 +14,9 @@
 
     <div class="opponent-player">
       <img class="profile-picture" src="../../../assets/profile-picture/opponent-profile-pic.png">
-      <div>
-        <h3>{{ opponent.username }}</h3>
-        <p>{{ opponent.fighterRank }}</p>
+      <div class="user-rank">
+        <h3 class="username">{{ opponent.username }}</h3>
+        <p class="fighter-rank">{{ opponent.fighterRank }}</p>
       </div>
     </div>
   </section>
@@ -30,7 +30,7 @@
             100/100
           </div>
         </div>
-        <img src="../../../assets/etc/skills-container.png">
+        <img class="skill-container" src="../../../assets/etc/skills-container.png">
       </div>
       <div class="character-container">
         <div class="char-data">
@@ -39,7 +39,7 @@
             60/100
           </div>
         </div>
-        <img src="../../../assets/etc/skills-container.png">
+        <img class="skill-container" src="../../../assets/etc/skills-container.png">
       </div>
       <div class="character-container">
         <div class="char-data">
@@ -48,7 +48,7 @@
             20/100
           </div>
         </div>
-        <img src="../../../assets/etc/skills-container.png">
+        <img class="skill-container" src="../../../assets/etc/skills-container.png">
       </div>
     </div>
 
@@ -78,6 +78,5 @@
         </div>
       </div>
     </div>
-    <a class="test" mat-button href="/character-selection">GO BACK</a>
   </section>
 </main>
