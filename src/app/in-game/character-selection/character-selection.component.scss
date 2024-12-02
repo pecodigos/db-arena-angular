@@ -46,6 +46,7 @@
   justify-items: center;
   padding-right: 1rem;
   padding-bottom: 0.2rem;
+  position: relative;
 }
 
 .character-card:hover {
@@ -59,6 +60,7 @@
   border-style: solid;
   border-width: 0.15cap;
   transform: scaleX(-1);
+  position: relative;
 }
 
 .navigation-buttons {
@@ -122,7 +124,7 @@
   gap: 1rem;
 }
 
-.goku-blue {
+.logo {
   max-height: 350px;
 }
 

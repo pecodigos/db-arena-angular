@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { PreventDragDirective } from '../../prevent-drag.directive';
 
 @Component({
   selector: 'app-character-selection',
@@ -10,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatCardModule,
     CommonModule,
+    PreventDragDirective
   ],
   templateUrl: './character-selection.component.html',
   styleUrl: './character-selection.component.scss'
