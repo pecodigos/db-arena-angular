@@ -59,10 +59,10 @@
 
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
-        <a mat-button (click)="previousPage()" [disabled]="currentPage === 0">
+        <a mat-button (click)="previousPage()">
           <img class="left-arrow arrow-img" src="../../../assets/buttons/arrow-right.png">
         </a>
-        <a mat-button (click)="nextPage()" [disabled]="(currentPage + 1) * charactersPerPage >= characters.length">
+        <a mat-button (click)="nextPage()">
           <img class="arrow-img" src="../../../assets/buttons/arrow-right.png">
         </a>
       </div>

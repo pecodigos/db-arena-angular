@@ -17,7 +17,7 @@ import { PreventDragDirective } from '../../prevent-drag.directive';
   styleUrl: './character-selection.component.scss'
 })
 export class CharacterSelectionComponent {
-  characters = Array.from({ length: 63 }, (_, i) => ({
+  characters = Array.from({ length: 24 }, (_, i) => ({
     id: i + 1,
     name: `Character ${i + 1}`,
     description: `Description for Character${i + 1}`,
@@ -88,11 +88,17 @@ export class CharacterSelectionComponent {
     if ((this.currentPage + 1) * this.charactersPerPage < this.characters.length) {
       this.currentPage++;
     }
+
+    if (this.currentPage == 2) {
+      this.currentPage = 0;
+    }
   }
 
   previousPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
+    } else if (this.currentPage == -1) {
+      this.currentPage = 1;
     }
   }
 
