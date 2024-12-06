@@ -1,4 +1,5 @@
-import { Component, Renderer2 } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -26,7 +27,25 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   darkMode = true;
+  isLoggedIn: boolean = false;
+  username: string | null = null;
 
-  constructor(public router: Router) {
+  constructor(private authService: AuthService, public router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.hasToken();
+
+    this.authService.isLoggedIn().subscribe(status => {
+      this.isLoggedIn = status;
+    });
+
+    this.authService.getUsername().subscribe((username) => {
+      this.username = username;
+    })
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }

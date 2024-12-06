@@ -17,16 +17,33 @@ import { PreventDragDirective } from '../../prevent-drag.directive';
   styleUrl: './character-selection.component.scss'
 })
 export class CharacterSelectionComponent {
-  clouds = [
-    { top: 10, left: -20, speed: 30 },
-    { top: 50, left: -10, speed: 40 },
-    { top: 70, left: -30, speed: 50},
-  ];
-
   characters = Array.from({ length: 63 }, (_, i) => ({
     id: i + 1,
     name: `Character ${i + 1}`,
-    image: `../../../assets/characters/Character1.png`
+    description: `Description for Character${i + 1}`,
+    image: `../../../assets/characters/Character1.png`,
+        skills: [
+      {
+        name: `Basic Combo`,
+        description: `Goku strikes several punches at the enemy, dealing 20 damage and making them deal 10 less damage next turn. This skill becomes 'Kaioken Attack' when 'Kaioken' is used.`,
+        image: `../../../assets/characters/early-goku/skill1.png`
+      },
+      {
+        name: `Kamehameha`,
+        description: `Goku uses his Kamehameha, dealing 30 piercing damage to one enemy. This skill becomes 'Kamehameha: Kaioken x3' when 'Kaioken' is active.`,
+        image: `../../../assets/characters/early-goku/skill2.png`
+      },
+      {
+        name: `Kaioken`,
+        description: `Goku unleashes his power. He will gain 25% damage reduction, and have improved skills.`,
+        image: `../../../assets/characters/early-goku/skill3.png`
+      },
+      {
+        name: `Block`,
+        description: `Goku becomes invulnerable for one turn.`,
+        image: `../../../assets/characters/early-goku/skill4.png`
+      },
+    ]
   }));
 
   team = Array.from({ length: 3 }, (_,i) => ({
@@ -48,6 +65,10 @@ export class CharacterSelectionComponent {
   currentPage = 0;
   charactersPerPage = 21;
   charactersPerTeam = 3;
+
+  selectedCharacter: any = null;
+  selectedSkill: any = null;
+  viewMode: 'character' | 'skill' = 'character';
 
   get teamCharacters() {
     return this.team;
@@ -73,5 +94,21 @@ export class CharacterSelectionComponent {
     if (this.currentPage > 0) {
       this.currentPage--;
     }
+  }
+
+  selectCharacter(character: any) {
+    this.selectedCharacter = character;
+    this.selectedSkill = null;
+    this.viewMode = 'character';
+  }
+
+  showSkillDetails(skill: any) {
+    this.selectedSkill = skill;
+    this.viewMode = 'skill';
+  }
+
+  backToCharacterDetails() {
+    this.selectedSkill = null;
+    this.viewMode = 'character';
   }
 }

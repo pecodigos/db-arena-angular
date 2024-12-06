@@ -9,11 +9,19 @@ import { BattleComponent } from './in-game/battle/battle.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { CharactersComponent } from './game-manual/characters/characters.component';
+import { RulingComponent } from './game-manual/ruling/ruling.component';
+import { LadderSystemComponent } from './game-manual/ladder-system/ladder-system.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+
   { path: 'game-manual', component: GameManualComponent },
+  { path: 'game-manual/fighters', component: CharactersComponent },
+  { path: 'game-manual/basics', component: RulingComponent },
+  { path: 'game-manual/ladder-system', component: LadderSystemComponent },
+
   { path: 'missions', component: MissionsComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'leaderboards', component: LeaderboardComponent },

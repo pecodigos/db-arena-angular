@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  private username = new BehaviorSubject<string | null>(this.getUsernameFromStorage());
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -18,6 +19,8 @@ export class AuthService {
       tap((response: { token: string, userId: string }) => {
         this.setToken(response.token);
         localStorage.setItem('userId', response.userId);
+        localStorage.setItem('username', username);
+        this.username.next(username);
       })
     )
   }
@@ -29,6 +32,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     this.loggedIn.next(false);
     this.router.navigate(['/']);
   }
@@ -48,5 +52,13 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('userToken');
+  }
+
+  getUsername(): Observable<string | null> {
+    return this.username.asObservable();
+  }
+
+  private getUsernameFromStorage(): string | null {
+    return localStorage.getItem('username');
   }
 }

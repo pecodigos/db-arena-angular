@@ -7,12 +7,15 @@
 </mat-toolbar>
 <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
   <mat-drawer mode="side" class="mat-drawer" opened>
-    <div>Your logged as <strong class="nickname">pecodigos</strong></div>
+    <div *ngIf="username">Your logged as <strong class="nickname">{{ username }}</strong></div>
+    <div *ngIf="!username">You are not logged in</div>
     <div class="side-buttons">
-      <a mat-stroked-button class="side-button" href="/profile">View profile</a>
-      <a mat-stroked-button class="side-button" href="/change-password">Change your password</a>
-      <a mat-stroked-button class="side-button" href="/leaderboards">Ladder game leaderboard</a>
-      <a mat-stroked-button class="side-button" href="/home">Logout</a>
+      <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/profile">View profile</a>
+      <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/login">Login</a>
+      <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/register">Register</a>
+      <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/change-password">Change your password</a>
+      <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/leaderboards">Ladder game leaderboard</a>
+      <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" (click)="onLogout()" href="/home">Logout</a>
     </div>
   </mat-drawer>
   <mat-drawer-content class="drawer-content">
