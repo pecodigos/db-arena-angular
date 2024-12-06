@@ -31,7 +31,7 @@ export class ChangePasswordComponent {
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {}
 
-  async onUpdate() {
+  async onChangePassword() {
     if (this.newPassword !== this.confirmPassword) {
       this.snackBar.open("Your new password and its confirmation doesn't match.", 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });
       return;
@@ -41,7 +41,7 @@ export class ChangePasswordComponent {
       const response = await firstValueFrom(this.authService.changePassword(this.currentPassword, this.newPassword));
 
       if (response) {
-        this.snackBar.open('Password changed successfully', 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar'});
+        this.snackBar.open('Password changed successfully!', 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar'});
         window.location.reload();
       } else {
         this.snackBar.open('Failed to change password. Fields not filled properly.', 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });

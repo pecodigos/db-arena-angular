@@ -36,6 +36,10 @@ export class AuthService {
     return this.http.put(`${this.apiUrl}/user/${this.userId}/password`, { currentPassword, newPassword });
   }
 
+  changeAvatar(avatarPath: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/user/${this.userId}/avatar`, { avatarPath });
+  }
+
   logout(): void {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userId');

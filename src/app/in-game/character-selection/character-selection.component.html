@@ -69,15 +69,19 @@
     </div>
 
     <div class="right-section">
-      <div class="profile-div">
-        <img [src]="profile.image" [alt]="profile.name">
+      <div class="profile-div" *ngIf="profile">
+        <div class="profile-picture">
+          <img [src]="profile.profilePicturePath" [alt]="profile.username">
+        </div>
+
         <div class="profile-info">
           <p>{{ profile.username }}</p>
-          <p>{{ profile.fighterRank }}</p>
-          <p>CLAN: {{ profile.clan }}</p>
-          <p>LEVEL: {{ profile.level }}</p>
+          <p>{{ profile.rank }}</p>
+          <p *ngIf="!(profile.clan == '')">CLAN: {{ profile.clan }}</p>
+          <p *ngIf="profile.clan == ''">CLAN: Clanless</p>
+          <p>LEVEL: {{ profile.currentLevel }}</p>
           <p>LADDERRANK: #{{ profile.ladderRank }}</p>
-          <p>RATIO: {{ profile.ratio }} (+10)</p>
+          <p>RATIO: {{ profile.wins }} - {{  profile.loses }} ({{ profile.currentStreak }})</p>
         </div>
       </div>
 

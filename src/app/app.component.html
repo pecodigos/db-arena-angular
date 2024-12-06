@@ -11,6 +11,7 @@
     <div *ngIf="!username">You are not logged in</div>
     <div class="side-buttons">
       <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/profile">View profile</a>
+      <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/clan">Clan panel</a>
       <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/change-avatar">Change your avatar</a>
       <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/login">Login</a>
       <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/register">Register</a>

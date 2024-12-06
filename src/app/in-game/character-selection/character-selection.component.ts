@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { PreventDragDirective } from '../../prevent-drag.directive';
+import { ProfileComponent } from '../../profile/profile.component';
+import { BehaviorSubject } from 'rxjs';
+import { ProfileService } from '../../profile/profile.service';
 
 @Component({
   selector: 'app-character-selection',
@@ -11,12 +14,35 @@ import { PreventDragDirective } from '../../prevent-drag.directive';
     MatButtonModule,
     MatCardModule,
     CommonModule,
-    PreventDragDirective
+    PreventDragDirective,
   ],
   templateUrl: './character-selection.component.html',
   styleUrl: './character-selection.component.scss'
 })
-export class CharacterSelectionComponent {
+export class CharacterSelectionComponent implements OnInit {
+  currentPage = 0;
+  charactersPerPage = 21;
+  charactersPerTeam = 3;
+
+  selectedCharacter: any = null;
+  selectedSkill: any = null;
+  viewMode: 'character' | 'skill' = 'character';
+
+  profile: any = null;
+
+  constructor(private profileService: ProfileService) {}
+
+  ngOnInit(): void {
+    const username = localStorage.getItem('username');
+
+    if (username) {
+      this.profileService.getPublicProfile(username).subscribe({
+        next: (data) => (this.profile = data),
+        error: (err) => console.error('Failed to fetch profile', err),
+      });
+    }
+  }
+
   characters = Array.from({ length: 24 }, (_, i) => ({
     id: i + 1,
     name: `Character ${i + 1}`,
@@ -51,31 +77,8 @@ export class CharacterSelectionComponent {
     image: `../../../assets/characters/Character${i + 1}.png`
   }));
 
-  profile = {
-    image: `../../../assets/profile-picture/ProfilePicture.png`,
-    username: `PECODIGOS`,
-    clan: `KOBRASOL`,
-    level: `31`,
-    fighterRank: `SAIYAN`,
-    ladderRank: `1`,
-    ratio: `10 - 0`,
-    name: `profile picture`,
-  }
-
-  currentPage = 0;
-  charactersPerPage = 21;
-  charactersPerTeam = 3;
-
-  selectedCharacter: any = null;
-  selectedSkill: any = null;
-  viewMode: 'character' | 'skill' = 'character';
-
   get teamCharacters() {
     return this.team;
-  }
-
-  get profilePicture() {
-    return this.profile.image;
   }
 
   get visibleCharacters() {

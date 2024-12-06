@@ -1,10 +1,12 @@
 <main class="main-container">
   <mat-card>
     <h2 class="title">Change your avatar</h2>
-    <mat-form-field appearance="fill">
-      <mat-label>Profile Picture URL</mat-label>
-      <input matInput placeholder="Enter the URL for your avatar" name="avatar" required>
-    </mat-form-field>
-    <button mat-raised-button class="submit-button" type="submit">Change</button>
+    <form (ngSubmit)="onChangeAvatar()">
+      <mat-form-field appearance="fill">
+        <mat-label>Profile Picture URL</mat-label>
+        <input matInput placeholder="Enter the URL for your avatar" name="avatar" required>
+      </mat-form-field>
+      <button mat-raised-button class="submit-button" type="submit">Change</button>
+    </form>
   </mat-card>
 </main>

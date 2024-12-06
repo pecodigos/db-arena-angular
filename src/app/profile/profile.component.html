@@ -18,17 +18,21 @@
     <div class="ladder-info">
       <mat-list-item><b>Level:</b> {{ profile.currentLevel }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Ladder Rank:</b> {{ profile.rank }}</mat-list-item>
+      <mat-list-item><b>Rank:</b> {{ profile.rank }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><b>Experience Points:</b> {{ profile.currentExp }} xp</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><b>Ladder Rank:</b> {{ profile.ladderRank }}</mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item><b>Wins:</b> {{ profile.wins }}</mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item><b>Losses:</b> {{ profile.loses }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Win percentage:</b></mat-list-item>
+      <mat-list-item><b>Win percentage:</b>%</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Streak:</b> {{ profile.currentStreak }}</mat-list-item>
+      <mat-list-item><b>Streak:</b> {{ profile.currentStreak }}+</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Highest Streak:</b> {{ profile.highestStreak }}</mat-list-item>
+      <mat-list-item><b>Highest Streak:</b> {{ profile.highestStreak }}+</mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item><b>Highest Level:</b> Level {{ profile.highestLevel }}</mat-list-item>
     </div>
