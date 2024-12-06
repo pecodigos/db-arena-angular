@@ -1,38 +1,36 @@
 <main class="main-container">
   <h4>Account information</h4>
-  <mat-card appearance="outlined">
+  <mat-card appearance="outlined" *ngIf="profile$ | async as profile;">
     <mat-list class="player-info">
-      <img [src]="profile.profilePicture" class="profile-picture">
+      <img [src]="profile.profilePicturePath" class="profile-picture">
       <div>
         <mat-list-item><b>Username:</b> {{ profile.username }}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item><b>Site rank:</b> {{ profile.siteRank}} </mat-list-item>
+        <mat-list-item><b>Role:</b> {{ profile.role}} </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item><b>Registered on:</b> {{ profile.registerOn }}</mat-list-item>
+        <mat-list-item><b>Registered on:</b> {{ profile.createdAt }}</mat-list-item>
       </div>
     </mat-list>
   </mat-card>
 
   <h4>Ladder information</h4>
-  <mat-card appearance="outlined">
+  <mat-card appearance="outlined" *ngIf="profile$ | async as profile;">
     <div class="ladder-info">
-      <mat-list-item><b>Level:</b> {{ profile.level }}</mat-list-item>
+      <mat-list-item><b>Level:</b> {{ profile.currentLevel }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Rank:</b> {{ profile.fighterRank }}</mat-list-item>
+      <mat-list-item><b>Ladder Rank:</b> {{ profile.rank }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Ladder Rank:</b> {{ profile.ladderRank }}</mat-list-item>
+      <mat-list-item><b>Wins:</b> {{ profile.wins }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Wins:</b> 10</mat-list-item>
+      <mat-list-item><b>Losses:</b> {{ profile.loses }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Losses:</b> 0</mat-list-item>
+      <mat-list-item><b>Win percentage:</b></mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Win percentage:</b> 100%</mat-list-item>
+      <mat-list-item><b>Streak:</b> {{ profile.currentStreak }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Streak:</b> +10</mat-list-item>
+      <mat-list-item><b>Highest Streak:</b> {{ profile.highestStreak }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Highest Streak:</b> +10</mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><b>Highest Level:</b> Level {{ profile.level }}</mat-list-item>
+      <mat-list-item><b>Highest Level:</b> Level {{ profile.highestLevel }}</mat-list-item>
     </div>
   </mat-card>
 

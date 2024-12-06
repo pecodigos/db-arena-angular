@@ -32,11 +32,12 @@ export class LoginComponent {
   async onLogin() {
     try {
       const response = await firstValueFrom(this.authService.login(this.username, this.password));
-
+      console.log('Login response: ', response);
       if (response) {
-        const { token, userId } = response;
+        const { token, user } = response;
+        const { id } = user;
         localStorage.setItem('token', token);
-        localStorage.setItem('userId', userId);
+        localStorage.setItem('userId', id);
         this.router.navigate(['/home']);
       } else {
         this.snackBar.open('Login failed: Invalid credentials.', 'Close', { duration: 4000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });

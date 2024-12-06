@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { CharactersComponent } from './game-manual/characters/characters.component';
 import { RulingComponent } from './game-manual/ruling/ruling.component';
 import { LadderSystemComponent } from './game-manual/ladder-system/ladder-system.component';
+import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,7 +24,10 @@ export const routes: Routes = [
   { path: 'game-manual/ladder-system', component: LadderSystemComponent },
 
   { path: 'missions', component: MissionsComponent },
+
+  { path: 'change-avatar', component: ChangeAvatarComponent},
   { path: 'change-password', component: ChangePasswordComponent },
+
   { path: 'leaderboards', component: LeaderboardComponent },
   { path: 'profile', component: ProfileComponent },
 

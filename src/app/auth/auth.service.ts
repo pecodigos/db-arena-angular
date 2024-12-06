@@ -10,23 +10,30 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private username = new BehaviorSubject<string | null>(this.getUsernameFromStorage());
+  private userId: string | null = '';
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(username: string, password: string): Observable<{ token: string, userId: string }> {
-    return this.http.post<{ token: string, userId: string }>(`${this.apiUrl}/login`, { username, password }, { withCredentials: true })
+  login(username: string, password: string): Observable<{ token: string, user: { id: string, username: string, email: string } }> {
+    return this.http.post<{ token: string, user: { id: string, username: string, email: string } }>(`${this.apiUrl}/login`, { username, password }, { withCredentials: true })
     .pipe(
-      tap((response: { token: string, userId: string }) => {
+      tap((response: { token: string, user: { id: string, username: string, email: string } }) => {
         this.setToken(response.token);
-        localStorage.setItem('userId', response.userId);
-        localStorage.setItem('username', username);
-        this.username.next(username);
+        localStorage.setItem('userId', response.user.id);
+        localStorage.setItem('username', response.user.username);
+        this.username.next(response.user.username);
       })
     )
   }
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, { username, email, password });
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    this.userId = localStorage.getItem('userId');
+    return this.http.put(`${this.apiUrl}/user/${this.userId}/password`, { currentPassword, newPassword });
   }
 
   logout(): void {
