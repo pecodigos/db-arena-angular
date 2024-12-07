@@ -10,7 +10,10 @@
           </div>
         </div>
         <div class="details" *ngIf="viewMode === 'character'">
-          <p class="name">{{ selectedCharacter.name }}</p>
+          <div>
+            <p class="name">{{ selectedCharacter.name }}</p>
+            <p>Energy cost</p>
+          </div>
           <p class="description">{{ selectedCharacter.description }}</p>
         </div>
       </div>

@@ -7,6 +7,7 @@
   flex-direction: column;
   user-select: none;
   text-transform: uppercase;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .selection {
@@ -68,6 +69,7 @@
   height: 250px;
   overflow: hidden;
   box-sizing: border-box;
+  font-size: 0.85rem;
 }
 
 .character-card img {
@@ -108,14 +110,14 @@
 
 .profile-div img {
   border-style: solid;
-  border-radius: 0.25rem;
+  border-radius: 0.1rem;
   border-color: black;
   border-width: 0.2cap;
   max-height: 7rem;
 }
 
 .profile-info {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .button-sub-div {
