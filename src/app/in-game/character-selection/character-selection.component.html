@@ -1,50 +1,68 @@
 <main class="main-container">
   <section class="upper-part">
     <img src="../../../assets/etc/Dragon_Ball_logo.png" class="logo">
-    <div *ngIf="selectedCharacter" class="fighter-skill-container">
-      <div class="img-row">
-        <img class="selected-character" [src]="selectedCharacter.image" [alt]="selectedCharacter.name" />
-        <div class="skills">
-          <div class="skill" *ngFor="let skill of selectedCharacter?.skills" (click)="showSkillDetails(skill)">
-            <img [src]="skill.image" [alt]="skill.name">
+    <div *ngIf="selectedCharacter">
+      <a class="close-button" mat-button (click)="closeContainer()">Close</a>
+      <div class="fighter-skill-container">
+        <div class="img-row">
+          <img class="selected-character" [src]="selectedCharacter.image" [alt]="selectedCharacter.name" (click)="selectCharacter(selectedCharacter)"/>
+          <div class="skills">
+            <div class="skill" *ngFor="let skill of selectedCharacter?.skills" (click)="showSkillDetails(skill)">
+              <img [src]="skill.image" [alt]="skill.name">
+            </div>
           </div>
         </div>
-        <div class="details" *ngIf="viewMode === 'character'">
-          <div>
-            <p class="name">{{ selectedCharacter.name }}</p>
-            <p>Energy cost</p>
+
+        <section class="mid-section">
+          <div class="name-description">
+            <div class="details" *ngIf="viewMode === 'character'">
+              <p class="name">{{ selectedCharacter.name }}</p>
+              <p class="description">{{ selectedCharacter.description }}</p>
+            </div>
+
+            <div class="details" *ngIf="viewMode === 'skill'">
+              <div class="name-energy">
+                <p class="name">{{ selectedSkill.name }}</p>
+                <div class="energy-cost">
+                  <p class="energy">ENERGY:</p>
+                  <p>None</p>
+                </div>
+              </div>
+              <p class="description">{{ selectedSkill.description }}</p>
+            </div>
           </div>
-          <p class="description">{{ selectedCharacter.description }}</p>
-        </div>
-      </div>
-      <div class="details" *ngIf="viewMode === 'skill'">
-        <p class="name">{{ selectedSkill.name }}</p>
-        <p class="description">{{ selectedSkill.description }}</p>
+          <div class="currentSelected">
+            <img *ngIf="viewMode === 'skill'" [src]="selectedSkill.image" [alt]="selectedSkill.name" style="border: 1px solid black;">
+            <img *ngIf="viewMode === 'character'" [src]="selectedCharacter.image" [alt]="selectedCharacter.name" class="selected-character">
+          </div>
+        </section>
+
       </div>
     </div>
+
   </section>
-  <section class="buttons-row">
+  <section class="buttons-row" style="margin-bottom: 1rem; margin-top: 2rem;">
     <div class="button-sub-div">
-     <a class="each-button" href="/home">
-      <img class="logout-button" src="../../../assets/buttons/logout.png">
-     </a>
+      <a mat-button class="each-button" href="/home">
+        LOGOUT
+      </a>
     </div>
 
     <div class="buttom-sub-div">
-      <a class="each-button" href="/battle">
-        <img src="../../../assets/buttons/ladder-button.png">
+      <a mat-button class="each-button" href="/battle">
+        START LADDER GAME
       </a>
     </div>
 
     <div>
-      <a class="each-button" href="/battle">
-        <img src="../../../assets/buttons/quick-button.png">
+      <a mat-button class="each-button" href="/battle">
+        START QUICK GAME
       </a>
     </div>
 
     <div>
-      <a class="each-button" href="/character-selection">
-        <img src="../../../assets/buttons/private-button.png">
+      <a mat-button class="each-button" href="/character-selection">
+        START PRIVATE GAME
       </a>
     </div>
   </section>
@@ -55,7 +73,7 @@
       <div class="char-player">
         <div class="character-grid">
           <div class="character-card" *ngFor="let character of visibleCharacters" (click)="selectCharacter(character)">
-            <img [src]="character.image" [alt]="character.name" [appPreventDrag]="false" />
+            <img [src]="character.image" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
           </div>
         </div>
       </div>

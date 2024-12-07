@@ -36,8 +36,9 @@ export class AuthService {
     return this.http.put(`${this.apiUrl}/user/${this.userId}/password`, { currentPassword, newPassword });
   }
 
-  changeAvatar(avatarPath: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/user/${this.userId}/avatar`, { avatarPath });
+  changeAvatar(profilePicturePath: string): Observable<any> {
+    this.userId = localStorage.getItem('userId');
+    return this.http.put(`${this.apiUrl}/user/${this.userId}/avatar`, { profilePicturePath });
   }
 
   logout(): void {

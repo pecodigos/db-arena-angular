@@ -28,6 +28,32 @@ export class CharacterSelectionComponent implements OnInit {
   selectedSkill: any = null;
   viewMode: 'character' | 'skill' = 'character';
 
+  names = [ '', 'Goku', 'Vegeta', 'Kuririn', 'Piccolo', 'Yamcha', 'Tenshinhan', 'Chiatzu', 'Nappa', 'Frieza', 'Cell', 'Majin Buu', 'Trunks', 'Goten', 'Master Roshi', 'Raditz', 'Bulma', 'Chichi', 'Gohan', 'Android 17', 'Android 18', 'Mr. Satan' ];
+
+  descriptions = ['', 'The cheerful and determined Saiyan warrior, known for his love of fighting, immense strength, and quest to protect Earth.',
+     'The proud Saiyan prince, fiercely competitive and always striving to surpass Goku in strength and power.',
+    "Goku's loyal friend and skilled martial artist, often underestimated but always courageous in battle.",
+    "The wise and stoic Namekian warrior, once an enemy of Goku, now a mentor and protector of Earth.",
+    "A former desert bandit turned martial artist, known for his loyalty and humor, despite often being outmatched.",
+    "A disciplined and serious martial artist with incredible focus and powerful techniques like the Tri-Beam.",
+    "Tenshinhan's loyal companion, small in size but brave, with psychic powers and a kind heart.",
+    "A brutal and powerful Saiyan warrior, Vegeta's former comrade, known for his destructive nature.",
+    "The ruthless galactic tyrant with immense power and multiple transformations, a major antagonist to Goku and Vegeta.",
+    "A bio-engineered android who absorbs others to achieve perfection, cunning and deadly in his quest for supremacy.",
+    "A chaotic and unpredictable being with immense strength, capable of devastating destruction and regeneration.",
+    "The time-traveling half-Saiyan warrior, brave and skilled, fighting to save his future from despair.",
+    "Goku's cheerful and energetic youngest son, sharing his father's strength and love for fighting.",
+    "The wise yet pervy martial arts master, trainer of Goku and others, known for his iconic Kamehameha.",
+    "Goku's older brother, a ruthless Saiyan warrior who brings Goku's Saiyan heritage to light.",
+    "The brilliant scientist and inventor, known for her resourcefulness, wit, and contributions to the Z Fighters.",
+    "Goku's strong-willed wife, caring mother to Gohan and Goten, often seen as strict but loving.",
+    "Goku's eldest son, a gentle soul with immense hidden power, rising to protect his loved ones when needed.",
+    "The calm and confident android with great strength and a sense of freedom, later a key ally to the Z Fighters.",
+    "A cool and independent android, deadly in combat but caring, especially as Krillin's wife and a loving mother.",
+    "The self-proclaimed 'World Martial Arts Champion', comedic and cowardly but with a big heart in crucial moments."
+  ]
+
+
   profile: any = null;
 
   constructor(private profileService: ProfileService) {}
@@ -45,9 +71,10 @@ export class CharacterSelectionComponent implements OnInit {
 
   characters = Array.from({ length: 24 }, (_, i) => ({
     id: i + 1,
-    name: `Character ${i + 1}`,
-    description: `Description for Character${i + 1}`,
-    image: `../../../assets/characters/Character1.png`,
+    name: this.names.at(i + 1),
+    description: this.descriptions.at(i + 1),
+    image: `../../../assets/characters/Character${i + 1}.png`,
+
         skills: [
       {
         name: `Basic Combo`,
@@ -119,5 +146,9 @@ export class CharacterSelectionComponent implements OnInit {
   backToCharacterDetails() {
     this.selectedSkill = null;
     this.viewMode = 'character';
+  }
+
+  closeContainer() {
+    this.selectedCharacter = null;
   }
 }

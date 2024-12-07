@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-change-avatar',
@@ -13,7 +14,8 @@ import { firstValueFrom } from 'rxjs';
   imports: [
     MatCardModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './change-avatar.component.html',
   styleUrl: './change-avatar.component.scss'
