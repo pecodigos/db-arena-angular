@@ -11,7 +11,7 @@ describe('CharacterSelectionComponent', () => {
       imports: [CharacterSelectionComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(CharacterSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

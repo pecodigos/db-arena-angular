@@ -1,7 +1,6 @@
 import { AuthService } from './../../auth/auth.service';
-import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { PreventDragDirective } from '../../prevent-drag.directive';
@@ -9,6 +8,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { CharacterSelectionService } from './character-selection.service';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-character-selection',
@@ -18,20 +18,27 @@ import { Ability } from '../models/ability.model';
     MatCardModule,
     CommonModule,
     PreventDragDirective,
+    DragDropModule
   ],
   templateUrl: './character-selection.component.html',
   styleUrl: './character-selection.component.scss'
 })
 export class CharacterSelectionComponent implements OnInit {
+  profile: any = null;
   characters: Character[] = [];
+  selectedCharacter: Character | null = null;
+  selectedAbility: Ability | null = null;
+
+  viewMode: 'character' | 'ability' = 'character';
 
   currentPage = 0;
   charactersPerPage = 21;
-  charactersPerTeam = 3;
 
-  selectedCharacter: Character | null = null;
-  selectedAbility: Ability | null = null;
-  viewMode: 'character' | 'ability' = 'character';
+  team = Array.from({ length: 3 }, () => ({
+    id: null as number | null,
+    imagePath: 'https://i.imgur.com/9VwrLXz.png'
+  }));
+
 
 costs = [
   { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
@@ -41,10 +48,9 @@ costs = [
   { energyType: "ANY", imagePath: `assets/etc/black.png` },
 ];
 
-  profile: any = null;
-  originalPositions: { [key: number]: DOMRect } = {};
-
-  constructor(private profileService: ProfileService,
+  constructor(
+      private renderer: Renderer2,
+      private profileService: ProfileService,
       private characterService: CharacterSelectionService,
       private authService: AuthService
   ) {}
@@ -73,6 +79,38 @@ costs = [
     });
   }
 
+  onDragStarted(event: any) {
+    this.renderer.setStyle(event.source.element.nativeElement, 'transform', 'none');
+    event.source.reset();
+  }
+
+  onCharacterReleased(event: any) {
+    const validDrop = this.isDroppedInValidSlot(event);
+
+    if (!validDrop) {
+      this.renderer.setStyle(event.source.element.nativeElement, 'transform', 'translate3d(0px, 0px, 0px)');
+    }
+  }
+
+  isDroppedInValidSlot(event: any): boolean {
+    const dropZones = document.querySelectorAll('[cdkDropList]');
+    const dragRect = event.source.element.nativeElement.getBoundingClientRect();
+
+    for (const dropZone of Array.from(dropZones)) {
+      const dropRect = dropZone.getBoundingClientRect();
+
+      if (
+        dragRect.left < dropRect.right &&
+        dragRect.right > dropRect.left &&
+        dragRect.top < dropRect.bottom &&
+        dragRect.bottom > dropRect.top
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   mapToClasses(ability: any): string[] {
     return [
       ability.skillType,
@@ -86,15 +124,6 @@ costs = [
     return cost ? cost.imagePath : '';
   }
 
-  team = Array.from({ length: 3 }, (_,i) => ({
-    id: i + 1,
-    image: `../../../assets/characters/Character${i + 1}.png`
-  }));
-
-  get teamCharacters() {
-    return this.team;
-  }
-
   get visibleCharacters() {
     const startIndex = this.currentPage * this.charactersPerPage;
     const endIndex = startIndex + this.charactersPerPage;
@@ -102,20 +131,21 @@ costs = [
   }
 
   nextPage() {
-    if ((this.currentPage + 1) * this.charactersPerPage < this.characters.length) {
-      this.currentPage++;
-    }
+    const totalPages = Math.ceil(this.characters.length / this.charactersPerPage);
 
-    if (this.currentPage == 2) {
+    if (this.currentPage + 1 < totalPages) {
+      this.currentPage++;
+    } else {
       this.currentPage = 0;
     }
   }
 
   previousPage() {
+    const totalPages = Math.ceil(this.characters.length / this.charactersPerPage);
     if (this.currentPage > 0) {
       this.currentPage--;
-    } else if (this.currentPage == -1) {
-      this.currentPage = 1;
+    } else {
+      this.currentPage = totalPages - 1
     }
   }
 
@@ -140,7 +170,7 @@ costs = [
   }
 
   getArray(amount: number): number[] {
-    return Array.from({ length: amount });
+    return amount > 0 ? Array.from({ length: amount }) : [];
   }
 
   onLogout() {
