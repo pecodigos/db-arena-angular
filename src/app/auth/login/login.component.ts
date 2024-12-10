@@ -32,7 +32,6 @@ export class LoginComponent {
   async onLogin() {
     try {
       const response = await firstValueFrom(this.authService.login(this.username, this.password));
-      console.log('Login response: ', response);
       if (response) {
         const { token, user } = response;
         const { id } = user;

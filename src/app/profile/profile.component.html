@@ -28,7 +28,7 @@
       <mat-divider></mat-divider>
       <mat-list-item><b>Losses:</b> {{ profile.loses }}</mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><b>Win percentage:</b>%</mat-list-item>
+      <mat-list-item><b>Win percentage:</b>{{ (profile.wins / (profile.wins + profile.loses)) * 100 | number }}%</mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item><b>Streak:</b> {{ profile.currentStreak }}+</mat-list-item>
       <mat-divider></mat-divider>

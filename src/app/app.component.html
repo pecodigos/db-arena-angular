@@ -3,7 +3,7 @@
   <a mat-button href="/character-selection" target="_blank">START PLAYING</a>
   <a mat-button href="/missions">MISSIONS</a>
   <a mat-button href="/game-manual">GAME MANUAL</a>
-  <mat-slide-toggle [(ngModel)]="darkMode">{{ darkMode ? 'Dark' : 'Light' }}</mat-slide-toggle>
+  <app-theme-toggle></app-theme-toggle>
 </mat-toolbar>
 <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
   <mat-drawer mode="side" class="mat-drawer" opened>

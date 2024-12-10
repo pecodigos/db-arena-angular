@@ -17,6 +17,8 @@ $db-arena-angular-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400
 // The warn palette is optional (defaults to red).
 $db-arena-angular-warn: mat.define-palette(mat.$red-palette);
 
+$db-arena-angular-toolbar-color: white;
+
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $db-arena-angular-theme: mat.define-dark-theme((
@@ -24,6 +26,7 @@ $db-arena-angular-theme: mat.define-dark-theme((
     primary: $db-arena-angular-primary,
     accent: $db-arena-angular-accent,
     warn: $db-arena-angular-warn,
+
   ),
   typography: mat.define-typography-config(),
   density: 0
@@ -38,8 +41,10 @@ $db-arena-angular-theme: mat.define-dark-theme((
 :root {
   --card-color: rgb(0, 0, 46);
   --dark-background-color: black;
-  --light-background-color: white;
+  --light-background-color: rgb(253, 241, 200);
   --drawer-content-background-color: rgb(9, 11, 32);
+  --card-color-light: rgb(253, 241, 200);
+  --drawer-content-background-color-light:rgb(248, 226, 152);
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -48,3 +53,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 0;
 }
 
+.dark-theme {
+  background-color: var(--card-color);
+  color: white;
+}

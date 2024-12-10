@@ -8,6 +8,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonToggleModule,
     MatSlideToggleModule,
     FormsModule,
-  ],
+    ThemeToggleComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

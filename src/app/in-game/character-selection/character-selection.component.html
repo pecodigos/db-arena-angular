@@ -5,10 +5,10 @@
       <a class="close-button" mat-button (click)="closeContainer()">Close</a>
       <div class="fighter-skill-container">
         <div class="img-row">
-          <img class="selected-character" [src]="selectedCharacter.image" [alt]="selectedCharacter.name" (click)="selectCharacter(selectedCharacter)"/>
+          <img class="selected-character" [src]="selectedCharacter.imagePath" [alt]="selectedCharacter.name" (click)="selectCharacter(selectedCharacter)"/>
           <div class="skills">
-            <div class="skill" *ngFor="let skill of selectedCharacter?.skills" (click)="showSkillDetails(skill)">
-              <img [src]="skill.image" [alt]="skill.name">
+            <div class="skill" *ngFor="let ability of selectedCharacter?.abilities" (click)="showAbilityDetails(ability)">
+              <img [src]="ability.imagePath" [alt]="ability.name">
             </div>
           </div>
         </div>
@@ -20,20 +20,35 @@
               <p class="description">{{ selectedCharacter.description }}</p>
             </div>
 
-            <div class="details" *ngIf="viewMode === 'skill'">
+            <div class="details" *ngIf="viewMode === 'ability'">
               <div class="name-energy">
-                <p class="name">{{ selectedSkill.name }}</p>
-                <div class="energy-cost">
+                <p class="name">{{ selectedAbility?.name }}</p>
+                <div class="energy-div">
                   <p class="energy">ENERGY:</p>
-                  <p>None</p>
+                  <div class="energy-cost" *ngFor="let cost of selectedAbility?.cost">
+                    <ng-container *ngFor="let _ of getArray(cost.amount)">
+                      <img class="cost-image" [src]="getEnergyImage(cost.energyType)" alt="cost image" />
+                    </ng-container>
+                  </div>
                 </div>
               </div>
-              <p class="description">{{ selectedSkill.description }}</p>
+              <p class="description">{{ selectedAbility?.description }}</p>
+              <div class="classes-cooldown">
+                <div class="classes" *ngIf="selectedAbility?.classes?.length">
+                  CLASSES:
+                  <div *ngFor="let classType of selectedAbility?.classes; let last = last">
+                    {{ classType }}
+                  </div>
+                </div>
+                <div class="cooldown">
+                  COOLDOWN: {{ selectedAbility?.cooldown }}
+                </div>
+              </div>
             </div>
           </div>
           <div class="currentSelected">
-            <img *ngIf="viewMode === 'skill'" [src]="selectedSkill.image" [alt]="selectedSkill.name" style="border: 1px solid black;">
-            <img *ngIf="viewMode === 'character'" [src]="selectedCharacter.image" [alt]="selectedCharacter.name" class="selected-character">
+            <img *ngIf="viewMode === 'ability'" [src]="selectedAbility?.imagePath" [alt]="selectedAbility?.name" style="border: 1px solid black;">
+            <img *ngIf="viewMode === 'character'" [src]="selectedCharacter.imagePath" [alt]="selectedCharacter.name" class="selected-character">
           </div>
         </section>
 
@@ -43,7 +58,7 @@
   </section>
   <section class="buttons-row" style="margin-bottom: 1rem; margin-top: 2rem;">
     <div class="button-sub-div">
-      <a mat-button class="each-button" href="/home">
+      <a mat-button class="each-button" (click)="onLogout()">
         LOGOUT
       </a>
     </div>
@@ -73,7 +88,7 @@
       <div class="char-player">
         <div class="character-grid">
           <div class="character-card" *ngFor="let character of visibleCharacters" (click)="selectCharacter(character)">
-            <img [src]="character.image" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
+            <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
           </div>
         </div>
       </div>
