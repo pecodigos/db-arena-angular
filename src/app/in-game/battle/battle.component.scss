@@ -1,10 +1,11 @@
 .main-container {
-  // background-color: rgb(51, 144, 250);
-  background-image: url(../../../assets/etc/battle-bg.png);
+  background-image: url(https://cn.i.cdn.ti-platform.com/cnemea/content/1452/showpage/dragonball-super/it/backgroundtile.png);
   color: white;
-  height: 100vh;
-  padding: 2rem 20rem;
+  height: 93.25vh;
+  padding: 2rem 10rem;
   user-select: none;
+  align-items: center;
+  overflow: hidden;
 }
 
 .upper-part {
@@ -12,7 +13,8 @@
   max-height: 120px;
   justify-content: center;
   gap: 2rem;
-  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  z-index: 10;
 }
 
 .main-player {
@@ -26,9 +28,30 @@
 }
 
 .profile-picture {
-  border: 0.2cap;
-  border-style: solid;
-  border-color: black;
+  border: 1px solid black;
+  height: 125px;
+  width: 125px;
+}
+
+.turn-bar-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  gap: 0.5rem;
+}
+
+.mid-render {
+  height: 40rem;
+  position: absolute;
+  z-index: 1;
+  right: 24%;
+  top: 18%;
+}
+
+.turn-bar{
+  border: 1px solid black;
+  background-color: white;
 }
 
 .core-part {
@@ -40,28 +63,31 @@
   border-style: solid;
   border-width: 0.1cap;
   border-color: black;
+  z-index: 10;
 }
 
 .left-side {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-left: 14rem;
 }
 
 .left-character, .right-character {
-  border-style: solid;
-  border-width: 0.15cap;
-  border-color: black;
+  border: 1px solid black;
+  z-index: 10;
 }
 
 .left-character {
   transform: scaleX(-1);
 }
 
+
 .right-side {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-right: 14rem;
 }
 
 .character-container {
@@ -77,7 +103,7 @@
 }
 
 .username {
-  color: orange;
+  color: rgb(255, 205, 112);
   font-size: 1.4rem;
 }
 
@@ -87,27 +113,56 @@
 }
 
 .user-rank {
+  display: flex;
+  flex-direction: column;
   align-items: end;
 }
 
 .health-points {
-  border-width: 1px;
-  border-color: black;
-  border-style: solid;
+  border: 1px solid black;
   width: 115px;
   text-align: center;
+  color: black;
+  font-size: 0.88rem;
+  z-index: 10;
+}
+
+.surrender-button {
+  background-color: orange;
+  margin-bottom: 10rem;
+  margin-right: 1rem;
+}
+
+.surrender-button:hover {
+  background-color:rgb(255, 199, 96);
   color: black;
 }
 
 .green-hp {
-  background-color: green;
+  background-color: rgb(0, 170, 0);
 }
 
 .yellow-hp {
-  background-color: yellow;
+  background-color: rgb(255, 255, 84);
 }
 
 .red-hp {
-  background-color: red;
+  background-color: rgb(211, 0, 0);
 }
 
+.whos-turn {
+  font-size: 1.2rem;
+}
+
+.bottom-left-section {
+  margin-top: 2rem;
+}
+
+.tapion {
+  height: 14.25rem;
+  transform: scaleX(-1);
+}
+
+.surrender {
+  margin-left: 10rem;
+}

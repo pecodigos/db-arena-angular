@@ -9,6 +9,7 @@ import { CharacterSelectionService } from './character-selection.service';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { PlaySoundService } from '../../play-sound.service';
 
 @Component({
   selector: 'app-character-selection',
@@ -28,6 +29,7 @@ export class CharacterSelectionComponent implements OnInit {
   characters: Character[] = [];
   selectedCharacter: Character | null = null;
   selectedAbility: Ability | null = null;
+  clickSoundPath: string = 'assets/sounds/click.mp3';
 
   viewMode: 'character' | 'ability' = 'character';
 
@@ -52,7 +54,8 @@ costs = [
       private renderer: Renderer2,
       private profileService: ProfileService,
       private characterService: CharacterSelectionService,
-      private authService: AuthService
+      private authService: AuthService,
+      private playSoundService: PlaySoundService
   ) {}
 
   ngOnInit(): void {
@@ -150,6 +153,7 @@ costs = [
   }
 
   selectCharacter(character: any) {
+    this.playSoundService.playSound(this.clickSoundPath);
     this.selectedCharacter = character;
     this.selectedAbility = null;
     this.viewMode = 'character';

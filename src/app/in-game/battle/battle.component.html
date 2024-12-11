@@ -2,19 +2,18 @@
   <section class="upper-part">
     <div class="main-player">
       <div class="user-rank">
-        <h3 class="username">{{ player.username }}</h3>
-        <p class="fighter-rank">{{ player.fighterRank }}</p>
+        <h3 class="username">{{ profile.username.toUpperCase() }}</h3>
+        <p class="fighter-rank">{{ profile.rank }}</p>
       </div>
-      <img class="profile-picture" src="../../../assets/profile-picture/ProfilePicture.png">
+      <img class="profile-picture" [src]="profile.profilePicturePath">
     </div>
-
-    <div class="turn-bar">
-      <img src="../../../assets/buttons/turn-bar.png">
+    <div class="turn-bar-div">
+      <p class="whos-turn"><b>YOUR OPPONENT TURN...</b></p>
+      <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
     </div>
-
     <div class="opponent-player">
       <img class="profile-picture" src="../../../assets/profile-picture/opponent-profile-pic.png">
-      <div class="user-rank">
+      <div>
         <h3 class="username">{{ opponent.username }}</h3>
         <p class="fighter-rank">{{ opponent.fighterRank }}</p>
       </div>
@@ -52,6 +51,10 @@
       </div>
     </div>
 
+    <div>
+      <img class="mid-render" src="assets/etc/broly.png">
+    </div>
+
     <div class="right-side">
       <div class="character-container">
         <div class="char-data">
@@ -77,6 +80,16 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+  <section class="bottom-left-section">
+    <div class="surrender">
+      <a mat-button class="surrender-button" href="/character-selection">SURRENDER</a>
+      <img class="tapion" src="assets/etc/tapion.png">
+    </div>
+
+    <div class="skill-profile-container">
+
     </div>
   </section>
 </main>

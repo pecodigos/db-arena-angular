@@ -1,5 +1,12 @@
 <main class="main-container">
-  <h1>Welcome to Dragon Ball Arena, a turn-based online game on web.</h1>
-  <h4>Read the <a href="/game-manual" class="game-manual">game manual</a> page for more information about how to play the game and how each character work.</h4>
+  <div class="title">
+    <h1>Welcome to Dragon Ball Arena, a turn-based online game on web.</h1>
+    <h4>Read the <a href="/game-manual" class="game-manual">game manual</a> page for more information about how to play the game and how each character work.</h4>
+  </div>
+  <mat-paginator [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+               aria-label="Select page">
+  </mat-paginator>
 </main>
 

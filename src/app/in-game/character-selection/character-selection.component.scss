@@ -21,8 +21,8 @@ mat-button {
   display: flex;
   gap: 0.6rem;
   min-height: 22rem;
-  min-width: 65rem;
-  margin-bottom: 8rem;
+  min-width: 64.4rem;
+  margin-bottom: 5rem;
   box-shadow: 1px 1px 4px 1px;
 }
 
@@ -37,6 +37,12 @@ mat-button {
 
 .each-button {
   background-color: rgba(255, 173, 51, 0.93);
+  border: 1px solid black;
+  z-index: 1;
+}
+
+.each-button:hover {
+  background-color: rgb(231, 150, 0);
 }
 
 .character-container {
@@ -66,7 +72,7 @@ mat-button {
   z-index: 10;
   position: absolute;
   left: 50%;
-  top: 10%;
+  top: 8%;
   transform: translateX(-50%);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
@@ -79,12 +85,12 @@ mat-button {
 }
 
 .close-button {
-  background-color: transparent;
+  background-color: rgba(253, 0, 0, 0.5);
   display: flex;
-  z-index: 100;
+  z-index: 1;
   position: absolute;
-  right: 30%;
-  top: 6%;
+  right: 29%;
+  top: 4.25%;
 }
 
 .character-card img {
@@ -131,13 +137,12 @@ mat-button {
 }
 
 .profile-info {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .button-sub-div {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .profile-div {
@@ -157,7 +162,6 @@ mat-button {
   height: 80px;
   width: 80px;
 }
-
 
 .team img {
   width: 100%;
@@ -250,7 +254,7 @@ mat-button {
 
 .description {
   text-align: start;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

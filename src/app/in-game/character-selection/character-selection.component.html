@@ -51,7 +51,6 @@
             <img *ngIf="viewMode === 'character'" [src]="selectedCharacter.imagePath" [alt]="selectedCharacter.name" class="selected-character">
           </div>
         </section>
-
       </div>
     </div>
 
@@ -61,24 +60,28 @@
       <a mat-button class="each-button" (click)="onLogout()">
         LOGOUT
       </a>
+      <img class="icons" src="assets/etc/88962_ball_dragon_star_icon.png">
     </div>
 
-    <div class="buttom-sub-div">
+    <div class="button-sub-div">
       <a mat-button class="each-button" href="/battle">
         START LADDER GAME
       </a>
+    <img class="icons" src="assets/etc/88966_ball_dragon_stars_icon.png">
     </div>
 
-    <div>
+    <div class="button-sub-div">
       <a mat-button class="each-button" href="/battle">
         START QUICK GAME
       </a>
+    <img class="icons" src="assets/etc/88965_ball_dragon_stars_three_icon.png">
     </div>
 
-    <div>
+    <div class="button-sub-div">
       <a mat-button class="each-button" href="/character-selection">
         START PRIVATE GAME
       </a>
+    <img class="icons" src="assets/etc/88961_ball_dragon_four_stars_icon.png">
     </div>
   </section>
 
