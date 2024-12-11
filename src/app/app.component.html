@@ -1,14 +1,17 @@
 <mat-toolbar *ngIf="router.url !== '/character-selection' && router.url !== '/battle'">
+  <button mat-icon-button (click)="toggleDrawer()" *ngIf="router.url !== '/register' && router.url !== '/login'">
+    <mat-icon>menu</mat-icon>
+  </button>
   <a mat-button href="/home">HOME PAGE</a>
-  <a mat-button href="/character-selection" target="_blank">START PLAYING</a>
-  <a mat-button href="/missions">MISSIONS</a>
+  <a *ngIf="isLoggedIn" mat-button href="/character-selection" target="_blank">START PLAYING</a>
+  <a *ngIf="isLoggedIn" mat-button href="/missions">MISSIONS</a>
   <a mat-button href="/game-manual">GAME MANUAL</a>
   <app-theme-toggle></app-theme-toggle>
 </mat-toolbar>
 <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
-  <mat-drawer mode="side" class="mat-drawer" opened>
-    <div *ngIf="username">Your logged as <strong class="nickname">{{ username }}</strong></div>
-    <div *ngIf="!username">You are not logged in</div>
+  <mat-drawer mode="side" class="mat-drawer" [opened]="isDrawerOpened">
+    <div *ngIf="username">Hey, <strong class="nickname">{{ username }}</strong>!</div>
+    <div *ngIf="!username">You are not logged in yet.</div>
     <div class="side-buttons">
       <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/profile">View profile</a>
       <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/clan">Clan panel</a>

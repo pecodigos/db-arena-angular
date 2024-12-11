@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +23,15 @@ import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
     MatButtonToggleModule,
     MatSlideToggleModule,
     FormsModule,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    MatIconModule
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   darkMode = true;
+  isDrawerOpened: boolean = true;
   isLoggedIn: boolean = false;
   username: string | null = null;
 
@@ -49,5 +52,9 @@ export class AppComponent {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  toggleDrawer(): void {
+    this.isDrawerOpened = !this.isDrawerOpened;
   }
 }
