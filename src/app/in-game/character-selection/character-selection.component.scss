@@ -22,7 +22,7 @@ mat-button {
   gap: 0.6rem;
   min-height: 22rem;
   min-width: 64.4rem;
-  margin-bottom: 5rem;
+  margin-bottom: 6.5rem;
   box-shadow: 1px 1px 4px 1px;
 }
 
@@ -36,13 +36,7 @@ mat-button {
 }
 
 .each-button {
-  background-color: rgba(255, 173, 51, 0.93);
-  border: 1px solid black;
   z-index: 1;
-}
-
-.each-button:hover {
-  background-color: rgb(231, 150, 0);
 }
 
 .character-container {
@@ -80,16 +74,15 @@ mat-button {
   height: 250px;
   overflow: hidden;
   box-sizing: border-box;
-  border: 0.2rem solid rgba(253, 143, 52, 0.98);
-  gap: 10rem;
+  border: 2px solid orange;
 }
 
 .close-button {
-  background-color: rgba(253, 0, 0, 0.5);
+  background-color: rgba(253, 0, 0, 0.6);
   display: flex;
   z-index: 1;
   position: absolute;
-  right: 29%;
+  right: 29.1%;
   top: 4.25%;
 }
 
@@ -169,7 +162,7 @@ mat-button {
 }
 
 .logo {
-  max-height: 20rem;
+  max-height: 18rem;
   z-index: 2;
 }
 
@@ -309,8 +302,49 @@ mat-button {
   pointer-events: none;
 }
 
+.searching {
+   position: absolute;
+   left: 50%;
+   top: 42%;
+   transform: translate(-50%, -50%);
+   width: 31rem;
+   height: 21rem;
+   background-color:rgba(253, 250, 216, 0.98);
+   z-index: 1001;
+   border: 0.1rem solid black;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   border-radius: 0.6rem;
+}
+
+.cancel-button {
+  color: black !important;
+  border: 1px solid black;
+}
+
+.cancel-button:hover {
+  background-color:rgba(223, 220, 193, 0.95)
+}
+
+.searching-gif {
+  width: 24rem;
+  border: 1px solid black;
+}
+
 .character-card.draggning img {
   visibility: hidden;
+}
+
+@keyframes enterSkillContainer {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 900px) {
@@ -318,37 +352,25 @@ mat-button {
     display: none;
   }
 
-  .fighter-skill-container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .right-section img {
-    max-height: 2rem;
-    max-width: 2rem;
-  }
-
   .selection {
     display: flex;
     flex-direction: column;
     min-width: 40rem;
+    height: 68%;
+    margin-bottom: 1px;
   }
 
-  .buttons-row {
-    display: flex;
-    flex-direction: column;
+  .profile-div {
+    height: 4.5rem;
   }
 
   .buttons-row img {
     max-width: 15rem;
   }
 
-  .logout-button {
-    max-height: 4rem;
-  }
-
-  .profile-div {
-    display: none;
+  .buttons-row {
+    align-items: center;
+    gap: 1px;
   }
 }
 

@@ -8,6 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { firstValueFrom } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PreventDragDirective } from '../../prevent-drag.directive';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     FormsModule,
     MatButtonModule,
     MatInputModule,
-    RouterModule
+    RouterModule,
+    PreventDragDirective
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

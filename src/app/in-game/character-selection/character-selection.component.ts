@@ -8,8 +8,9 @@ import { ProfileService } from '../../profile/profile.service';
 import { CharacterSelectionService } from './character-selection.service';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import {  DragDropModule } from '@angular/cdk/drag-drop';
 import { PlaySoundService } from '../../play-sound.service';
+import { timeInterval, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-character-selection',
@@ -29,9 +30,15 @@ export class CharacterSelectionComponent implements OnInit {
   characters: Character[] = [];
   selectedCharacter: Character | null = null;
   selectedAbility: Ability | null = null;
-  clickSoundPath: string = 'assets/sounds/click.mp3';
+  selectedMode: any = null;
+  animateSkillContainer: boolean = false;
 
-  viewMode: 'character' | 'ability' = 'character';
+  clickSoundPath: string = 'assets/sounds/click.mp3';
+  searchingSoundPath: string = 'assets/sounds/searching.mp3';
+  stopSearchSoundPath: string = 'assets/sounds/close-search.mp3';
+  matchFoundSoundPath: string = 'assets/sounds/foundmatch.mp3';
+
+  viewMode: 'character' | 'ability' | 'searching' = 'character';
 
   currentPage = 0;
   charactersPerPage = 21;
@@ -40,7 +47,6 @@ export class CharacterSelectionComponent implements OnInit {
     id: null as number | null,
     imagePath: 'https://i.imgur.com/9VwrLXz.png'
   }));
-
 
 costs = [
   { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
@@ -152,19 +158,25 @@ costs = [
     }
   }
 
-  selectCharacter(character: any) {
-    this.playSoundService.playSound(this.clickSoundPath);
-    this.selectedCharacter = character;
-    this.selectedAbility = null;
-    this.viewMode = 'character';
+  selectCharacter(character: Character) {
+    this.animateSkillContainer = false;
+    setTimeout(() => {
+      this.playSoundService.playSound(this.clickSoundPath);
+      this.selectedCharacter = character;
+      this.selectedAbility = null;
+      this.viewMode = 'character';
+      this.animateSkillContainer = true;
+    }, 10);
   }
 
   showAbilityDetails(ability: Ability) {
+    this.playSoundService.playSound(this.clickSoundPath);
     this.selectedAbility = ability;
     this.viewMode = 'ability';
   }
 
   backToCharacterDetails() {
+    this.playSoundService.playSound(this.clickSoundPath);
     this.selectedAbility = null;
     this.viewMode = 'character';
   }
@@ -173,11 +185,34 @@ costs = [
     this.selectedCharacter = null;
   }
 
+  startSearching(selectedMode: any) {
+    this.playSoundService.playLoopSound(this.searchingSoundPath);
+    this.selectedMode = selectedMode;
+    this.viewMode = 'searching';
+  }
+
+  stopSearching() {
+    this.playSoundService.playSound(this.stopSearchSoundPath);
+
+    this.selectedMode = null;
+    this.viewMode = 'character';
+  }
+
+  matchFound() {
+    this.playSoundService.playSound(this.matchFoundSoundPath);
+    this.selectedMode = null;
+    this.viewMode = 'character';
+  }
+
   getArray(amount: number): number[] {
     return amount > 0 ? Array.from({ length: amount }) : [];
   }
 
   onLogout() {
     this.authService.logout();
+  }
+
+  startQuickGame() {
+    window.location.href = "/battle";
   }
 }

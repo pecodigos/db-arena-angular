@@ -1,5 +1,5 @@
 .main-container {
-  background-image: url(https://cn.i.cdn.ti-platform.com/cnemea/content/1452/showpage/dragonball-super/it/backgroundtile.png);
+  background-image: url("/assets/etc/battle-bg.png");
   color: white;
   height: 93.25vh;
   padding: 2rem 10rem;
@@ -29,8 +29,9 @@
 
 .profile-picture {
   border: 1px solid black;
-  height: 125px;
-  width: 125px;
+  height: 100px;
+  width: 100px;
+  z-index: 100;
 }
 
 .turn-bar-div {
@@ -42,11 +43,36 @@
 }
 
 .mid-render {
-  height: 40rem;
-  position: absolute;
+  height: 49rem;
   z-index: 1;
-  right: 24%;
-  top: 18%;
+}
+
+#pot {
+  bottom: 5%;
+  position: absolute;
+  animation: forwards;
+  animation-name: run;
+  animation-duration: 1s;
+}
+@keyframes run {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: calc(25% - 100px);
+   }
+}
+
+@keyframes enterSkillContainer {
+  0% {
+    transform: scaleX(0);
+    transform-origin: right;
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
 .turn-bar{
@@ -70,7 +96,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-left: 14rem;
+  margin-left: 12rem;
 }
 
 .left-character, .right-character {
@@ -82,12 +108,11 @@
   transform: scaleX(-1);
 }
 
-
 .right-side {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-right: 14rem;
+  margin-right: 12rem;
 }
 
 .character-container {
@@ -103,7 +128,7 @@
 }
 
 .username {
-  color: rgb(255, 205, 112);
+  color: rgb(180, 0, 0);
   font-size: 1.4rem;
 }
 
@@ -128,14 +153,15 @@
 }
 
 .surrender-button {
-  background-color: orange;
-  margin-bottom: 10rem;
+  background-color: rgb(255, 211, 131);
+  color: black !important;
   margin-right: 1rem;
+  border: 1px solid black;
+  margin-bottom: 1rem;
 }
 
 .surrender-button:hover {
-  background-color:rgb(255, 199, 96);
-  color: black;
+  background-color:rgb(255, 185, 105);
 }
 
 .green-hp {
@@ -155,7 +181,7 @@
 }
 
 .bottom-left-section {
-  margin-top: 2rem;
+  margin-top: 3.5rem;
 }
 
 .tapion {
@@ -164,5 +190,11 @@
 }
 
 .surrender {
-  margin-left: 10rem;
+  margin-left: 2rem;
+  display: flex;
+}
+
+.bottom-left-buttons {
+  display: flex;
+  flex-direction: column;
 }

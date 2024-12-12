@@ -29,8 +29,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private profileService: ProfileService,
-    private authService: AuthService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {

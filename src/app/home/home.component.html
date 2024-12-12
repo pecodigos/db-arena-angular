@@ -1,8 +1,11 @@
 <main class="main-container">
-  <div class="title">
-    <h1>Welcome to Dragon Ball Arena, a turn-based online game on web.</h1>
-    <h4>Read the <a href="/game-manual" class="game-manual">game manual</a> page for more information about how to play the game and how each character work.</h4>
-  </div>
+  <mat-card class="mat-card">
+    <div class="title">
+      <h1>Welcome to <strong><b class="dragon">DRAG<img id="o" src="assets/etc/dragonball_one.png">N</b> <b class="ball"> BALL ARENA</b></strong>, a turn-based online game on web.</h1>
+      <h4>Read the <a href="/game-manual" class="game-manual">game manual</a> page for more information about how to play the game and how each character work.</h4>
+    </div>
+    <img class="kid-goku-gif" src="assets/gifs/kid-goku.gif">
+  </mat-card>
   <mat-paginator [length]="100"
                 [pageSize]="10"
                 [pageSizeOptions]="[5, 10, 25, 100]"

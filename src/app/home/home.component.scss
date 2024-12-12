@@ -1,12 +1,15 @@
 a {
-  color: orange;
+  color: var(--red);
+}
+
+a:hover {
+  color: rgb(112, 0, 0)
 }
 
 .main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10rem;
 }
 
 mat-paginator {
@@ -18,4 +21,33 @@ mat-paginator {
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+}
+
+mat-card {
+  padding: 4rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  background-color: rgb(5, 5, 39);
+  height: 20rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kid-goku-gif {
+  width: 10rem;
+}
+
+.mat-card {
+  align-items: center;
+}
+
+.dragon {
+  color: yellow;
+}
+
+.ball {
+  color: var(--red);
+}
+
+#o {
+  width: 1.5rem;
 }

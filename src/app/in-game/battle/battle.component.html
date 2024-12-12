@@ -1,4 +1,4 @@
-<main class="main-container" draggable="false">
+<main class="main-container" appScaleContent>
   <section class="upper-part">
     <div class="main-player">
       <div class="user-rank">
@@ -51,8 +51,8 @@
       </div>
     </div>
 
-    <div>
-      <img class="mid-render" src="assets/etc/broly.png">
+    <div id="pot">
+      <img class="mid-render" src="assets/etc/goku-ssj.png">
     </div>
 
     <div class="right-side">
@@ -84,7 +84,12 @@
   </section>
   <section class="bottom-left-section">
     <div class="surrender">
-      <a mat-button class="surrender-button" href="/character-selection">SURRENDER</a>
+      <div class="bottom-left-buttons">
+        <a mat-button class="surrender-button" href="/character-selection">SURRENDER</a>
+        <a mat-button class="surrender-button">OPEN CHAT</a>
+        <a mat-button class="surrender-button">VOLUME: + / -</a>
+      </div>
+
       <img class="tapion" src="assets/etc/tapion.png">
     </div>
 

@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
+import { PreventDragDirective } from '../../prevent-drag.directive';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ import { firstValueFrom } from 'rxjs';
     MatFormFieldModule,
     FormsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    PreventDragDirective
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'

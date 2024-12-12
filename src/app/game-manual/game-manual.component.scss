@@ -38,10 +38,20 @@ mat-card {
   border-style: solid;
   border-width: 0.1cap;
   border-color: rgb(70,70, 70);
-  width: 30rem;
+  width: 26rem;
 }
 
 .buttons:hover {
   background-color: rgb(206, 134, 1);
   color: rgb(58, 38, 0);
+}
+
+.db-icon {
+  width: 1rem;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
