@@ -8,7 +8,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { CharacterSelectionService } from './character-selection.service';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
-import {  DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlaySoundService } from '../../play-sound.service';
 import { WebsocketService } from '../../websocket.service';
 
@@ -66,6 +66,11 @@ costs = [
   ) {}
 
   ngOnInit(): void {
+    if (!this.authService.hasToken()) {
+      this.authService.logout();
+      return;
+    }
+
     const username = localStorage.getItem('username');
 
     if (username) {
@@ -94,13 +99,22 @@ costs = [
   }
 
   startSearching(selectedMode: any): void {
-    if (this.webSocketService.isConnected()) {
-      this.playSoundService.playLoopSound(this.searchingSoundPath);
-      this.selectedMode = selectedMode;
-      this.viewMode = 'searching';
-      this.webSocketService.searchForMatch(this.profile.username);
+    if (!this.authService.hasToken()) {
+      this.authService.logout();
+      return;
+    }
+
+    this.playSoundService.playLoopSound(this.searchingSoundPath);
+    this.selectedMode = selectedMode;
+    this.viewMode = 'searching';
+
+    if (!this.webSocketService.isConnected()) {
+      this.webSocketService.connect();
+      this.webSocketService.onConnectionEstablished(() => {
+        this.webSocketService.searchForMatch();
+      })
     } else {
-      console.error('WebSocket connection not estabilished.');
+        this.webSocketService.searchForMatch();
     }
   }
 
@@ -219,8 +233,6 @@ costs = [
   closeContainer() {
     this.selectedCharacter = null;
   }
-
-
 
   getArray(amount: number): number[] {
     return amount > 0 ? Array.from({ length: amount }) : [];

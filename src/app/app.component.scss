@@ -13,8 +13,8 @@
 
 mat-toolbar {
   display: flex;
-  justify-content: center;
-  gap: 10rem;
+  justify-content: start;
+  gap: 15rem;
   background-color: rgb(3, 0, 27);
   border: 0.5px;
   border-color: rgb(70,70,70);
@@ -27,7 +27,6 @@ mat-button {
 
 .logo {
   max-width: 14rem;
-  margin-bottom: 1rem;
 }
 
 .logo-home {
