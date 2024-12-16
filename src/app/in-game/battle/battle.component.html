@@ -12,10 +12,10 @@
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
     </div>
     <div class="opponent-player">
-      <img class="profile-picture" src="../../../assets/profile-picture/opponent-profile-pic.png">
+      <img class="profile-picture" [src]="opponent?.profilePicturePath">
       <div>
-        <h3 class="username">{{ opponent.username }}</h3>
-        <p class="fighter-rank">{{ opponent.fighterRank }}</p>
+        <h3 class="username">{{ opponent?.username || 'Opponent' }}</h3>
+        <p class="fighter-rank">{{ opponent?.fighterRank || '?' }}</p>
       </div>
     </div>
   </section>

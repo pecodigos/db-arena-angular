@@ -28,7 +28,7 @@ mat-card {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   background-color: rgb(5, 5, 39);
-  height: 20rem;
+  height: auto;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -50,4 +50,23 @@ mat-card {
 
 #o {
   width: 1.5rem;
+}
+
+.arena {
+  color: rgb(255, 95, 95) !important;
+}
+
+.goku-ssj {
+  width: 10rem;
+  padding-top: 2rem;
+}
+
+.vegeta-dance {
+  padding-bottom: 2rem;
+}
+
+@media (max-height: 1200px) {
+  .kid-goku-gif {
+    width: 8rem;
+  }
 }

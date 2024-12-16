@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PreventDragDirective } from '../../prevent-drag.directive';
 import { AuthService } from '../../auth/auth.service';
+import { WebsocketService } from '../../websocket.service';
 
 @Component({
   selector: 'app-battle',
@@ -20,16 +21,13 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class BattleComponent implements OnInit, OnDestroy {
   profile: any = null;
+  opponent: any = null;
   progressValue = 100;
   timerInterval: any;
 
-  opponent = {
-    username: 'ZECODIGOS',
-    fighterRank: 'LAST BOSS'
-  }
-
   constructor(
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private webSocketService: WebsocketService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +40,18 @@ export class BattleComponent implements OnInit, OnDestroy {
       });
     }
 
+    this.webSocketService.onMatch((matchData) => {
+      const opponentUsername = matchData.opponentUsername;
+
+      this.profileService.getPublicProfile(opponentUsername).subscribe({
+        next: (data) => {
+          this.opponent = data;
+        },
+        error: (err) => console.error('Failed to fetch opponent profile', err),
+      });
+    })
+
+    this.webSocketService.connect();
     this.startTimer();
   }
 

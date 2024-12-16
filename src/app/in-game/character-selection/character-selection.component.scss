@@ -57,10 +57,6 @@ mat-button {
   justify-items: center;
 }
 
-.character-card:hover {
-  transform: scale(1.02);
-}
-
 .fighter-skill-container {
   background-color: rgba(253, 250, 216, 0.98);
   z-index: 10;
@@ -75,6 +71,7 @@ mat-button {
   overflow: hidden;
   box-sizing: border-box;
   border: 2px solid orange;
+  border-radius: 0.1rem;
 }
 
 .close-button {

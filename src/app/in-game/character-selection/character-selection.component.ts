@@ -10,7 +10,7 @@ import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
 import {  DragDropModule } from '@angular/cdk/drag-drop';
 import { PlaySoundService } from '../../play-sound.service';
-import { timeInterval, timeout } from 'rxjs';
+import { WebsocketService } from '../../websocket.service';
 
 @Component({
   selector: 'app-character-selection',
@@ -61,7 +61,8 @@ costs = [
       private profileService: ProfileService,
       private characterService: CharacterSelectionService,
       private authService: AuthService,
-      private playSoundService: PlaySoundService
+      private playSoundService: PlaySoundService,
+      private webSocketService: WebsocketService
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +87,40 @@ costs = [
       },
       error: (err) => console.error('Failed to fetch characters', err),
     });
+
+    this.webSocketService.onMatch((matchDetails) => {
+      this.handleMatchFound(matchDetails);
+    });
+  }
+
+  startSearching(selectedMode: any): void {
+    if (this.webSocketService.isConnected()) {
+      this.playSoundService.playLoopSound(this.searchingSoundPath);
+      this.selectedMode = selectedMode;
+      this.viewMode = 'searching';
+      this.webSocketService.searchForMatch(this.profile.username);
+    } else {
+      console.error('WebSocket connection not estabilished.');
+    }
+  }
+
+  stopSearching(): void {
+    this.playSoundService.playSound(this.stopSearchSoundPath);
+    this.selectedMode = null;
+    this.viewMode = 'character';
+    this.webSocketService.disconnect();
+  }
+
+  matchFound(): void {
+    this.playSoundService.playSound(this.matchFoundSoundPath);
+    this.selectedMode = null;
+    this.viewMode = 'character';
+    window.location.href = '/battle';
+  }
+
+  handleMatchFound(matchDetails: any): void {
+    console.log('Match found:', matchDetails);
+    this.matchFound();
   }
 
   onDragStarted(event: any) {
@@ -185,24 +220,7 @@ costs = [
     this.selectedCharacter = null;
   }
 
-  startSearching(selectedMode: any) {
-    this.playSoundService.playLoopSound(this.searchingSoundPath);
-    this.selectedMode = selectedMode;
-    this.viewMode = 'searching';
-  }
 
-  stopSearching() {
-    this.playSoundService.playSound(this.stopSearchSoundPath);
-
-    this.selectedMode = null;
-    this.viewMode = 'character';
-  }
-
-  matchFound() {
-    this.playSoundService.playSound(this.matchFoundSoundPath);
-    this.selectedMode = null;
-    this.viewMode = 'character';
-  }
 
   getArray(amount: number): number[] {
     return amount > 0 ? Array.from({ length: amount }) : [];
