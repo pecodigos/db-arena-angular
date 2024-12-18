@@ -11,31 +11,41 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$db-arena-angular-primary: mat.define-palette(mat.$indigo-palette);
-$db-arena-angular-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$db-arena-angular-warn: mat.define-palette(mat.$red-palette);
-
-$db-arena-angular-toolbar-color: white;
+$light-theme-primary: mat.define-palette(mat.$indigo-palette);
+$light-theme-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$light-theme-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$db-arena-angular-theme: mat.define-dark-theme((
+$light-theme: mat.define-light-theme((
   color: (
-    primary: $db-arena-angular-primary,
-    accent: $db-arena-angular-accent,
-    warn: $db-arena-angular-warn,
-
+    primary: $light-theme-primary,
+    accent: $light-theme-accent,
+    warn: $light-theme-warn,
   ),
-  typography: mat.define-typography-config(),
-  density: 0
+));
+
+$dark-theme-primary: mat.define-palette(mat.$blue-grey-palette);
+$dark-theme-accent: mat.define-palette(mat.$amber-palette);
+$dark-theme-warn: mat.define-palette(mat.$red-palette);
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $dark-theme-primary,
+    accent: $dark-theme-accent,
+    warn: $dark-theme-warn,
+  ),
 ));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($db-arena-angular-theme);
+@include mat.all-component-themes($light-theme);
+
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
 
 /* You can add global styles to this file, and also import other style files */
 :root {
@@ -54,7 +64,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 0;
 }
 
-.dark-theme {
-  background-color: var(--card-color);
-  color: white;
+body {
+  color: white !important;
 }

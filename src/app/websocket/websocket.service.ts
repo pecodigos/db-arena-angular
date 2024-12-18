@@ -20,11 +20,9 @@ export class WebsocketService {
 
   constructor(private authService: AuthService) {}
 
-
   getConnectionState() {
     return this.connectionState.asObservable();
   }
-
 
   connect(): void {
     const token = this.authService.getToken();
@@ -78,6 +76,17 @@ export class WebsocketService {
 
 
   private subscribeToMatch(): void {
+    if (this.matchSubscription) {
+      this.matchSubscription.unsubscribe();
+    }
+
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error('Token not found. Cannot subscribe to WebSocket.');
+      return;
+    }
+
     this.matchSubscription = this.stompClient?.subscribe(
       '/user/queue/match',
       (message) => {
@@ -85,12 +94,17 @@ export class WebsocketService {
         if (this.matchCallback) {
           this.matchCallback(JSON.parse(message.body));
         }
-      }
+      },
+      { Authorization: `Bearer ${token}`}
     ) || null;
   }
 
 
   private subscribeToSearchStatus(): void {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+
     this.searchSubscription = this.stompClient?.subscribe(
       '/user/queue/search-status',
       (message) => {

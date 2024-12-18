@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from './theme.service';
 
@@ -9,15 +9,17 @@ import { ThemeService } from './theme.service';
   templateUrl: './theme-toggle.component.html',
   styleUrl: './theme-toggle.component.scss'
 })
-export class ThemeToggleComponent {
-  isDarkMode: boolean;
+export class ThemeToggleComponent implements OnInit {
+  darkMode: boolean = this.themeService.getDarkMode();
 
-  constructor(private themeService: ThemeService) {
-    this.isDarkMode = this.themeService.isDarkMode();
+  constructor(private themeService: ThemeService) {}
+
+  ngOnInit(): void {
+    this.themeService.setDarkMode(this.darkMode);
   }
 
   toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    this.themeService.setDarkMode(this.isDarkMode);
+    this.darkMode = !this.darkMode;
+    this.themeService.setDarkMode(this.darkMode);
   }
 }
