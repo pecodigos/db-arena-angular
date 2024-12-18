@@ -12,7 +12,6 @@ export class AuthService {
   private username = new BehaviorSubject<string | null>(this.getUsernameFromStorage());
   private userId: string | null = '';
 
-
   constructor(private http: HttpClient, private router: Router) { }
 
   login(username: string, password: string): Observable<{ token: string, user: { id: string, username: string, email: string } }> {
@@ -42,9 +41,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
+    localStorage.clear();
     this.loggedIn.next(false);
     this.router.navigate(['/']);
   }
@@ -54,16 +51,16 @@ export class AuthService {
   }
 
   hasToken(): boolean {
-    return !!localStorage.getItem('userToken');
+    return !!localStorage.getItem('token');
   }
 
   setToken(token: string): void {
-    localStorage.setItem('userToken', token);
+    localStorage.setItem('token', token);
     this.loggedIn.next(true);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('userToken');
+    return localStorage.getItem('token');
   }
 
   getUsername(): Observable<string | null> {

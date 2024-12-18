@@ -10,7 +10,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 import { MatIconModule } from '@angular/material/icon';
-import { PreventDragDirective } from './prevent-drag.directive';
+import { PreventDragDirective } from './prevent-drag/prevent-drag.directive';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({

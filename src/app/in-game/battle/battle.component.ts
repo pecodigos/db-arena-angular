@@ -3,8 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { PreventDragDirective } from '../../prevent-drag.directive';
-import { WebsocketService } from '../../websocket.service';
+import { PreventDragDirective } from '../../prevent-drag/prevent-drag.directive';
+import { WebsocketService } from '../../websocket/websocket.service';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({

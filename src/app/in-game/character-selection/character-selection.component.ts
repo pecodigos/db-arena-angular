@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { PreventDragDirective } from '../../prevent-drag.directive';
+import { PreventDragDirective } from '../../prevent-drag/prevent-drag.directive';
 import { ProfileService } from '../../profile/profile.service';
 import { CharacterSelectionService } from './character-selection.service';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PlaySoundService } from '../../play-sound.service';
-import { WebsocketService } from '../../websocket.service';
+import { PlaySoundService } from '../../sounds/play-sound.service';
+import { WebsocketService } from '../../websocket/websocket.service';
+import { ViewMode } from '../enums/view-mode.enum';
 
 @Component({
   selector: 'app-character-selection',
@@ -38,7 +39,7 @@ export class CharacterSelectionComponent implements OnInit {
   stopSearchSoundPath: string = 'assets/sounds/close-search.mp3';
   matchFoundSoundPath: string = 'assets/sounds/foundmatch.mp3';
 
-  viewMode: 'character' | 'ability' | 'searching' = 'character';
+  viewMode: ViewMode = ViewMode.CHARACTER;
 
   currentPage = 0;
   charactersPerPage = 21;
@@ -106,13 +107,14 @@ costs = [
 
     this.playSoundService.playLoopSound(this.searchingSoundPath);
     this.selectedMode = selectedMode;
-    this.viewMode = 'searching';
+    this.viewMode = ViewMode.SEARCHING;
 
     if (!this.webSocketService.isConnected()) {
       this.webSocketService.connect();
       this.webSocketService.onConnectionEstablished(() => {
         this.webSocketService.searchForMatch();
-      })
+      });
+
     } else {
         this.webSocketService.searchForMatch();
     }
@@ -121,15 +123,17 @@ costs = [
   stopSearching(): void {
     this.playSoundService.playSound(this.stopSearchSoundPath);
     this.selectedMode = null;
-    this.viewMode = 'character';
+    this.viewMode = ViewMode.CHARACTER;
     this.webSocketService.disconnect();
   }
 
   matchFound(): void {
     this.playSoundService.playSound(this.matchFoundSoundPath);
     this.selectedMode = null;
-    this.viewMode = 'character';
-    window.location.href = '/battle';
+    this.viewMode = ViewMode.CHARACTER;
+    setTimeout(() => {
+      window.location.href = '/battle';
+    }, 1000);
   }
 
   handleMatchFound(matchDetails: any): void {
@@ -213,7 +217,7 @@ costs = [
       this.playSoundService.playSound(this.clickSoundPath);
       this.selectedCharacter = character;
       this.selectedAbility = null;
-      this.viewMode = 'character';
+      this.viewMode = ViewMode.CHARACTER;
       this.animateSkillContainer = true;
     }, 10);
   }
@@ -221,13 +225,13 @@ costs = [
   showAbilityDetails(ability: Ability) {
     this.playSoundService.playSound(this.clickSoundPath);
     this.selectedAbility = ability;
-    this.viewMode = 'ability';
+    this.viewMode = ViewMode.ABILITY;
   }
 
   backToCharacterDetails() {
     this.playSoundService.playSound(this.clickSoundPath);
     this.selectedAbility = null;
-    this.viewMode = 'character';
+    this.viewMode = ViewMode.CHARACTER;
   }
 
   closeContainer() {

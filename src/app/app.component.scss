@@ -14,7 +14,7 @@
 mat-toolbar {
   display: flex;
   justify-content: start;
-  gap: 15rem;
+  gap: 4rem;
   background-color: rgb(3, 0, 27);
   border: 0.5px;
   border-color: rgb(70,70,70);
@@ -31,6 +31,7 @@ mat-button {
 
 .logo-home {
   padding-top: 0.8rem;
+  margin-left: 10rem;
 }
 
 .discord-icon {
@@ -41,11 +42,12 @@ mat-divider {
   margin-bottom: 1rem;
 }
 
+
 .discord-button, .patreon-button {
   background-color: #5765EB;
   font-family: 'DiscordFont';
   font-weight: 600;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,6 +110,10 @@ a:hover {
 
 .nickname {
   color: orange;
+}
+
+app-theme-toggle {
+  margin-left: 10rem;
 }
 
 @media (max-width: 1200px) {
