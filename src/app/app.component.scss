@@ -13,12 +13,31 @@
 
 mat-toolbar {
   display: flex;
-  justify-content: start;
-  gap: 4rem;
-  background-color: rgb(3, 0, 27);
-  border: 0.5px;
-  border-color: rgb(70,70,70);
+  justify-content: space-around;
+  border: 1px;
+  border-color: var(--border-color);
   border-style: solid;
+  background-color: var(--toolbar-bg);
+}
+
+.toolbar-item {
+  display: flex;
+  flex: 1;
+  max-width: 12rem;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s;
+}
+
+.toolbar-item:hover {
+  background-color: rgba(0, 0, 0, 0.0125);
+}
+
+.menu {
+  justify-content: flex-start;
+}
+
+.tb-button {
+  padding-top: 0.4rem;
 }
 
 mat-button {
@@ -29,11 +48,6 @@ mat-button {
   max-width: 14rem;
 }
 
-.logo-home {
-  padding-top: 0.8rem;
-  margin-left: 10rem;
-}
-
 .discord-icon {
   height: 1.5rem;
 }
@@ -41,7 +55,6 @@ mat-button {
 mat-divider {
   margin-bottom: 1rem;
 }
-
 
 .discord-button, .patreon-button {
   background-color: #5765EB;
@@ -55,9 +68,10 @@ mat-divider {
   color: whitesmoke;
   gap: 0.5rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--border-color);
   height: 2.4rem;
   margin-bottom: 1rem;
+  transition: background-color 0.2s ease, color 0.2s;
 }
 
 .discord-button {
@@ -75,12 +89,12 @@ mat-divider {
 .mat-drawer {
   width: 14%;
   padding: 1%;
-  background-color: rgb(10, 12, 39)
+  background-color: var(--drawer-color);
 }
 
 .drawer-content {
   padding: 1%;
-  background-color: rgb(9, 11, 32);
+  background-color: var(--drawer-content-color);
 }
 
 .side-buttons {
@@ -91,12 +105,13 @@ mat-divider {
 }
 
 .side-button {
-  background-color: rgb(14, 17, 53);
+  background-color: var(--side-button-color);
+  transition: background-color 0.2s ease, color 0.2s;
 }
 
 a:hover {
-  background-color: rgb(223, 130, 0);
-  color: rgb(99, 2, 2);
+  background-color: var(--a-hover-bg);
+  color: var(--a-hover-color);
 }
 
 .button-toggle {
@@ -109,7 +124,7 @@ a:hover {
 }
 
 .nickname {
-  color: orange;
+  color: red;
 }
 
 app-theme-toggle {
@@ -117,7 +132,7 @@ app-theme-toggle {
 }
 
 @media (max-width: 1200px) {
-  .discord-button {
+  .discord-button, .patreon-button {
     font-size: 0.8rem;
   }
 }

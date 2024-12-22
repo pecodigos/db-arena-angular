@@ -49,13 +49,19 @@ $dark-theme: mat.define-dark-theme((
 
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --card-color: rgb(0, 0, 46);
-  --dark-background-color: black;
-  --light-background-color: rgb(253, 241, 200);
-  --drawer-content-background-color: rgb(9, 11, 32);
-  --card-color-light: rgb(253, 241, 200);
-  --drawer-content-background-color-light:rgb(248, 226, 152);
+  --card-color: whitesmoke;
+  --primary-bg: rgb(255, 251, 216);
+  --secondary-color: black;
+  --toolbar-bg: orange;
+  --border-color: rgba(0, 0, 0, 0.2);
+  --drawer-color: rgb(255, 251, 216);
+  --drawer-content-color: rgb(42, 133, 252);
+  --side-button-color: orange;
+  --submit-button-color: orange;
+  --form-card-color: whitesmoke;
   --red: rgb(204, 1, 1);
+  --a-hover-bg: rgb(14, 17, 53);
+  --a-hover-color: white;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -64,6 +70,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 0;
 }
 
-body {
-  color: white !important;
+.dark-theme {
+  --card-color: rgb(0, 0, 46);
+  --primary-bg: rgb(0, 11, 44);
+  --secondary-color: #f5f5f5;
+  --toolbar-bg: rgb(3, 0, 27);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --drawer-color: rgb(10, 12, 39);
+  --drawer-content-color: rgb(9, 11, 32);
+  --side-button-color: rgb(14, 17, 53);
+  --submit-button-color: rgb(0, 12, 40);
+  --form-card-color: rgb(5, 5, 39);
+  --a-hover-bg: rgb(223, 130, 0);
+  --a-hover-color: rgb(99, 2, 2);
 }

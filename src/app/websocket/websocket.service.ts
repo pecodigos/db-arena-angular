@@ -95,7 +95,6 @@ export class WebsocketService {
           this.matchCallback(JSON.parse(message.body));
         }
       },
-      { Authorization: `Bearer ${token}`}
     ) || null;
   }
 

@@ -1,17 +1,17 @@
 <mat-toolbar *ngIf="router.url !== '/character-selection' && router.url !== '/battle'">
   <button mat-icon-button (click)="toggleDrawer()" *ngIf="router.url !== '/register' && router.url !== '/login'">
-    <img class="menu" src="/assets/etc/menu-icon.png">
+    <img class="toolbar-item menu" src="/assets/etc/menu-icon.png">
   </button>
-  <a mat-button class="logo-home" href="/home">
+  <a mat-button class="toolbar-item tb-button" href="/home">
     <img src="/assets/buttons/home.png">
   </a>
-  <a *ngIf="isLoggedIn" class="logo-home" mat-button href="/character-selection" target="_blank">
+  <a *ngIf="isLoggedIn" class="toolbar-item tb-button" mat-button href="/character-selection" target="_blank">
     <img src="/assets/buttons/start-playing.png">
   </a>
-  <a *ngIf="isLoggedIn" class="logo-home" mat-button href="/missions">
+  <a *ngIf="isLoggedIn" class="toolbar-item tb-button" mat-button href="/missions">
     <img src="/assets/buttons/missions.png">
   </a>
-  <a mat-button class="logo-home" href="/game-manual">
+  <a mat-button class="toolbar-item tb-button" href="/game-manual">
     <img src="/assets/buttons/guide-manual.png">
   </a>
   <app-theme-toggle></app-theme-toggle>

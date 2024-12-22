@@ -27,9 +27,9 @@ mat-card {
   padding: 4rem;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-  background-color: rgb(5, 5, 39);
+  background-color: var(--form-card-color);
   height: auto;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .kid-goku-gif {
@@ -38,22 +38,6 @@ mat-card {
 
 .mat-card {
   align-items: center;
-}
-
-.dragon {
-  color: yellow;
-}
-
-.ball {
-  color: var(--red);
-}
-
-#o {
-  width: 1.5rem;
-}
-
-.arena {
-  color: rgb(255, 95, 95) !important;
 }
 
 .goku-ssj {

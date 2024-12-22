@@ -47,13 +47,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     this.webSocketService.onMatch((matchData) => {
-      const opponentUsername = matchData.opponentUsername;
-      this.profileService.getPublicProfile(opponentUsername).subscribe({
-        next: (data) => {
-          this.opponent = data;
-        },
-        error: (err) => console.error('Failed to fetch opponent profile', err),
-      });
+      this.opponent = matchData;
     });
 
     this.webSocketService.connect();
