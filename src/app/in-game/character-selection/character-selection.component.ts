@@ -12,6 +12,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlaySoundService } from '../../sounds/play-sound.service';
 import { WebsocketService } from '../../websocket/websocket.service';
 import { ViewMode } from '../enums/view-mode.enum';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MatchResponse } from '../interfaces/match-response.interface';
 
 @Component({
   selector: 'app-character-selection',
@@ -49,13 +52,16 @@ export class CharacterSelectionComponent implements OnInit {
     imagePath: 'https://i.imgur.com/9VwrLXz.png'
   }));
 
-costs = [
-  { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
-  { energyType: "BLOODLINE", imagePath: `assets/etc/red.png` },
-  { energyType: "KI", imagePath: `assets/etc/blue.png` },
-  { energyType: "TECHNIQUE", imagePath: `assets/etc/white.png` },
-  { energyType: "ANY", imagePath: `assets/etc/black.png` },
-];
+  costs = [
+    { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
+    { energyType: "BLOODLINE", imagePath: `assets/etc/red.png` },
+    { energyType: "KI", imagePath: `assets/etc/blue.png` },
+    { energyType: "TECHNIQUE", imagePath: `assets/etc/white.png` },
+    { energyType: "ANY", imagePath: `assets/etc/black.png` },
+  ];
+
+  private wsSubscription: Subscription | null = null;
+  private matchCallback: ((message: any) => void) | null = null;
 
   constructor(
       private renderer: Renderer2,
@@ -63,7 +69,8 @@ costs = [
       private characterService: CharacterSelectionService,
       private authService: AuthService,
       private playSoundService: PlaySoundService,
-      private webSocketService: WebsocketService
+      private webSocketService: WebsocketService,
+      private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -94,9 +101,20 @@ costs = [
       error: (err) => console.error('Failed to fetch characters', err),
     });
 
-    this.webSocketService.onMatch((matchDetails) => {
+    this.wsSubscription = this.webSocketService.connectionStatus$.subscribe(
+      connected => {
+        if (connected && this.viewMode === ViewMode.SEARCHING) {
+          console.log('WebSocket reconnected while searching, resuming search...');
+          this.webSocketService.searchForMatch();
+        }
+      }
+    );
+
+    this.matchCallback = (matchDetails: MatchResponse) => {
       this.handleMatchFound(matchDetails);
-    });
+    };
+
+    this.webSocketService.onMatch(this.matchCallback);
   }
 
   startSearching(selectedMode: any): void {
@@ -111,17 +129,10 @@ costs = [
     this.viewMode = ViewMode.SEARCHING;
 
     if (!this.webSocketService.isConnected()) {
-      console.log('WebSocket is not connected. Connecting...');
       this.webSocketService.connect();
-      this.webSocketService.onConnectionEstablished(() => {
-        console.log('WebSocket connected. Searching for match...');
-        this.webSocketService.searchForMatch();
-      });
-
-    } else {
-      console.log('WebSocket is already connected. Searching for match...');
-      this.webSocketService.searchForMatch();
     }
+
+    this.webSocketService.searchForMatch();
   }
 
   stopSearching(): void {
@@ -136,8 +147,8 @@ costs = [
     this.selectedMode = null;
     this.viewMode = ViewMode.CHARACTER;
     setTimeout(() => {
-      window.location.href = '/battle';
-    }, 1000);
+      this.router.navigate(['/battle']);
+    }, 10000);
   }
 
   handleMatchFound(matchDetails: any): void {

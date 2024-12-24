@@ -1,5 +1,5 @@
 import { ProfileService } from './../../profile/profile.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -8,6 +8,7 @@ import { WebsocketService } from '../../websocket/websocket.service';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatchResponse } from '../interfaces/match-response.interface';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-battle',
@@ -26,12 +27,16 @@ export class BattleComponent implements OnInit, OnDestroy {
   profile: any = null;
   opponent: any = null;
   progressValue = 100;
-  timerInterval: any;
+
+  private timerSubscription: Subscription | null = null;
+  private wsSubscription: Subscription | null = null;
+  private matchCallback: ((message: any) => void) | null = null;
 
   constructor(
     private profileService: ProfileService,
     private webSocketService: WebsocketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +46,6 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     const username = localStorage.getItem('username');
-
     if (username) {
       this.profileService.getPublicProfile(username).subscribe({
         next: (data) => (this.profile = data),
@@ -49,34 +53,65 @@ export class BattleComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.webSocketService.onMatch((response: MatchResponse) => {
-      console.log('Received match data', response);
-      if (response && response.opponentData) {
-        this.opponent = response.opponentData;
-        console.log('Opponent profile received:', this.opponent);
-      } else {
-        console.warn('Invalid match data: ', response);
-      }
-    });
-
-    console.log('Connecting to WebSocket...');
-    this.webSocketService.connect();
+    this.setupWebSocketConnection();
     this.startTimer();
   }
 
-  startTimer(): void {
-    this.timerInterval = setInterval(() => {
-      if (this.progressValue > 0) {
-        this.progressValue = this.progressValue - 2;
-      } else {
-        clearInterval(this.timerInterval);
+  private setupWebSocketConnection(): void {
+    this.wsSubscription = this.webSocketService.connectionStatus$.subscribe((connected) => {
+      if (connected) {
+        console.log('WebSocket connected, setting up match subscription');
+        this.setupMatchSubscription();
+
+        this.webSocketService.getMatchDetails();
       }
-    }, 1000);
+    });
+
+    if (!this.webSocketService.isConnected()) {
+      console.log('WebSocket is not connected, connecting now...');
+      this.webSocketService.connect();
+    } else {
+      this.setupMatchSubscription();
+      this.webSocketService.getMatchDetails();
+    }
+  }
+
+  private setupMatchSubscription(): void {
+    console.log('Setting up match subscription');
+    this.matchCallback = (response: MatchResponse) => {
+      console.log('Received match data in battle component:', response);
+      if (response && response.opponentData) {
+        this.opponent = response.opponentData;
+        console.log('Opponent profile received:', this.opponent);
+        this.cdr.detectChanges();
+      } else {
+        console.warn('Invalid match data', response);
+      }
+    };
+    this.webSocketService.onMatch(this.matchCallback);
+  }
+
+  startTimer(): void {
+    this.timerSubscription = interval(1000).subscribe(() => {
+      if (this.progressValue > 0) {
+        this.progressValue -= 2;
+      } else if (this.timerSubscription) {
+        this.timerSubscription.unsubscribe();
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    if (this.wsSubscription) {
+      this.wsSubscription.unsubscribe();
+    }
+
+    if (this.matchCallback) {
+      this.webSocketService.removeMatchCallback(this.matchCallback);
     }
   }
 }
