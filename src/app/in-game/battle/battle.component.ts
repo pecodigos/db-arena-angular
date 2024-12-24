@@ -6,6 +6,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PreventDragDirective } from '../../prevent-drag/prevent-drag.directive';
 import { WebsocketService } from '../../websocket/websocket.service';
 import { AuthService } from '../../auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { MatchResponse } from '../interfaces/match-response.interface';
 
 @Component({
   selector: 'app-battle',
@@ -14,7 +16,8 @@ import { AuthService } from '../../auth/auth.service';
     MatCardModule,
     MatButtonModule,
     PreventDragDirective,
-    MatProgressBarModule
+    MatProgressBarModule,
+    CommonModule,
   ],
   templateUrl: './battle.component.html',
   styleUrl: './battle.component.scss'
@@ -46,10 +49,17 @@ export class BattleComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.webSocketService.onMatch((matchData) => {
-      this.opponent = matchData;
+    this.webSocketService.onMatch((response: MatchResponse) => {
+      console.log('Received match data', response);
+      if (response && response.opponentData) {
+        this.opponent = response.opponentData;
+        console.log('Opponent profile received:', this.opponent);
+      } else {
+        console.warn('Invalid match data: ', response);
+      }
     });
 
+    console.log('Connecting to WebSocket...');
     this.webSocketService.connect();
     this.startTimer();
   }

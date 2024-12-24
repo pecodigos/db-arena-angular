@@ -1,5 +1,5 @@
 <main class="main-container" appScaleContent>
-  <section class="upper-part">
+  <section class="upper-part" *ngIf="profile">
     <div class="main-player">
       <div class="user-rank">
         <h3 class="username">{{ profile.username.toUpperCase() }}</h3>
@@ -12,10 +12,10 @@
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
     </div>
     <div class="opponent-player">
-      <img class="profile-picture" [src]="opponent?.profilePicturePath">
+      <img class="profile-picture" [src]="opponent.profilePicturePath">
       <div>
-        <h3 class="username">{{ opponent?.username || 'Opponent' }}</h3>
-        <p class="fighter-rank">{{ opponent?.rank || '?' }}</p>
+        <h3 class="username">{{ opponent.username || 'Opponent' }}</h3>
+        <p class="fighter-rank">{{ opponent.rank || '?' }}</p>
       </div>
     </div>
   </section>

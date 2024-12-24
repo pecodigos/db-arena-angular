@@ -80,22 +80,13 @@ export class WebsocketService {
       this.matchSubscription.unsubscribe();
     }
 
-    const token = this.authService.getToken();
-
-    if (!token) {
-      console.error('Token not found. Cannot subscribe to WebSocket.');
-      return;
-    }
-
-    this.matchSubscription = this.stompClient?.subscribe(
-      '/user/queue/match',
-      (message) => {
-        console.log('Received match message:', message.body);
-        if (this.matchCallback) {
-          this.matchCallback(JSON.parse(message.body));
-        }
-      },
-    ) || null;
+    this.matchSubscription = this.stompClient?.subscribe('/user/queue/match', (message) => {
+      const matchData = JSON.parse(message.body);
+      console.log('Received match data: ', matchData);
+      if (this.matchCallback) {
+          this.matchCallback(matchData);
+      }
+    }) || null;
   }
 
 
@@ -104,12 +95,11 @@ export class WebsocketService {
       this.searchSubscription.unsubscribe();
     }
 
-    this.searchSubscription = this.stompClient?.subscribe(
-      '/user/queue/search-status',
-      (message) => {
-        console.log('Received search status:', message.body);
+    this.searchSubscription = this.stompClient?.subscribe('/user/queue/search-status', (message) => {
+      const status = message.body;
+      console.log('Received search status: ', status);
         if (this.searchStatusCallback) {
-          this.searchStatusCallback(message.body);
+          this.searchStatusCallback(status);
         }
       }
     ) || null;
@@ -124,6 +114,7 @@ export class WebsocketService {
       return;
     }
 
+    console.log('Publishing search for match message...');
     this.stompClient.publish({
       destination: '/app/battle/search',
       body: JSON.stringify({}),
@@ -161,7 +152,11 @@ export class WebsocketService {
 
 
   onMatch(callback: (message: any) => void): void {
+    console.log('Registering onMatch callback');
     this.matchCallback = callback;
+    if (this.connected) {
+      this.subscribeToMatch();
+    }
   }
 
 

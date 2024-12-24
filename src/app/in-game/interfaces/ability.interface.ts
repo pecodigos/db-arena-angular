@@ -1,4 +1,4 @@
-import { Cost } from "./cost.model";
+import { Cost } from "./cost.interface";
 
 export interface Ability {
   name: string;

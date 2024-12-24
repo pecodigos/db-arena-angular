@@ -6,8 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { PreventDragDirective } from '../../prevent-drag/prevent-drag.directive';
 import { ProfileService } from '../../profile/profile.service';
 import { CharacterSelectionService } from './character-selection.service';
-import { Character } from '../models/character.model';
-import { Ability } from '../models/ability.model';
+import { Character } from '../interfaces/character.interface';
+import { Ability } from '../interfaces/ability.interface';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlaySoundService } from '../../sounds/play-sound.service';
 import { WebsocketService } from '../../websocket/websocket.service';
@@ -105,18 +105,22 @@ costs = [
       return;
     }
 
+    console.log('Starting search for mode:', selectedMode);
     this.playSoundService.playLoopSound(this.searchingSoundPath);
     this.selectedMode = selectedMode;
     this.viewMode = ViewMode.SEARCHING;
 
     if (!this.webSocketService.isConnected()) {
+      console.log('WebSocket is not connected. Connecting...');
       this.webSocketService.connect();
       this.webSocketService.onConnectionEstablished(() => {
+        console.log('WebSocket connected. Searching for match...');
         this.webSocketService.searchForMatch();
       });
 
     } else {
-        this.webSocketService.searchForMatch();
+      console.log('WebSocket is already connected. Searching for match...');
+      this.webSocketService.searchForMatch();
     }
   }
 

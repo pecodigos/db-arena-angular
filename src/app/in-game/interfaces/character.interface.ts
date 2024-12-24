@@ -1,4 +1,4 @@
-import { Ability } from "./ability.model";
+import { Ability } from "./ability.interface";
 
 export interface Character {
   id: number;
