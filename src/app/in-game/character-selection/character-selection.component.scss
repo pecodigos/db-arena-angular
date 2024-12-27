@@ -57,6 +57,15 @@ mat-button {
   justify-items: center;
 }
 
+.grid-slot {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
 .fighter-skill-container {
   background-color: rgba(253, 250, 216, 0.98);
   z-index: 10;
@@ -83,6 +92,15 @@ mat-button {
   top: 4.25%;
 }
 
+.character-card {
+  position: relative;
+  z-index: 3;
+
+  &.cdk-drag-placeholder {
+    display: none;
+  }
+}
+
 .character-card img {
   width: 80px;
   height: 80px;
@@ -91,6 +109,7 @@ mat-button {
   border-width: 0.15cap;
   transform: scaleX(-1);
   position: relative;
+  z-index: 1;
 }
 
 .navigation-buttons {
@@ -151,6 +170,33 @@ mat-button {
   border: 1px solid black;
   height: 80px;
   width: 80px;
+  background-color: rgb(221, 217, 204);
+  z-index: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(221, 217, 204);
+    z-index: 1;
+  }
+
+  img {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.cdk-drag-preview {
+  z-index: 1000;
 }
 
 .team img {
@@ -331,8 +377,8 @@ mat-button {
   border: 1px solid black;
 }
 
-.character-card.draggning img {
-  visibility: hidden;
+.character-card.dragging {
+  z-index: 4;
 }
 
 @keyframes enterSkillContainer {

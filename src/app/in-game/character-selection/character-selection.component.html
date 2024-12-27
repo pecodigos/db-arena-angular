@@ -75,16 +75,14 @@
 
   <section class="selection">
     <div class="character-container">
-      <!-- Character Grid -->
       <div class="char-player">
         <div class="character-grid">
-          <div class="character-card" cdkDrag *ngFor="let character of characters" (click)="selectCharacter(character)" (cdkDragReleased)="onCharacterReleased($event)" (cdkDragStarted)="onDragStarted($event)">
+          <div class="character-card" *ngFor="let character of visibleCharacters" cdkDrag  [cdkDragData]="character" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)">
             <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
           </div>
         </div>
       </div>
 
-      <!-- Navigation Buttons -->
       <div class="navigation-buttons">
         <a mat-button (click)="previousPage()">
           <img class="left-arrow arrow-img" src="../../../assets/buttons/arrow-right.png">
@@ -119,11 +117,8 @@
       </div>
 
       <div class="team-div">
-        <div class="team" *ngFor="let slot of team; let i = index" cdkDropList>
-          <img *ngIf="slot.imagePath" [src]="slot.imagePath" [appPreventDrag]="false">
-          <div *ngIf="!slot.imagePath">
-            <img src="https://i.imgur.com/9VwrLXz.png">
-          </div>
+        <div class="team" *ngFor="let slot of teamSlots; let i = index">
+          <img [src]="slot.character?.imagePath" [alt]="slot.character?.name" />
         </div>
       </div>
     </div>

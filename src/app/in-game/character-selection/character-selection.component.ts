@@ -44,13 +44,16 @@ export class CharacterSelectionComponent implements OnInit {
 
   viewMode: ViewMode = ViewMode.CHARACTER;
 
+
   currentPage = 0;
   charactersPerPage = 21;
 
-  team = Array.from({ length: 3 }, () => ({
-    id: null as number | null,
-    imagePath: 'https://i.imgur.com/9VwrLXz.png'
+  teamSlots = Array.from({ length: 3 }, (_, index) => ({
+    id: index,
+    character: null as Character | null,
   }));
+
+  teamCharacters = Array.from({ length: 3 }, () => null as Character | null);
 
   costs = [
     { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
@@ -156,36 +159,69 @@ export class CharacterSelectionComponent implements OnInit {
     this.matchFound();
   }
 
-  onDragStarted(event: any) {
-    this.renderer.setStyle(event.source.element.nativeElement, 'transform', 'none');
-    event.source.reset();
+  onDragStarted(event: any, character: Character) {
+    this.renderer.addClass(event.source.element.nativeElement, 'dragging');
   }
 
-  onCharacterReleased(event: any) {
-    const validDrop = this.isDroppedInValidSlot(event);
+  onCharacterReleased(event: any, character: Character) {
+    const element = event.source.element.nativeElement;
+    this.renderer.removeClass(element, 'dragging');
 
-    if (!validDrop) {
-      this.renderer.setStyle(event.source.element.nativeElement, 'transform', 'translate3d(0px, 0px, 0px)');
+    const dropResult = this.findDropZone(event);
+
+    if (dropResult.valid && dropResult.rect) {
+      const dropRect = dropResult.rect;
+      const targetX = dropRect.left;
+      const targetY = dropRect.top;
+
+      this.renderer.setStyle(element, 'position', 'absolute');
+      this.renderer.setStyle(element, 'left', `${targetX}px`);
+      this.renderer.setStyle(element, 'top', `${targetY}px`);
+      this.renderer.setStyle(element, 'margin', '0');
+      this.renderer.setStyle(element, 'transform', 'none');
+
+      this.teamSlots[dropResult.slotIndex].character = character;
+    } else {
+      event.source._dragRef.reset();
+      this.renderer.removeStyle(element, 'position');
+      this.renderer.removeStyle(element, 'left');
+      this.renderer.removeStyle(element, 'top');
+      this.renderer.removeStyle(element, 'margin');
     }
+
   }
 
-  isDroppedInValidSlot(event: any): boolean {
-    const dropZones = document.querySelectorAll('[cdkDropList]');
-    const dragRect = event.source.element.nativeElement.getBoundingClientRect();
+  private findDropZone(event: any): { valid: boolean; slotIndex: number; rect?: DOMRect } {
+    const element = event.source.element.nativeElement;
+    const dragRect = element.getBoundingClientRect();
+    const dropZones = document.querySelectorAll('.team');
 
-    for (const dropZone of Array.from(dropZones)) {
+    const dragCenterX = dragRect.left + dragRect.width / 2;
+    const dragCenterY = dragRect.top + dragRect.height / 2;
+
+    for (let i = 0; i < dropZones.length; i++) {
+      const dropZone = dropZones[i] as HTMLElement;
       const dropRect = dropZone.getBoundingClientRect();
 
+      const rangeBuffer = 20;
+      const expandedRect = {
+        left: dropRect.left - rangeBuffer,
+        right: dropRect.right + rangeBuffer,
+        top: dropRect.top - rangeBuffer,
+        bottom: dropRect.bottom + rangeBuffer
+      };
+
       if (
-        dragRect.left < dropRect.right &&
-        dragRect.right > dropRect.left &&
-        dragRect.top < dropRect.bottom &&
-        dragRect.bottom > dropRect.top
+        dragCenterX >= expandedRect.left &&
+        dragCenterX <= expandedRect.right &&
+        dragCenterY >= expandedRect.top &&
+        dragCenterY <= expandedRect.bottom
       ) {
-        return true;
+        return { valid: true, slotIndex: i, rect: dropRect };
       }
     }
-    return false;
+
+    return { valid: false, slotIndex: -1 };
   }
 
   mapToClasses(ability: any): string[] {
