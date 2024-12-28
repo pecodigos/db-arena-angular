@@ -9,6 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatchResponse } from '../interfaces/match-response.interface';
 import { interval, Subscription } from 'rxjs';
+import { Fighter } from '../interfaces/fighter.model';
 
 @Component({
   selector: 'app-battle',
@@ -27,6 +28,10 @@ export class BattleComponent implements OnInit, OnDestroy {
   profile: any = null;
   opponent: any = null;
   progressValue = 100;
+  match: any = null;
+
+  team: (Fighter | null)[] = Array.from({ length: 3 }, () => null);
+  opponentTeam: (Fighter | null)[] = Array.from({ length: 3 }, () => null );
 
   private timerSubscription: Subscription | null = null;
   private wsSubscription: Subscription | null = null;
@@ -80,9 +85,17 @@ export class BattleComponent implements OnInit, OnDestroy {
     console.log('Setting up match subscription');
     this.matchCallback = (response: MatchResponse) => {
       console.log('Received match data in battle component:', response);
-      if (response && response.opponentData) {
-        this.opponent = response.opponentData;
-        console.log('Opponent profile received:', this.opponent);
+      if (response) {
+        this.match = response.match;
+        const currentUsername = localStorage.getItem('username');
+
+        const isPlayerOne = this.match.playerOne.userProfile.username === currentUsername;
+
+        this.opponent = isPlayerOne ? this.match.playerTwo.userProfile : this.match.playerOne.userProfile;
+
+        this.team = isPlayerOne ? [ ... this.match.playerOne.team ] : [ ... this.match.playerTwo.team ];
+        this.opponentTeam = isPlayerOne ? [ ... this.match.playerTwo.team ] : [ ... this.match.playerOne.team ];
+
         this.cdr.detectChanges();
       } else {
         console.warn('Invalid match data', response);

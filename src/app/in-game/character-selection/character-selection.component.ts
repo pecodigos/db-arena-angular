@@ -15,6 +15,7 @@ import { ViewMode } from '../enums/view-mode.enum';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatchResponse } from '../interfaces/match-response.interface';
+import { Fighter } from '../interfaces/fighter.model';
 
 @Component({
   selector: 'app-character-selection',
@@ -34,8 +35,10 @@ export class CharacterSelectionComponent implements OnInit {
   characters: Character[] = [];
   selectedCharacter: Character | null = null;
   selectedAbility: Ability | null = null;
+  draggedCharacterIndex: number | null = null;
   selectedMode: any = null;
   animateSkillContainer: boolean = false;
+  isOnOriginalPosition: boolean = true;
 
   clickSoundPath: string = 'assets/sounds/click.mp3';
   searchingSoundPath: string = 'assets/sounds/searching.mp3';
@@ -44,16 +47,10 @@ export class CharacterSelectionComponent implements OnInit {
 
   viewMode: ViewMode = ViewMode.CHARACTER;
 
-
   currentPage = 0;
   charactersPerPage = 21;
 
-  teamSlots = Array.from({ length: 3 }, (_, index) => ({
-    id: index,
-    character: null as Character | null,
-  }));
-
-  teamCharacters = Array.from({ length: 3 }, () => null as Character | null);
+  currentTeam: Fighter[] = Array.from({ length: 3 }, () => new Fighter());
 
   costs = [
     { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
@@ -108,7 +105,7 @@ export class CharacterSelectionComponent implements OnInit {
       connected => {
         if (connected && this.viewMode === ViewMode.SEARCHING) {
           console.log('WebSocket reconnected while searching, resuming search...');
-          this.webSocketService.searchForMatch();
+          this.webSocketService.searchForMatch(this.currentTeam);
         }
       }
     );
@@ -126,7 +123,15 @@ export class CharacterSelectionComponent implements OnInit {
       return;
     }
 
-    console.log('Starting search for mode:', selectedMode);
+    const team = this.currentTeam;
+
+    if (team.some(slot => !slot.character)) {
+      console.error('Team is not complete!');
+      return;
+    }
+
+    localStorage.setItem('team', JSON.stringify(team));
+
     this.playSoundService.playLoopSound(this.searchingSoundPath);
     this.selectedMode = selectedMode;
     this.viewMode = ViewMode.SEARCHING;
@@ -135,7 +140,7 @@ export class CharacterSelectionComponent implements OnInit {
       this.webSocketService.connect();
     }
 
-    this.webSocketService.searchForMatch();
+    this.webSocketService.searchForMatch(team);
   }
 
   stopSearching(): void {
@@ -151,7 +156,7 @@ export class CharacterSelectionComponent implements OnInit {
     this.viewMode = ViewMode.CHARACTER;
     setTimeout(() => {
       this.router.navigate(['/battle']);
-    }, 10000);
+    }, 5000);
   }
 
   handleMatchFound(matchDetails: any): void {
@@ -160,7 +165,16 @@ export class CharacterSelectionComponent implements OnInit {
   }
 
   onDragStarted(event: any, character: Character) {
-    this.renderer.addClass(event.source.element.nativeElement, 'dragging');
+    const element = event.source.element.nativeElement;
+    this.renderer.addClass(element, 'dragging');
+    this.renderer.setStyle(element, 'position', 'initial');
+
+    const slotIndex = this.currentTeam.findIndex(slot => slot.character === character);
+    if (slotIndex !== -1) {
+      this.currentTeam[slotIndex].character = null;
+    }
+
+    this.selectedCharacter = character;
   }
 
   onCharacterReleased(event: any, character: Character) {
@@ -180,7 +194,7 @@ export class CharacterSelectionComponent implements OnInit {
       this.renderer.setStyle(element, 'margin', '0');
       this.renderer.setStyle(element, 'transform', 'none');
 
-      this.teamSlots[dropResult.slotIndex].character = character;
+      this.currentTeam[dropResult.slotIndex].character = character;
     } else {
       event.source._dragRef.reset();
       this.renderer.removeStyle(element, 'position');
@@ -188,7 +202,6 @@ export class CharacterSelectionComponent implements OnInit {
       this.renderer.removeStyle(element, 'top');
       this.renderer.removeStyle(element, 'margin');
     }
-
   }
 
   private findDropZone(event: any): { valid: boolean; slotIndex: number; rect?: DOMRect } {
@@ -299,5 +312,13 @@ export class CharacterSelectionComponent implements OnInit {
 
   startQuickGame() {
     window.location.href = "/battle";
+  }
+
+  isCharacterInTeamSlot(character: Character): boolean {
+    return this.currentTeam.some(slot => slot.character?.id === character.id);
+  }
+
+  isCharacterBeingDragged(character: Character): boolean {
+    return character === this.selectedCharacter && this.draggedCharacterIndex !== null;
   }
 }

@@ -3,6 +3,7 @@ import { Client, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
+import { Fighter } from '../in-game/interfaces/fighter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -153,7 +154,7 @@ export class WebsocketService {
     }
   }
 
-  searchForMatch(): void {
+  searchForMatch(team: Fighter[]): void {
     if (!this.stompClient?.connected) {
       console.error('WebSocket is not connected.');
       return;
@@ -162,7 +163,7 @@ export class WebsocketService {
     console.log('Publishing search for match message...');
     this.stompClient.publish({
       destination: '/app/battle/search',
-      body: JSON.stringify({}),
+      body: JSON.stringify(team),
     });
   }
 

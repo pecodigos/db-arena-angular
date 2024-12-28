@@ -117,8 +117,10 @@
       </div>
 
       <div class="team-div">
-        <div class="team" *ngFor="let slot of teamSlots; let i = index">
-          <img [src]="slot.character?.imagePath" [alt]="slot.character?.name" />
+        <div class="team" *ngFor="let slot of currentTeam; let i = index">
+          <ng-container *ngIf="slot.character">
+            <img [src]="slot.character.imagePath" [alt]="slot.character.name" />
+          </ng-container>
         </div>
       </div>
     </div>

@@ -102,6 +102,8 @@
 .left-character, .right-character {
   border: 1px solid black;
   z-index: 10;
+  height: 115px;
+  width: 115px;
 }
 
 .left-character {
@@ -187,6 +189,9 @@
 .tapion {
   height: 14.25rem;
   transform: scaleX(-1);
+  position: fixed;
+  bottom: 0;
+  left: 18%;
 }
 
 .surrender {

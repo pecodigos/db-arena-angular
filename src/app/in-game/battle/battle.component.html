@@ -22,32 +22,14 @@
 
   <section class="core-part">
     <div class="left-side">
-      <div class="character-container">
+      <div class="character-container" *ngFor="let fighter of team">
         <div class="char-data">
-          <img class="left-character" src="../../../assets/characters/115x115/EarlyGoku.png">
+          <img class="left-character" [src]="fighter?.character?.imagePath">
           <div class="health-points green-hp">
-            100/100
+            {{ fighter?.currentHp }}/100
           </div>
         </div>
-        <img class="skill-container" src="../../../assets/etc/skills-container-wait.png">
-      </div>
-      <div class="character-container">
-        <div class="char-data">
-          <img class="left-character" src="../../../assets/characters/115x115/TeenGohan.png">
-          <div class="health-points yellow-hp">
-            60/100
-          </div>
-        </div>
-        <img class="skill-container" src="../../../assets/etc/skills-container-wait.png">
-      </div>
-      <div class="character-container">
-        <div class="char-data">
-          <img class="left-character" src="../../../assets/characters/115x115/Kuririn.png">
-          <div class="health-points red-hp">
-            20/100
-          </div>
-        </div>
-        <img class="skill-container" src="../../../assets/etc/skills-container-wait.png">
+        <img class="skill-container" src="/assets/etc/skills-container-wait.png">
       </div>
     </div>
 
@@ -56,27 +38,11 @@
     </div>
 
     <div class="right-side">
-      <div class="character-container">
+      <div class="character-container" *ngFor="let opponentFighter of opponentTeam">
         <div class="char-data">
-          <img class="right-character" src="../../../assets/characters/115x115/EarlyGoku.png">
+          <img class="right-character" [src]="opponentFighter?.character?.imagePath">
           <div class="health-points green-hp">
-            80/100
-          </div>
-        </div>
-      </div>
-      <div class="character-container">
-        <div class="char-data">
-          <img class="right-character" src="../../../assets/characters/115x115/TeenGohan.png">
-           <div class="health-points red-hp">
-            10/100
-          </div>
-        </div>
-      </div>
-      <div class="character-container">
-        <div class="char-data">
-          <img class="right-character" src="../../../assets/characters/115x115/Kuririn.png">
-          <div class="health-points yellow-hp">
-            30/100
+            {{ opponentFighter?.currentHp }}/100
           </div>
         </div>
       </div>
@@ -94,7 +60,6 @@
     </div>
 
     <div class="skill-profile-container">
-
     </div>
   </section>
 </main>

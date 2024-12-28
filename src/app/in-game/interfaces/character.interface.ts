@@ -6,4 +6,6 @@ export interface Character {
   description: string;
   imagePath: string;
   abilities: Ability[];
+
+  isOnOriginalPosition: boolean;
 }
