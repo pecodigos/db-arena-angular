@@ -53,16 +53,39 @@
       <div class="bottom-left-buttons">
         <a mat-button class="surrender-button" href="/character-selection">SURRENDER</a>
         <a mat-button class="surrender-button">OPEN CHAT</a>
-        <a mat-button class="surrender-button">VOLUME: + / -</a>
+        <a mat-button class="surrender-button">VOLUME</a>
       </div>
 
       <img class="tapion" src="assets/etc/tapion.png">
     </div>
 
-    <div class="skill-profile-container" *ngIf="selectedCharacter || selectedAbility">
+    <div class="skill-profile-container" *ngIf="selectedCharacter || selectedAbility || selectedProfile">
       <div class="fighter-skill-container">
-        <div class="img-row">
-          <img class="selected-character" [src]="selectedCharacter?.imagePath" [alt]="selectedCharacter?.name" (click)="selectCharacter(selectedCharacter!)"/>
+        <div class="profile-container" *ngIf="selectedProfile">
+          <div class="profile">
+            <img class="profile-picture-container" [src]="selectedProfile.profilePicturePath" (click)="selectProfile(selectedProfile)">
+            <div class="profile-info">
+              <p class="profile-username">{{ selectedProfile.username }}</p>
+              <p class="profile-not-username">{{ selectedProfile.rank }}</p>
+              <p class="profile-not-username">CLAN: {{ selectedProfile.clan }}</p>
+              <p class="profile-not-username">LEVEL: {{ selectedProfile.level }}</p>
+              <p class="profile-not-username">RATIO: {{ selectedProfile.wins }} - {{ selectedProfile.loses }} ({{ selectedProfile.currentStreak }})</p>
+            </div>
+          </div>
+          <div class="players-container" *ngIf="selectedProfile === profile">
+            <div *ngFor="let fighter of team">
+              <img class="left-character" [src]="fighter?.character?.imagePath" (click)="selectCharacter(fighter?.character!)">
+            </div>
+          </div>
+          <div class="players-container" *ngIf="selectedProfile === opponent">
+            <div *ngFor="let opponentFighter of opponentTeam">
+              <img class="left-character" [src]="opponentFighter?.character?.imagePath" (click)="selectCharacter(opponentFighter?.character!)">
+            </div>
+          </div>
+        </div>
+
+        <div class="img-row" *ngIf="selectedCharacter">
+          <img class="selected-character" [src]="selectedCharacter.imagePath" [alt]="selectedCharacter.name" (click)="selectCharacter(selectedCharacter)"/>
           <div class="skills">
             <div class="skill" *ngFor="let ability of selectedCharacter?.abilities" (click)="showAbilityDetails(ability)">
               <img [src]="ability.imagePath" [alt]="ability.name">

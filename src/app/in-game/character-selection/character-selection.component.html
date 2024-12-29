@@ -93,10 +93,11 @@
       </div>
     </div>
 
-    <div *ngIf="viewMode === 'searching'" class="searching">
-      <h4>SEARCHING FOR AN OPPONENT...</h4>
+    <div *ngIf="viewMode === 'searching' || viewMode === 'match-found'" class="searching">
+      <h4 *ngIf="viewMode === 'searching'">SEARCHING FOR AN OPPONENT...</h4>
+      <h4 *ngIf="viewMode === 'match-found'">OPPONENT FOUND!</h4>
       <img class="searching-gif" src="https://i.pinimg.com/originals/44/a3/e5/44a3e5c82edd5b7668787d316c9efe39.gif">
-      <a mat-button class="cancel-button" (click)="stopSearching()">CANCEL</a>
+      <a *ngIf="viewMode === 'searching'" mat-button class="cancel-button" (click)="stopSearching()">CANCEL</a>
     </div>
 
     <div class="right-section">

@@ -146,7 +146,7 @@ export class CharacterSelectionComponent implements OnInit {
   matchFound(): void {
     this.playSoundService.playSound(this.soundService.matchFoundSoundPath);
     this.selectedMode = null;
-    this.viewMode = ViewMode.CHARACTER;
+    this.viewMode = ViewMode.MATCH_FOUND;
     setTimeout(() => {
       this.router.navigate(['/battle']);
     }, 2500);
@@ -257,7 +257,7 @@ export class CharacterSelectionComponent implements OnInit {
 
   selectCharacter(character: Character) {
     this.animateSkillContainer = false;
-    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.playSoundService.playSound(this.soundService.openContainerSoundPath);
     this.selectedCharacter = character;
     this.selectedAbility = null;
     this.viewMode = ViewMode.CHARACTER;
@@ -277,6 +277,7 @@ export class CharacterSelectionComponent implements OnInit {
   }
 
   closeContainer() {
+    this.playSoundService.playSound(this.soundService.closeContainerSoundPath);
     this.selectedCharacter = null;
   }
 

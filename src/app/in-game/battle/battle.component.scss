@@ -36,6 +36,13 @@
   z-index: 100;
 }
 
+.profile-picture-container {
+  border: 1px solid black;
+  height: 150px;
+  width: 150px;
+  z-index: 100;
+}
+
 .turn-bar-div {
   display: flex;
   flex-direction: column;
@@ -230,14 +237,40 @@
   transform: scaleX(-1);
 }
 
+.players-container {
+  display: flex;
+  gap: 1rem;
+}
+
 .fighter-skill-container img {
   width: 100px;
   height:100px;
 }
 
+.profile {
+  display: flex;
+  gap: 1rem;
+  margin-right: 10rem;
+}
+
+.profile img {
+  height: 122px;
+  width: 122px;
+}
+
+.profile-not-username {
+  font-size: 0.8rem;
+}
+
+.profile-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
 .img-row {
   display: flex;
-  gap: 14rem;
+  gap: 15.5rem;
   margin-bottom: 0.6rem;
 }
 
@@ -275,7 +308,11 @@
   display: flex;
   align-items: center;
   gap: 0.2rem;
+}
 
+.profile-username {
+  font-size: 1rem;
+  color: red;
 }
 
 .energy {
