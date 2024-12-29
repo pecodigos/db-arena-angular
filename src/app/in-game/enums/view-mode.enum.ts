@@ -1,5 +1,6 @@
 export enum ViewMode {
   CHARACTER = 'character',
   ABILITY = 'ability',
-  SEARCHING = 'searching'
+  SEARCHING = 'searching',
+  PROFILE = 'profile'
 }

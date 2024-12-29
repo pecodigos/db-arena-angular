@@ -1,3 +1,4 @@
+import { CostService } from './../cost/cost.service';
 import { AuthService } from './../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
@@ -13,9 +14,11 @@ import { PlaySoundService } from '../../sounds/play-sound.service';
 import { WebsocketService } from '../../websocket/websocket.service';
 import { ViewMode } from '../enums/view-mode.enum';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { first, Subscription } from 'rxjs';
 import { MatchResponse } from '../interfaces/match-response.interface';
 import { Fighter } from '../interfaces/fighter.model';
+import { SoundService } from '../sounds/sound.service';
+import { ClassesMapper } from '../mapper/classes-mapper.service';
 
 @Component({
   selector: 'app-character-selection',
@@ -40,25 +43,12 @@ export class CharacterSelectionComponent implements OnInit {
   animateSkillContainer: boolean = false;
   isOnOriginalPosition: boolean = true;
 
-  clickSoundPath: string = 'assets/sounds/click.mp3';
-  searchingSoundPath: string = 'assets/sounds/searching.mp3';
-  stopSearchSoundPath: string = 'assets/sounds/close-search.mp3';
-  matchFoundSoundPath: string = 'assets/sounds/foundmatch.mp3';
-
-  viewMode: ViewMode = ViewMode.CHARACTER;
+  viewMode: ViewMode | null = ViewMode.CHARACTER;
 
   currentPage = 0;
   charactersPerPage = 21;
 
   currentTeam: Fighter[] = Array.from({ length: 3 }, () => new Fighter());
-
-  costs = [
-    { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
-    { energyType: "BLOODLINE", imagePath: `assets/etc/red.png` },
-    { energyType: "KI", imagePath: `assets/etc/blue.png` },
-    { energyType: "TECHNIQUE", imagePath: `assets/etc/white.png` },
-    { energyType: "ANY", imagePath: `assets/etc/black.png` },
-  ];
 
   private wsSubscription: Subscription | null = null;
   private matchCallback: ((message: any) => void) | null = null;
@@ -70,7 +60,10 @@ export class CharacterSelectionComponent implements OnInit {
       private authService: AuthService,
       private playSoundService: PlaySoundService,
       private webSocketService: WebsocketService,
-      private router: Router
+      private router: Router,
+      private soundService: SoundService,
+      private classesMapper: ClassesMapper,
+      public costService: CostService,
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +87,7 @@ export class CharacterSelectionComponent implements OnInit {
           ...character,
           abilities: character.abilities.map((ability: Ability) => ({
             ...ability,
-            classes: this.mapToClasses(ability),
+            classes: this.classesMapper.mapToClasses(ability),
           })),
         }));
       },
@@ -132,7 +125,7 @@ export class CharacterSelectionComponent implements OnInit {
 
     localStorage.setItem('team', JSON.stringify(team));
 
-    this.playSoundService.playLoopSound(this.searchingSoundPath);
+    this.playSoundService.playLoopSound(this.soundService.searchingSoundPath);
     this.selectedMode = selectedMode;
     this.viewMode = ViewMode.SEARCHING;
 
@@ -144,19 +137,19 @@ export class CharacterSelectionComponent implements OnInit {
   }
 
   stopSearching(): void {
-    this.playSoundService.playSound(this.stopSearchSoundPath);
+    this.playSoundService.playSound(this.soundService.stopSearchSoundPath);
     this.selectedMode = null;
     this.viewMode = ViewMode.CHARACTER;
     this.webSocketService.disconnect();
   }
 
   matchFound(): void {
-    this.playSoundService.playSound(this.matchFoundSoundPath);
+    this.playSoundService.playSound(this.soundService.matchFoundSoundPath);
     this.selectedMode = null;
     this.viewMode = ViewMode.CHARACTER;
     setTimeout(() => {
       this.router.navigate(['/battle']);
-    }, 5000);
+    }, 2500);
   }
 
   handleMatchFound(matchDetails: any): void {
@@ -237,19 +230,6 @@ export class CharacterSelectionComponent implements OnInit {
     return { valid: false, slotIndex: -1 };
   }
 
-  mapToClasses(ability: any): string[] {
-    return [
-      ability.skillType,
-      ability.distance,
-      ability.persistentType
-    ].filter((value: string) => value && value !== "NONE");
-  }
-
-  getEnergyImage(energyType: string): string {
-    const cost = this.costs.find(c => c.energyType === energyType);
-    return cost ? cost.imagePath : '';
-  }
-
   get visibleCharacters() {
     const startIndex = this.currentPage * this.charactersPerPage;
     const endIndex = startIndex + this.charactersPerPage;
@@ -277,33 +257,27 @@ export class CharacterSelectionComponent implements OnInit {
 
   selectCharacter(character: Character) {
     this.animateSkillContainer = false;
-    setTimeout(() => {
-      this.playSoundService.playSound(this.clickSoundPath);
-      this.selectedCharacter = character;
-      this.selectedAbility = null;
-      this.viewMode = ViewMode.CHARACTER;
-      this.animateSkillContainer = true;
-    }, 10);
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedCharacter = character;
+    this.selectedAbility = null;
+    this.viewMode = ViewMode.CHARACTER;
+    this.animateSkillContainer = true;
   }
 
   showAbilityDetails(ability: Ability) {
-    this.playSoundService.playSound(this.clickSoundPath);
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
     this.selectedAbility = ability;
     this.viewMode = ViewMode.ABILITY;
   }
 
   backToCharacterDetails() {
-    this.playSoundService.playSound(this.clickSoundPath);
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
     this.selectedAbility = null;
     this.viewMode = ViewMode.CHARACTER;
   }
 
   closeContainer() {
     this.selectedCharacter = null;
-  }
-
-  getArray(amount: number): number[] {
-    return amount > 0 ? Array.from({ length: amount }) : [];
   }
 
   onLogout() {
@@ -320,5 +294,50 @@ export class CharacterSelectionComponent implements OnInit {
 
   isCharacterBeingDragged(character: Character): boolean {
     return character === this.selectedCharacter && this.draggedCharacterIndex !== null;
+  }
+
+  addToFirstAvailableSlot(character: Character): void {
+    const existingSlotIndex = this.currentTeam.findIndex(slot => slot.character?.id === character.id);
+
+    if (existingSlotIndex !== -1) {
+      this.currentTeam[existingSlotIndex].character = null;
+
+      const characterElement = document.querySelector(`[data-character-id="${character.id}"]`) as HTMLElement;
+      if (characterElement) {
+        this.renderer.removeStyle(characterElement, 'position');
+        this.renderer.removeStyle(characterElement, 'left');
+        this.renderer.removeStyle(characterElement, 'top');
+        this.renderer.removeStyle(characterElement, 'margin');
+        this.renderer.removeStyle(characterElement, 'transform');
+      }
+
+      this.playSoundService.playSound(this.soundService.clickSoundPath);
+      return;
+    }
+
+    const firstAvailableSlot = this.currentTeam.findIndex(slot => !slot.character);
+
+    if (firstAvailableSlot !== -1) {
+      const dropZones = document.querySelectorAll('.team');
+      const targetDropZone = dropZones[firstAvailableSlot] as HTMLElement;
+
+      if (targetDropZone) {
+        const characterElement = document.querySelector(`[data-character-id="${character.id}"]`) as HTMLElement;
+        if (characterElement) {
+          const dropRect = targetDropZone.getBoundingClientRect();
+
+          this.renderer.setStyle(characterElement, 'position', 'absolute');
+          this.renderer.setStyle(characterElement, 'left', `${dropRect.left}px`);
+          this.renderer.setStyle(characterElement, 'top', `${dropRect.top}px`);
+          this.renderer.setStyle(characterElement, 'margin', '0');
+          this.renderer.setStyle(characterElement, 'transform', 'none');
+
+          this.currentTeam[firstAvailableSlot].character = character;
+          this.selectedCharacter = character;
+
+          this.playSoundService.playSound(this.soundService.clickSoundPath);
+        }
+      }
+    }
   }
 }

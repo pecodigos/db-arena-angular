@@ -6,6 +6,8 @@
   user-select: none;
   align-items: center;
   overflow: hidden;
+  text-transform: uppercase;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .upper-part {
@@ -202,4 +204,143 @@
 .bottom-left-buttons {
   display: flex;
   flex-direction: column;
+}
+
+
+.skill-profile-container {
+  background-color: rgba(253, 250, 216, 0.98);
+  z-index: 10;
+  position: absolute;
+  left: 60%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  width: 850px;
+  height: 250px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 2px solid orange;
+  border-radius: 0.1rem;
+  color: black;
+}
+
+.selected-character {
+  border: 1px solid black;
+  transform: scaleX(-1);
+}
+
+.fighter-skill-container img {
+  width: 100px;
+  height:100px;
+}
+
+.img-row {
+  display: flex;
+  gap: 14rem;
+  margin-bottom: 0.6rem;
+}
+
+.skills {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.skill {
+  height: 102px;
+  width: 102px;
+}
+
+.skill img {
+  border: 1px solid black;
+}
+
+.mid-section {
+  display: flex;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: bold;
+  color: black;
+  font-size: 0.9rem;
+}
+
+.energy-cost {
+  font-size: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+
+}
+
+.energy {
+  font-size: 0.6rem;
+}
+
+.name-description {
+  margin-right: 7.4rem;
+}
+
+.name-energy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.description {
+  text-align: start;
+  font-size: 0.7rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.currentSelected {
+  position: fixed;
+  right: 2.95%;
+}
+
+.energy-cost img {
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+}
+
+.energy-div {
+  display: flex;
+  gap: 0.2rem;
+  position: absolute;
+  right: 20%;
+}
+
+.classes-cooldown {
+  display: flex;
+  font-size: 0.58rem;
+  position: absolute;
+  bottom: 5%;
+  left: 4%;
+}
+
+.classes {
+  display: flex;
+  justify-content: start;
+  gap: 0.2rem;
+  min-width: 32rem;
+}
+
+.classes-sub-div {
+  display: flex;
+}
+
+.cooldown {
+  color: black;
 }

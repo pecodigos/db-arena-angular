@@ -41,7 +41,5 @@ export class PlaySoundService {
       this.audio.currentTime = 0;
       this.audio = null;
     }
-
-
   }
 }

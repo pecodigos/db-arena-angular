@@ -1,3 +1,4 @@
+import { Ability } from './../interfaces/ability.interface';
 import { ProfileService } from './../../profile/profile.service';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +11,12 @@ import { CommonModule } from '@angular/common';
 import { MatchResponse } from '../interfaces/match-response.interface';
 import { interval, Subscription } from 'rxjs';
 import { Fighter } from '../interfaces/fighter.model';
+import { SoundService } from '../sounds/sound.service';
+import { PlaySoundService } from '../../sounds/play-sound.service';
+import { ViewMode } from '../enums/view-mode.enum';
+import { CostService } from '../cost/cost.service';
+import { Character } from '../interfaces/character.interface';
+import { ClassesMapper } from '../mapper/classes-mapper.service';
 
 @Component({
   selector: 'app-battle',
@@ -30,6 +37,12 @@ export class BattleComponent implements OnInit, OnDestroy {
   progressValue = 100;
   match: any = null;
 
+  selectedProfile: any = null;
+  selectedCharacter: Character | null = null;
+  selectedAbility: any = null;
+
+  viewMode: ViewMode | null = null;
+
   team: (Fighter | null)[] = Array.from({ length: 3 }, () => null);
   opponentTeam: (Fighter | null)[] = Array.from({ length: 3 }, () => null );
 
@@ -41,7 +54,11 @@ export class BattleComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private webSocketService: WebsocketService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private soundService: SoundService,
+    private playSoundService: PlaySoundService,
+    private classesMapper: ClassesMapper,
+    public costService: CostService
   ) {}
 
   ngOnInit(): void {
@@ -126,5 +143,41 @@ export class BattleComponent implements OnInit, OnDestroy {
     if (this.matchCallback) {
       this.webSocketService.removeMatchCallback(this.matchCallback);
     }
+  }
+
+  selectCharacter(character: Character) {
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedCharacter = character;
+    this.selectedAbility = null;
+    this.selectedProfile = null;
+    this.viewMode = ViewMode.CHARACTER;
+  }
+
+  showAbilityDetails(ability: Ability) {
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedAbility = {
+      ...ability,
+      classes: this.classesMapper.mapToClasses(ability),
+    };
+    this.viewMode = ViewMode.ABILITY;
+  }
+
+  backToCharacterDetails() {
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedAbility = null;
+    this.viewMode = ViewMode.CHARACTER;
+  }
+
+  selectProfile(profile: any) {
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedProfile = profile;
+    this.selectedCharacter = null;
+    this.selectedAbility = null;
+    this.viewMode = ViewMode.PROFILE;
+  }
+
+  selectOpponentProfile(opponent: any) {
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.selectedProfile = opponent;
   }
 }

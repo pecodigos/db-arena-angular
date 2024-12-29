@@ -26,8 +26,8 @@
                 <div class="energy-div">
                   <p class="energy">ENERGY:</p>
                   <div class="energy-cost" *ngFor="let cost of selectedAbility?.cost">
-                    <ng-container *ngFor="let _ of getArray(cost.amount)">
-                      <img class="cost-image" [src]="getEnergyImage(cost.energyType)" alt="cost image" />
+                    <ng-container *ngFor="let _ of costService.getArray(cost.amount)">
+                      <img class="cost-image" [src]="costService.getEnergyImage(cost.energyType)" alt="cost image" />
                     </ng-container>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
     <div class="character-container">
       <div class="char-player">
         <div class="character-grid">
-          <div class="character-card" *ngFor="let character of visibleCharacters" cdkDrag  [cdkDragData]="character" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)">
+          <div class="character-card" *ngFor="let character of visibleCharacters" cdkDrag  [cdkDragData]="character" [attr.data-character-id]="character.id" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)" (dblclick)="addToFirstAvailableSlot(character)">
             <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
           </div>
         </div>

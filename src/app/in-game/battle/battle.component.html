@@ -1,18 +1,18 @@
 <main class="main-container" appScaleContent>
-  <section class="upper-part" *ngIf="profile">
+  <section class="upper-part">
     <div class="main-player">
       <div class="user-rank">
         <h3 class="username">{{ profile.username.toUpperCase() }}</h3>
         <p class="fighter-rank">{{ profile.rank }}</p>
       </div>
-      <img class="profile-picture" [src]="profile.profilePicturePath">
+      <img class="profile-picture" [src]="profile.profilePicturePath" (click)="selectProfile(profile)">
     </div>
     <div class="turn-bar-div">
       <p class="whos-turn"><b>YOUR OPPONENT TURN...</b></p>
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
     </div>
     <div class="opponent-player">
-      <img class="profile-picture" [src]="opponent?.profilePicturePath">
+      <img class="profile-picture" [src]="opponent?.profilePicturePath" (click)="selectOpponentProfile(opponent)">
       <div>
         <h3 class="username">{{ opponent?.username.toUpperCase() || 'OPPONENT' }}</h3>
         <p class="fighter-rank">{{ opponent?.rank.toUpperCase() || '?' }}</p>
@@ -24,7 +24,7 @@
     <div class="left-side">
       <div class="character-container" *ngFor="let fighter of team">
         <div class="char-data">
-          <img class="left-character" [src]="fighter?.character?.imagePath">
+          <img class="left-character" [src]="fighter?.character?.imagePath" (click)="selectCharacter(fighter?.character!)">
           <div class="health-points green-hp">
             {{ fighter?.currentHp }}/100
           </div>
@@ -40,7 +40,7 @@
     <div class="right-side">
       <div class="character-container" *ngFor="let opponentFighter of opponentTeam">
         <div class="char-data">
-          <img class="right-character" [src]="opponentFighter?.character?.imagePath">
+          <img class="right-character" [src]="opponentFighter?.character?.imagePath" (click)="selectCharacter(opponentFighter?.character!)">
           <div class="health-points green-hp">
             {{ opponentFighter?.currentHp }}/100
           </div>
@@ -59,7 +59,56 @@
       <img class="tapion" src="assets/etc/tapion.png">
     </div>
 
-    <div class="skill-profile-container">
+    <div class="skill-profile-container" *ngIf="selectedCharacter || selectedAbility">
+      <div class="fighter-skill-container">
+        <div class="img-row">
+          <img class="selected-character" [src]="selectedCharacter?.imagePath" [alt]="selectedCharacter?.name" (click)="selectCharacter(selectedCharacter!)"/>
+          <div class="skills">
+            <div class="skill" *ngFor="let ability of selectedCharacter?.abilities" (click)="showAbilityDetails(ability)">
+              <img [src]="ability.imagePath" [alt]="ability.name">
+            </div>
+          </div>
+        </div>
+
+        <section class="mid-section">
+          <div class="name-description">
+            <div class="details" *ngIf="viewMode === 'character'">
+              <p class="name">{{ selectedCharacter?.name }}</p>
+              <p class="description">{{ selectedCharacter?.description }}</p>
+            </div>
+
+            <div class="details" *ngIf="viewMode === 'ability'">
+              <div class="name-energy">
+                <p class="name">{{ selectedAbility?.name }}</p>
+                <div class="energy-div">
+                  <p class="energy">ENERGY:</p>
+                  <div class="energy-cost" *ngFor="let cost of selectedAbility?.cost">
+                    <ng-container *ngFor="let _ of costService.getArray(cost.amount)">
+                      <img class="cost-image" [src]="costService.getEnergyImage(cost.energyType)" alt="cost image" />
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <p class="description">{{ selectedAbility.description }}</p>
+              <div class="classes-cooldown">
+                <div class="classes" *ngIf="selectedAbility.classes">
+                  CLASSES:
+                  <div class="classes-sub-div" *ngFor="let classType of selectedAbility.classes; let last = last">
+                    {{ classType }} <div *ngIf="!last">, </div>
+                  </div>
+                </div>
+                <div class="cooldown">
+                  COOLDOWN: {{ selectedAbility.cooldown }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="currentSelected">
+            <img *ngIf="viewMode === 'ability'" [src]="selectedAbility.imagePath" [alt]="selectedAbility.name" style="border: 1px solid black;">
+            <img *ngIf="viewMode === 'character'" [src]="selectedCharacter?.imagePath" [alt]="selectedCharacter?.name" class="selected-character">
+          </div>
+        </section>
+      </div>
     </div>
   </section>
 </main>
