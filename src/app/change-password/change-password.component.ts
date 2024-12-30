@@ -33,7 +33,7 @@ export class ChangePasswordComponent {
 
   async onChangePassword() {
     if (this.newPassword !== this.confirmPassword) {
-      this.snackBar.open("Your new password and its confirmation doesn't match.", 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });
+      this.snackBar.open("Your new password and its confirmation don't match.", 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });
       return;
     }
 

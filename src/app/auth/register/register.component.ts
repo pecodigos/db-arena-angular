@@ -28,10 +28,16 @@ export class RegisterComponent {
   username: string = '';
   email: string = '';
   password: string = '';
+  confirmPassword: string = '';
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {}
 
   async onRegister() {
+    if (this.password !== this.confirmPassword) {
+      this.snackBar.open("Your password and its confirmation don't match.", 'Close', { duration: 5000, verticalPosition: 'bottom', panelClass: 'custom-snackbar' });
+      return;
+    }
+
     try {
       const response = await firstValueFrom(
         this.authService.register(this.username, this.email, this.password)

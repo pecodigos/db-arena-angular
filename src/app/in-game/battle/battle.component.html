@@ -29,7 +29,10 @@
             {{ fighter?.currentHp }}/100
           </div>
         </div>
-        <img class="skill-container" src="/assets/etc/skills-container-wait.png">
+        <div class="skills-container">
+          <img *ngFor="let skill of fighter?.character?.abilities" class="abilities" [src]="skill.imagePath" (click)="showAbilityDetails(skill)">
+        </div>
+
       </div>
     </div>
 

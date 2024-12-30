@@ -168,7 +168,7 @@
   color: black !important;
   margin-right: 1rem;
   border: 1px solid black;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
 }
 
 .surrender-button:hover {
@@ -196,11 +196,11 @@
 }
 
 .tapion {
-  height: 14.25rem;
+  height: 15rem;
   transform: scaleX(-1);
   position: fixed;
   bottom: 0;
-  left: 18%;
+  left: 17%;
 }
 
 .surrender {
@@ -218,17 +218,17 @@
   background-color: rgba(253, 250, 216, 0.98);
   z-index: 10;
   position: absolute;
-  left: 60%;
+  left: 56%;
   bottom: 2%;
   transform: translateX(-50%);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
   width: 850px;
-  height: 250px;
+  height: 248px;
   overflow: hidden;
   box-sizing: border-box;
-  border: 2px solid orange;
-  border-radius: 0.1rem;
+  border: 2px solid rgb(196, 127, 0);
+  border-radius: 0.15rem;
   color: black;
 }
 
@@ -250,16 +250,16 @@
 .profile {
   display: flex;
   gap: 1rem;
-  margin-right: 10rem;
+  margin-right: 5rem;
 }
 
 .profile img {
-  height: 122px;
-  width: 122px;
+  height: 140px;
+  width: 140px;
 }
 
 .profile-not-username {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .profile-container {
@@ -272,6 +272,25 @@
   display: flex;
   gap: 15.5rem;
   margin-bottom: 0.6rem;
+}
+
+.skills-container {
+  background-color: rgba(253, 250, 216, 0.98);
+  border: 0.4rem solid rgba(255, 219, 151, 0.99);
+  border-radius: 0.1rem;
+  height: 85%;
+  width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  z-index: 2;
+}
+
+.abilities {
+  height: 80px;
+  width: 80px;
+  border: 1px solid black;
+  margin-right: 0.9rem;
 }
 
 .skills {
@@ -311,7 +330,7 @@
 }
 
 .profile-username {
-  font-size: 1rem;
+  font-size: 1.25rem;
   color: red;
 }
 
@@ -381,3 +400,4 @@
 .cooldown {
   color: black;
 }
+

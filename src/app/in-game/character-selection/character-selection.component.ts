@@ -127,6 +127,7 @@ export class CharacterSelectionComponent implements OnInit {
 
     this.playSoundService.playLoopSound(this.soundService.searchingSoundPath);
     this.selectedMode = selectedMode;
+    this.selectedCharacter = null;
     this.viewMode = ViewMode.SEARCHING;
 
     if (!this.webSocketService.isConnected()) {
@@ -271,7 +272,7 @@ export class CharacterSelectionComponent implements OnInit {
   }
 
   backToCharacterDetails() {
-    this.playSoundService.playSound(this.soundService.clickSoundPath);
+    this.playSoundService.playSound(this.soundService.openContainerSoundPath);
     this.selectedAbility = null;
     this.viewMode = ViewMode.CHARACTER;
   }

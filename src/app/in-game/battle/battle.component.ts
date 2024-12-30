@@ -82,7 +82,6 @@ export class BattleComponent implements OnInit, OnDestroy {
   private setupWebSocketConnection(): void {
     this.wsSubscription = this.webSocketService.connectionStatus$.subscribe((connected) => {
       if (connected) {
-        console.log('WebSocket connected, setting up match subscription');
         this.setupMatchSubscription();
 
         this.webSocketService.getMatchDetails();
@@ -90,7 +89,6 @@ export class BattleComponent implements OnInit, OnDestroy {
     });
 
     if (!this.webSocketService.isConnected()) {
-      console.log('WebSocket is not connected, connecting now...');
       this.webSocketService.connect();
     } else {
       this.setupMatchSubscription();
@@ -99,9 +97,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   private setupMatchSubscription(): void {
-    console.log('Setting up match subscription');
     this.matchCallback = (response: MatchResponse) => {
-      console.log('Received match data in battle component:', response);
       if (response) {
         this.match = response.match;
         const currentUsername = localStorage.getItem('username');
@@ -179,5 +175,8 @@ export class BattleComponent implements OnInit, OnDestroy {
   selectOpponentProfile(opponent: any) {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
     this.selectedProfile = opponent;
+    this.selectedCharacter = null;
+    this.selectedAbility = null;
+    this.viewMode = ViewMode.PROFILE;
   }
 }

@@ -79,17 +79,18 @@ mat-button {
   height: 250px;
   overflow: hidden;
   box-sizing: border-box;
-  border: 2px solid orange;
-  border-radius: 0.1rem;
+  border: 2px solid rgb(196, 127, 0);
+  border-radius: 0.15rem;
 }
 
 .close-button {
   background-color: rgba(253, 0, 0, 0.6);
+  border: 0.5px solid rgba(255, 255, 255, 0.65);
   display: flex;
   z-index: 1;
   position: absolute;
-  right: 29.1%;
-  top: 4.25%;
+  right: 29.19%;
+  top: 4.65%;
 }
 
 .character-card {
@@ -353,14 +354,15 @@ mat-button {
    width: 31rem;
    height: 21rem;
    background-color:rgba(253, 250, 216, 0.98);
-   z-index: 1001;
-   border: 0.1rem solid black;
+   z-index: 1002;
+   border: 1px solid black;
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
    gap: 0.5rem;
    border-radius: 0.6rem;
+   padding: 0.1rem;
 }
 
 .cancel-button {
@@ -375,6 +377,7 @@ mat-button {
 .searching-gif {
   width: 24rem;
   border: 1px solid black;
+  margin-bottom: 0.8rem;
 }
 
 .character-card.dragging {
