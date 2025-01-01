@@ -1,4 +1,3 @@
-import { Ability } from './../interfaces/ability.interface';
 import { ProfileService } from './../../profile/profile.service';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +14,9 @@ import { SoundService } from '../sounds/sound.service';
 import { PlaySoundService } from '../../sounds/play-sound.service';
 import { ViewMode } from '../enums/view-mode.enum';
 import { CostService } from '../cost/cost.service';
-import { Character } from '../interfaces/character.interface';
 import { ClassesMapper } from '../mapper/classes-mapper.service';
+import { Skill } from '../interfaces/skill.interface';
+import { TurnAction } from '../interfaces/turn-action.interface';
 
 @Component({
   selector: 'app-battle',
@@ -38,14 +38,16 @@ export class BattleComponent implements OnInit, OnDestroy {
   match: any = null;
 
   selectedProfile: any = null;
-  selectedCharacter: Character | null = null;
-  selectedAbility: any = null;
+  selectedFighter: Fighter | null = null;
+  selectedSkill: Skill | null = null;
 
   viewMode: ViewMode | null = null;
 
-  team: (Fighter | null)[] = Array.from({ length: 3 }, () => null);
-  opponentTeam: (Fighter | null)[] = Array.from({ length: 3 }, () => null );
+  team: Fighter[] = [];
+  opponentTeam: Fighter[] = [];
+  possibleTargets: Fighter[] = [];
 
+  private actions: TurnAction[] = [];
   private timerSubscription: Subscription | null = null;
   private wsSubscription: Subscription | null = null;
   private matchCallback: ((message: any) => void) | null = null;
@@ -70,7 +72,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     const username = localStorage.getItem('username');
     if (username) {
       this.profileService.getPublicProfile(username).subscribe({
-        next: (data) => (this.profile = data),
+        next: (data) => {
+          (this.profile = data),
+          this.cdr.detectChanges();
+        },
         error: (err) => console.error('Failed to fetch profile', err),
       });
     }
@@ -106,8 +111,14 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         this.opponent = isPlayerOne ? this.match.playerTwo.userProfile : this.match.playerOne.userProfile;
 
-        this.team = isPlayerOne ? [ ... this.match.playerOne.team ] : [ ... this.match.playerTwo.team ];
-        this.opponentTeam = isPlayerOne ? [ ... this.match.playerTwo.team ] : [ ... this.match.playerOne.team ];
+        this.team = isPlayerOne
+          ? this.mapFighters(this.match.playerOne.team)
+          : this.mapFighters(this.match.playerTwo.team);
+
+        this.opponentTeam = isPlayerOne
+          ? this.mapFighters(this.match.playerTwo.team)
+          : this.mapFighters(this.match.playerOne.team);
+
 
         this.cdr.detectChanges();
       } else {
@@ -115,6 +126,32 @@ export class BattleComponent implements OnInit, OnDestroy {
       }
     };
     this.webSocketService.onMatch(this.matchCallback);
+  }
+
+  private mapFighters(fighters: any[]): Fighter[] {
+    return fighters.map(fighter => {
+      console.log('Processing fighter:', fighter);
+
+      const mappedSkills = (fighter.skills || []).map((skill: { ability: any; }) => {
+        if (!skill || !skill.ability) {
+          console.warn('Invalid skill or ability:', skill);
+          return skill;
+        }
+        const mappedAbility = this.classesMapper.mapToClasses(skill.ability);
+        console.log('Mapped ability:', mappedAbility);
+        return {
+          ...skill,
+          ability: mappedAbility,
+        };
+      });
+
+      console.log('Mapped skills:', mappedSkills);
+
+      return {
+        ...fighter,
+        skills: mappedSkills,
+      };
+    });
   }
 
   startTimer(): void {
@@ -141,42 +178,60 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCharacter(character: Character) {
+  selectFighter(fighter: Fighter) {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
-    this.selectedCharacter = character;
-    this.selectedAbility = null;
+    this.selectedFighter = fighter;
+    this.selectedSkill = null;
     this.selectedProfile = null;
     this.viewMode = ViewMode.CHARACTER;
+    console.log('Fighter skills:', fighter.skills);
   }
 
-  showAbilityDetails(ability: Ability) {
+  showSkillDetails(skill: Skill) {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
-    this.selectedAbility = {
-      ...ability,
-      classes: this.classesMapper.mapToClasses(ability),
-    };
+    this.selectedSkill = skill;
     this.viewMode = ViewMode.ABILITY;
   }
 
   backToCharacterDetails() {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
-    this.selectedAbility = null;
+    this.selectedSkill = null;
     this.viewMode = ViewMode.CHARACTER;
   }
 
   selectProfile(profile: any) {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
+
     this.selectedProfile = profile;
-    this.selectedCharacter = null;
-    this.selectedAbility = null;
+    this.selectedFighter = null;
+    this.selectedSkill = null;
     this.viewMode = ViewMode.PROFILE;
+  }
+
+  selectTarget(target: Fighter): void {
+    if (!this.selectedSkill || !this.selectedFighter) return;
+
+    const characterIndex = this.team.findIndex(fighter => fighter === this.selectedFighter);
+    const skillIndex = this.selectedFighter.skills.findIndex(skill => skill === this.selectedSkill);
+    const targetIndex = this.possibleTargets.findIndex(fighter => fighter === target);
+
+    if (characterIndex === -1 || skillIndex === -1 || targetIndex === -1) return;
+
+    this.actions.push({
+      characterIndex: characterIndex,
+      skillIndex: skillIndex,
+      targetIndexes: [targetIndex],
+    });
+
+    this.selectedSkill = null;
+    this.possibleTargets = [];
   }
 
   selectOpponentProfile(opponent: any) {
     this.playSoundService.playSound(this.soundService.clickSoundPath);
     this.selectedProfile = opponent;
-    this.selectedCharacter = null;
-    this.selectedAbility = null;
+    this.selectedFighter = null;
+    this.selectedSkill = null;
     this.viewMode = ViewMode.PROFILE;
   }
 }

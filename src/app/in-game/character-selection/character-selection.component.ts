@@ -19,6 +19,7 @@ import { MatchResponse } from '../interfaces/match-response.interface';
 import { Fighter } from '../interfaces/fighter.model';
 import { SoundService } from '../sounds/sound.service';
 import { ClassesMapper } from '../mapper/classes-mapper.service';
+import { BattleQueueType } from '../enums/battle-queue-type.enum';
 
 @Component({
   selector: 'app-character-selection',
@@ -44,6 +45,7 @@ export class CharacterSelectionComponent implements OnInit {
   isOnOriginalPosition: boolean = true;
 
   viewMode: ViewMode | null = ViewMode.CHARACTER;
+  BattleQueueType = BattleQueueType;
 
   currentPage = 0;
   charactersPerPage = 21;
@@ -98,7 +100,7 @@ export class CharacterSelectionComponent implements OnInit {
       connected => {
         if (connected && this.viewMode === ViewMode.SEARCHING) {
           console.log('WebSocket reconnected while searching, resuming search...');
-          this.webSocketService.searchForMatch(this.currentTeam);
+          this.webSocketService.searchForMatch(this.currentTeam, this.selectedMode);
         }
       }
     );
@@ -110,7 +112,7 @@ export class CharacterSelectionComponent implements OnInit {
     this.webSocketService.onMatch(this.matchCallback);
   }
 
-  startSearching(selectedMode: any): void {
+  startSearching(selectedMode: BattleQueueType): void {
     if (!this.authService.hasToken()) {
       this.authService.logout();
       return;
@@ -134,7 +136,7 @@ export class CharacterSelectionComponent implements OnInit {
       this.webSocketService.connect();
     }
 
-    this.webSocketService.searchForMatch(team);
+    this.webSocketService.searchForMatch(team, selectedMode);
   }
 
   stopSearching(): void {

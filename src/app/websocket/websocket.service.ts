@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { AuthService } from '../auth/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, queue } from 'rxjs';
 import { Fighter } from '../in-game/interfaces/fighter.model';
+import { SearchMatchRequest } from '../in-game/interfaces/search-match-request.interface';
+import { BattleQueueType } from '../in-game/enums/battle-queue-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -154,16 +156,20 @@ export class WebsocketService {
     }
   }
 
-  searchForMatch(team: Fighter[]): void {
+  searchForMatch(team: Fighter[], battleQueueType: BattleQueueType): void {
     if (!this.stompClient?.connected) {
       console.error('WebSocket is not connected.');
       return;
     }
 
-    console.log('Publishing search for match message...');
+    const searchRequest: SearchMatchRequest = {
+      team: team,
+      battleQueueType: battleQueueType.toUpperCase() as BattleQueueType,
+    }
+
     this.stompClient.publish({
       destination: '/app/battle/search',
-      body: JSON.stringify(team),
+      body: JSON.stringify(searchRequest),
     });
   }
 

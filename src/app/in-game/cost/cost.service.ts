@@ -4,9 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CostService {
-
-  constructor() { }
-
   costs = [
     { energyType: "COMBAT", imagePath: `assets/etc/green.png` },
     { energyType: "BLOODLINE", imagePath: `assets/etc/red.png` },

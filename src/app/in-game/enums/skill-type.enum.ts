@@ -1,0 +1,6 @@
+export enum SkillType {
+  PHYSICAL = 'PHYSICAL',
+  ENERGY = 'ENERGY',
+  AFFLICTION = 'AFFLICTION',
+  MENTAL = 'MENTAL',
+}

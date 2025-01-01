@@ -1,5 +1,5 @@
 import { Character } from "./character.interface";
-import { Skill } from "./skill.model";
+import { Skill } from "./skill.interface";
 
 export class Fighter {
   static readonly MAX_HP = 100;

@@ -61,15 +61,15 @@
     </div>
 
     <div class="button-sub-div">
-      <img src="assets/buttons/ladder-button.png" class="each-button" (click)="startSearching('searching')">
+      <img src="assets/buttons/ladder-button.png" class="each-button" (click)="startSearching(BattleQueueType.LADDER)">
     </div>
 
     <div class="button-sub-div">
-      <img src="assets/buttons/quick-button.png" class="each-button" (click)="startQuickGame()">
+      <img src="assets/buttons/quick-button.png" class="each-button" (click)="startSearching(BattleQueueType.QUICK)">
     </div>
 
     <div class="button-sub-div">
-      <img src="assets/buttons/private-button.png" class="each-button" (click)="startQuickGame()">
+      <img src="assets/buttons/private-button.png" class="each-button" (click)="startSearching(BattleQueueType.PRIVATE)">
     </div>
   </section>
 

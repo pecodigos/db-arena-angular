@@ -401,3 +401,41 @@
   color: black;
 }
 
+
+
+.skill-icon {
+  &.disabled {
+    filter: grayscale(100%) opacity(0.5);
+    cursor: not-allowed;
+  }
+
+  &.cooldown {
+    filter: saturate(0.3) brightness(0.7);
+    cursor: not-allowed;
+  }
+
+  &.no-energy {
+    filter: hue-rotate(180deg) saturate(0.5);
+    cursor: not-allowed;
+  }
+
+  &.stunned {
+    filter: blur(1px) brightness(0.6);
+    cursor: not-allowed;
+  }
+}
+
+.skill-wrapper {
+  position: relative;
+
+  .cooldown-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    font-weight: bold;
+  }
+}
+
