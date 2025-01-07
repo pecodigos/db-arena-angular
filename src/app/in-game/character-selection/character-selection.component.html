@@ -77,9 +77,16 @@
     <div class="character-container">
       <div class="char-player">
         <div class="character-grid">
-          <div class="character-card" *ngFor="let character of visibleCharacters" cdkDrag  [cdkDragData]="character" [attr.data-character-id]="character.id" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)" (dblclick)="addToFirstAvailableSlot(character)">
-            <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
-          </div>
+          <ng-container *ngFor="let row of characterGrid; let rowIndex = index">
+            <div class="grid-row">
+              <ng-container *ngFor="let character of row; let colIndex = index">
+                <div class="character-card" *ngIf="character" cdkDrag  [cdkDragData]="character" [attr.data-character-id]="character.id" [attr.data-grid-position]="rowIndex" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)" (dblclick)="addToFirstAvailableSlot(character)">
+                  <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+
         </div>
       </div>
 

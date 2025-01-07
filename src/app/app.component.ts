@@ -6,12 +6,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 import { MatIconModule } from '@angular/material/icon';
 import { PreventDragDirective } from './prevent-drag/prevent-drag.directive';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
@@ -28,14 +29,15 @@ import { MatDividerModule } from '@angular/material/divider';
     ThemeToggleComponent,
     MatIconModule,
     PreventDragDirective,
-    MatDividerModule
+    MatDividerModule,
+    MatCardModule
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   darkMode = true;
-  isDrawerOpened: boolean = true;
+  isDrawerOpened: boolean = false;
   isLoggedIn: boolean = false;
   username: string | null = null;
 

@@ -49,21 +49,21 @@ $dark-theme: mat.define-dark-theme((
 
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --card-color: whitesmoke;
+  --card-color: white;
   --primary-bg: rgb(255, 251, 216);
   --secondary-color: black;
   --toolbar-bg: orange;
   --border-color: rgba(0, 0, 0, 0.2);
-  --drawer-color: whitesmoke;
-  --drawer-content-color: rgb(64, 151, 250);
-  --side-button-color: orange;
+  --drawer-color: orange; // rgb(64, 151, 250)
+  --drawer-content-color: whitesmoke;
+  --side-button-color: rgb(64, 151, 250);
   --submit-button-color: orange;
   --form-card-color: whitesmoke;
-  --red: rgb(204, 1, 1);
+  --red: rgb(182, 0, 0);
   --a-hover-bg: rgb(14, 17, 53);
   --a-hover-color: white;
 }
-html, body { height: 100%; }
+html, body { height: 100%; text-size-adjust: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 * {
   margin: 0;

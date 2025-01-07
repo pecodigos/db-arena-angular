@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+
 .main-container {
   background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/79fe02f0-39f6-415c-8f29-9b056e47aae2/dhvzc30-d3d63ac3-0860-4707-88c9-ca73c3a04b3a.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzc5ZmUwMmYwLTM5ZjYtNDE1Yy04ZjI5LTliMDU2ZTQ3YWFlMlwvZGh2emMzMC1kM2Q2M2FjMy0wODYwLTQ3MDctODhjOS1jYTczYzNhMDRiM2EucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.-8kxxERRTOR3ibm7HbOs5rJGfkxz6Jg2u6BPZjbUZ9A);
   height: 100vh;
@@ -7,7 +9,10 @@
   flex-direction: column;
   user-select: none;
   text-transform: uppercase;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'franklin', monospace;
+  line-height: 1rem;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
 }
 
 mat-button {
@@ -24,6 +29,7 @@ mat-button {
   min-width: 64.4rem;
   margin-bottom: 6.5rem;
   box-shadow: 1px 1px 4px 1px;
+  font-weight: 600;
 }
 
 .nav-button {
@@ -51,10 +57,15 @@ mat-button {
 }
 
 .character-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
-  justify-items: center;
+  width: fit-content;
+}
+
+.grid-row {
+  display: flex;
+  gap: 0.5rem
 }
 
 .grid-slot {
@@ -94,23 +105,28 @@ mat-button {
 }
 
 .character-card {
+  width: 80px;
+  height: 80px;
   position: relative;
   z-index: 3;
+
+  &.empty {
+    background-color: rgba(221, 2217, 204, 0.5);
+    border: 1px solid black;
+  }
 
   &.cdk-drag-placeholder {
     display: none;
   }
-}
 
-.character-card img {
-  width: 80px;
-  height: 80px;
-  border-radius: 0.1rem;
-  border-style: solid;
-  border-width: 0.15cap;
-  transform: scaleX(-1);
-  position: relative;
-  z-index: 1;
+  img {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    transform: scaleX(-1);
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .navigation-buttons {
@@ -139,15 +155,12 @@ mat-button {
 }
 
 .profile-div img {
-  border-style: solid;
-  border-radius: 0.1rem;
-  border-color: black;
-  border-width: 0.15cap;
+  border: 1px solid black;
   height: 100px;
 }
 
 .profile-info {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .button-sub-div {
@@ -260,7 +273,7 @@ mat-button {
 
 .name {
   font-weight: bold;
-  color: black;
+  color: var(--red);
   font-size: 0.9rem;
 }
 
@@ -328,7 +341,7 @@ mat-button {
   display: flex;
   justify-content: start;
   gap: 0.2rem;
-  min-width: 32rem;
+  min-width: 34rem;
 }
 
 .classes-sub-div {

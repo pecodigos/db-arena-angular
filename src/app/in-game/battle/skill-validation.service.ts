@@ -30,11 +30,10 @@ export class SkillValidationService {
       return { canUse: false, reason: 'COOLDOWN' };
     }
 
-    if (skill.effectType === 'INVULNERABLE' && fighter.isUnableToBecomeInvulnerable) {
+    if (skill.ability.effectType === 'INVULNERABLE' && fighter.isUnableToBecomeInvulnerable) {
       return { canUse: false, reason: 'UNABLE_TO_BECOME_INVULNERABLE' };
     }
 
-    // Enhanced energy validation with detailed feedback
     const missingEnergy: { type: EnergyType; required: number; available: number }[] = [];
 
     for (const cost of skill.ability.cost) {
@@ -61,7 +60,6 @@ export class SkillValidationService {
     return { canUse: true };
   }
 
-  // Helper method to display energy requirements
   getEnergyRequirementDisplay(skill: Skill): string[] {
     return skill.ability.cost.map(cost => {
       const imagePath = this.costService.getEnergyImage(cost.energyType);
@@ -69,18 +67,15 @@ export class SkillValidationService {
     });
   }
 
-  // Helper to check if a specific energy type is available
   hasEnoughEnergy(player: Player, energyType: EnergyType, amount: number): boolean {
     const available = player.energyPool[energyType] || 0;
     return available >= amount;
   }
 
-  // Helper to calculate total available energy
   getTotalEnergy(player: Player): number {
     return Object.values(player.energyPool).reduce((sum, current) => sum + (current || 0), 0);
   }
 
-  // Helper to find the player that owns a specific fighter
   findOwningPlayer(fighter: Fighter, players: Player[]): Player | null {
     return players.find(player =>
       player.team.some(teamFighter => teamFighter === fighter)

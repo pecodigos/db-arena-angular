@@ -9,14 +9,28 @@
 
 .main-container {
   height: 100%;
+  background-color: var(--drawer-content-color);
+}
+
+main {
+  height: 100%;
+  background-color: var(--drawer-content-color);
+}
+
+mat-card {
+  padding: 0;
+  background-color: transparent;
+}
+
+.toolbar-card {
+  background-color: var(--drawer-content-color);
+  box-shadow: none;
 }
 
 mat-toolbar {
   display: flex;
   justify-content: space-around;
-  border: 1px;
-  border-color: var(--border-color);
-  border-style: solid;
+  border: 1px solid var(--border-color);
   background-color: var(--toolbar-bg);
 }
 
@@ -88,13 +102,24 @@ mat-divider {
 
 .mat-drawer {
   width: 14%;
+  height: 61%;
   padding: 1%;
   background-color: var(--drawer-color);
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-left: 1.2rem;
+  transform: translateY(-100%);
+  will-change: transform;
+  box-shadow: none;
 }
 
 .drawer-content {
   padding: 1%;
-  background-color: var(--drawer-content-color);
+  background-color: var(--drawer-content-color)
+}
+
+.mat-drawer.opened {
+  transform: translateY(0);
 }
 
 .side-buttons {

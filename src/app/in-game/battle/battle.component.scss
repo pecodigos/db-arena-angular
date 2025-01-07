@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+
 .main-container {
   background-image: url("/assets/etc/battle-bg.png");
   color: white;
@@ -7,7 +9,9 @@
   align-items: center;
   overflow: hidden;
   text-transform: uppercase;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'franklin', monospace;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
 }
 
 .upper-part {
@@ -184,7 +188,7 @@
 }
 
 .red-hp {
-  background-color: rgb(211, 0, 0);
+  background-color: var(--red);
 }
 
 .whos-turn {
@@ -215,7 +219,7 @@
 
 
 .skill-profile-container {
-  background-color: rgba(253, 250, 216, 0.98);
+  background-color: rgba(253, 250, 216, 0.99);
   z-index: 10;
   position: absolute;
   left: 56%;
@@ -224,12 +228,18 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
   width: 850px;
-  height: 248px;
+  height: 175px;
   overflow: hidden;
   box-sizing: border-box;
   border: 2px solid rgb(196, 127, 0);
   border-radius: 0.15rem;
   color: black;
+  font-weight: 400;
+
+  img {
+    height: 100px;
+    width: 100px;
+  }
 }
 
 .selected-character {
@@ -242,11 +252,6 @@
   gap: 1rem;
 }
 
-.fighter-skill-container img {
-  width: 100px;
-  height:100px;
-}
-
 .profile {
   display: flex;
   gap: 1rem;
@@ -254,18 +259,23 @@
 }
 
 .profile img {
-  height: 140px;
-  width: 140px;
+  height: 120px;
+  width: 120px;
+}
+
+.profile-username {
+  font-size: 1.05rem;
+  color: var(--red);
 }
 
 .profile-not-username {
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 .profile-container {
   display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .img-row {
@@ -318,7 +328,7 @@
 
 .name {
   font-weight: bold;
-  color: black;
+  color: var(--red);
   font-size: 0.9rem;
 }
 
@@ -329,13 +339,9 @@
   gap: 0.2rem;
 }
 
-.profile-username {
-  font-size: 1.25rem;
-  color: red;
-}
-
 .energy {
   font-size: 0.6rem;
+  margin-left: 2rem;
 }
 
 .name-description {
@@ -375,7 +381,7 @@
   display: flex;
   gap: 0.2rem;
   position: absolute;
-  right: 20%;
+  right: 10.1%;
 }
 
 .classes-cooldown {
@@ -390,7 +396,7 @@
   display: flex;
   justify-content: start;
   gap: 0.2rem;
-  min-width: 32rem;
+  min-width: 42rem;
 }
 
 .classes-sub-div {

@@ -164,7 +164,7 @@ export class WebsocketService {
 
     const searchRequest: SearchMatchRequest = {
       team: team,
-      battleQueueType: battleQueueType.toUpperCase() as BattleQueueType,
+      battleQueueType: battleQueueType,
     }
 
     this.stompClient.publish({

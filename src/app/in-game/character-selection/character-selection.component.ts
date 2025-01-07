@@ -55,6 +55,13 @@ export class CharacterSelectionComponent implements OnInit {
   private wsSubscription: Subscription | null = null;
   private matchCallback: ((message: any) => void) | null = null;
 
+  readonly GRID_ROWS = 3;
+  readonly GRID_COLS = 7;
+  readonly TOTAL_SLOTS = this.GRID_ROWS * this.GRID_COLS;
+
+  characterGrid: (Character | null)[][] = Array(this.GRID_ROWS).fill(null)
+  .map(() => Array(this.GRID_COLS).fill(null));
+
   constructor(
       private renderer: Renderer2,
       private profileService: ProfileService,
@@ -92,6 +99,8 @@ export class CharacterSelectionComponent implements OnInit {
             classes: this.classesMapper.mapToClasses(ability),
           })),
         }));
+
+        this.populateGrid(this.characters);
       },
       error: (err) => console.error('Failed to fetch characters', err),
     });
@@ -110,6 +119,19 @@ export class CharacterSelectionComponent implements OnInit {
     };
 
     this.webSocketService.onMatch(this.matchCallback);
+  }
+
+  private populateGrid(characters: Character[]): void {
+    this.characterGrid = Array(this.GRID_ROWS).fill(null)
+    .map(() => Array(this.GRID_COLS).fill(null));
+
+    characters.forEach((character, index) => {
+      if (index < this.TOTAL_SLOTS) {
+        const row = Math.floor(index / this.GRID_COLS);
+        const col = index % this.GRID_COLS;
+        this.characterGrid[row][col] = character;
+      }
+    });
   }
 
   startSearching(selectedMode: BattleQueueType): void {
@@ -233,10 +255,11 @@ export class CharacterSelectionComponent implements OnInit {
     return { valid: false, slotIndex: -1 };
   }
 
-  get visibleCharacters() {
+  get visibleCharacters(): Character[] {
+    const flatGrid = this.characterGrid.flat().filter(char => char !== null) as Character[];
     const startIndex = this.currentPage * this.charactersPerPage;
     const endIndex = startIndex + this.charactersPerPage;
-    return this.characters.slice(startIndex, endIndex);
+    return flatGrid.slice(startIndex, endIndex);
   }
 
   nextPage() {
@@ -274,7 +297,7 @@ export class CharacterSelectionComponent implements OnInit {
   }
 
   backToCharacterDetails() {
-    this.playSoundService.playSound(this.soundService.openContainerSoundPath);
+    this.playSoundService.playSound(this.soundService.clickSoundPath);
     this.selectedAbility = null;
     this.viewMode = ViewMode.CHARACTER;
   }
@@ -315,7 +338,6 @@ export class CharacterSelectionComponent implements OnInit {
         this.renderer.removeStyle(characterElement, 'transform');
       }
 
-      this.playSoundService.playSound(this.soundService.clickSoundPath);
       return;
     }
 
@@ -338,8 +360,6 @@ export class CharacterSelectionComponent implements OnInit {
 
           this.currentTeam[firstAvailableSlot].character = character;
           this.selectedCharacter = character;
-
-          this.playSoundService.playSound(this.soundService.clickSoundPath);
         }
       }
     }

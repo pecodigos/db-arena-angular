@@ -1,5 +1,5 @@
 export enum BattleQueueType {
-    LADDER = 'ladder',
-    QUICK = 'quick',
-    PRIVATE = 'private'
+    LADDER = 'LADDER',
+    QUICK = 'QUICK',
+    PRIVATE = 'PRIVATE'
 }

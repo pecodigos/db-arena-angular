@@ -7,5 +7,5 @@ export interface Player {
   };
   energyPool: EnergyPool;
   team: Fighter[];
-  isFirstTurn: boolean;
+  isCurrentTurn: boolean;
 }
