@@ -109,7 +109,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         this.opponent = isPlayerOne ? this.match.playerTwo.userProfile : this.match.playerOne.userProfile;
 
-        this.isMyTurn = isPlayerOne ? this.match.playerOne.isCurrentTurn : this.match.playerTwo.isCurrentTurn;
+        this.isMyTurn = isPlayerOne ? this.match.playerOne.currentTurn : this.match.playerTwo.currentTurn;
 
         this.team = isPlayerOne ? [ ... this.match.playerOne.team ] : [ ... this.match.playerTwo.team ];
         this.opponentTeam = isPlayerOne ? [ ... this.match.playerTwo.team ] : [ ... this.match.playerOne.team ];

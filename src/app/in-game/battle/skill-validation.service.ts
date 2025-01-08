@@ -11,6 +11,8 @@ import { CostService } from '../cost/cost.service';
   providedIn: 'root'
 })
 export class SkillValidationService {
+
+
   constructor(private costService: CostService) {}
 
   canUseSkill(skill: Skill, fighter: Fighter, player: Player): {

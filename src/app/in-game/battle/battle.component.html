@@ -8,8 +8,8 @@
       <img class="profile-picture" [src]="profile.profilePicturePath" (click)="selectProfile(profile)">
     </div>
     <div class="turn-bar-div">
-      <a class="whos-turn" *ngIf="!isMyTurn" ><b>YOUR OPPONENT TURN...</b></a>
-      <a class="whos-turn" *ngIf="isMyTurn"><b>PRESS WHEN READY</b></a>
+      <a class="whos-turn" *ngIf="!isMyTurn"><b>YOUR OPPONENT TURN...</b></a>
+      <a class="whos-turn" *ngIf="isMyTurn" onClick="turnService.endTurn()"><b>PRESS WHEN READY</b></a>
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
     </div>
     <div class="opponent-player">
@@ -30,10 +30,16 @@
             {{ fighter?.currentHp }}/100
           </div>
         </div>
-        <div class="skills-container">
-          <img *ngFor="let skill of fighter?.character?.abilities" class="abilities" [src]="skill.imagePath" (click)="showAbilityDetails(skill)">
+        <div class="skills-container-notMyTurn" *ngIf="!isMyTurn">
+          <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
+            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill)">
+          </div>
         </div>
-
+        <div class="skills-container-myTurn" *ngIf="isMyTurn">
+          <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
+            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill)">
+          </div>
+        </div>
       </div>
     </div>
 

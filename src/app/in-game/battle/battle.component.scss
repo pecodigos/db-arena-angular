@@ -51,7 +51,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 30%;
   gap: 0.5rem;
 }
 
@@ -133,6 +133,7 @@
 .character-container {
   display: flex;
   gap: 0.6rem;
+  position: relative;
 }
 
 .char-data {
@@ -223,7 +224,7 @@
   z-index: 10;
   position: absolute;
   left: 56%;
-  bottom: 2%;
+  bottom: 6%;
   transform: translateX(-50%);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
@@ -284,11 +285,12 @@
   margin-bottom: 0.6rem;
 }
 
-.skills-container {
+.skills-container-notMyTurn {
+  position: absolute;
   background-color: rgba(253, 250, 216, 0.98);
-  border: 0.4rem solid rgba(255, 219, 151, 0.99);
+  border: 0.5rem solid rgba(250, 209, 134, 0.99);
   border-radius: 0.1rem;
-  height: 85%;
+  height: 72%;
   width: 440px;
   display: flex;
   align-items: center;
@@ -296,11 +298,39 @@
   z-index: 2;
 }
 
+.skills-container-myTurn {
+  background-color: rgba(253, 250, 216, 0.98);
+  border: 0.5rem solid rgba(250, 209, 134, 0.99);
+  border-radius: 0.1rem;
+  height: 72%;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  z-index: 2;
+}
+
+.skill-slot {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-right: 0.9rem;
+  border: 1px solid black;
+}
+
 .abilities {
   height: 80px;
   width: 80px;
-  border: 1px solid black;
   margin-right: 0.9rem;
+}
+
+.skill-slot .abilities {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  background-color: rgb(221, 217, 204);
 }
 
 .skills {
@@ -443,5 +473,13 @@
     text-shadow: 1px 1px 2px black;
     font-weight: bold;
   }
+}
+
+.opacity-filter {
+  filter: opacity(0.4);
+}
+
+.grayscale-filter {
+  filter: grayscale(100%);
 }
 
