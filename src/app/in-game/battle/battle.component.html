@@ -2,10 +2,10 @@
   <section class="upper-part">
     <div class="main-player">
       <div class="user-rank">
-        <h3 class="username">{{ profile.username.toUpperCase() }}</h3>
-        <p class="fighter-rank">{{ profile.rank }}</p>
+        <h3 class="username">{{ profile?.username?.toUpperCase() }}</h3>
+        <p class="fighter-rank">{{ profile?.rank }}</p>
       </div>
-      <img class="profile-picture" [src]="profile.profilePicturePath" (click)="selectProfile(profile)">
+      <img class="profile-picture" [src]="profile?.profilePicturePath" (click)="selectProfile(profile)">
     </div>
     <div class="turn-bar-div">
       <a class="whos-turn" *ngIf="!isMyTurn"><b>YOUR OPPONENT TURN...</b></a>
@@ -16,7 +16,7 @@
       <img class="profile-picture" [src]="opponent?.profilePicturePath" (click)="selectOpponentProfile(opponent)">
       <div>
         <h3 class="username">{{ opponent?.username.toUpperCase() || 'OPPONENT' }}</h3>
-        <p class="fighter-rank">{{ opponent?.rank.toUpperCase() || '?' }}</p>
+        <p class="fighter-rank">{{ opponent?.rank || '?' }}</p>
       </div>
     </div>
   </section>
@@ -36,6 +36,9 @@
           </div>
         </div>
         <div class="skills-container-myTurn" *ngIf="isMyTurn">
+          <div class="chosen-ability-slot">
+            <img src="https://i.imgur.com/mqjjn35.png" class="chosen-ability">
+          </div>
           <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
             <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill)">
           </div>
