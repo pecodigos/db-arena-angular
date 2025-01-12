@@ -2,7 +2,7 @@
 
 .main-container {
   background-image: url("/assets/etc/battle-bg.png");
-  color: white;
+  color: black;
   height: 93.25vh;
   padding: 2rem 10rem;
   user-select: none;
@@ -23,7 +23,7 @@
   max-height: 120px;
   justify-content: center;
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   z-index: 10;
 }
 
@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 25%;
   gap: 0.5rem;
 }
 
@@ -374,6 +374,53 @@
 
 .skill img {
   border: 1px solid black;
+}
+
+#exchange-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  height: 25rem;
+  width: 35rem;
+  z-index: 1010;
+  background-color: rgb(253, 250, 216);
+  border: 0.5rem solid rgba(250, 209, 134, 0.99);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.99);
+}
+
+.close-button {
+  position: relative;
+  top: 0.2rem;
+  left: 19rem;
+  width: 4rem;
+  height: 1.5rem;
+  color: var(--secondary-color);
+  border: 1px solid black;
+  z-index: 1011;
+}
+
+.energy-image {
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid black;
+}
+
+.energy-pool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.energy-pool-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.x {
+  display: flex;
+  font-size: 0.9rem;
 }
 
 .mid-section {

@@ -20,4 +20,9 @@ export class CostService {
     const cost = this.costs.find(c => c.energyType === energyType);
     return cost ? cost.imagePath : '';
   }
+
+  getEnergyImageWithoutAny(energyType:string): string {
+    const cost = this.costs.find(c => c.energyType === energyType && c.energyType !== 'ANY');
+    return cost ? cost.imagePath : '';
+  }
 }

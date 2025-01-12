@@ -5,9 +5,9 @@ import { Player } from '../interfaces/player.interface';
   providedIn: 'root'
 })
 export class TurnService {
-
   playerOne: Player | null = null;
   playerTwo: Player | null = null;
+
 
   constructor() { }
 

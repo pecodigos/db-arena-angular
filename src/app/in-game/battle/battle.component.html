@@ -9,8 +9,20 @@
     </div>
     <div class="turn-bar-div">
       <a class="whos-turn" *ngIf="!isMyTurn"><b>YOUR OPPONENT TURN...</b></a>
-      <a class="whos-turn" *ngIf="isMyTurn" onClick="turnService.endTurn()"><b>PRESS WHEN READY</b></a>
+      <div *ngIf="isMyTurn">
+      <a class="whos-turn"  (click)="openExchangeEnergy()"><b>PRESS WHEN READY</b></a>
+      </div>
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
+
+      <div *ngIf="isMyTurn" class="energy-pool-container">
+        <div *ngFor="let cost of costService.costs">
+          <div class="energy-pool" *ngIf="cost.energyType !== 'ANY'">
+            <img class="energy-image" [src]="costService.getEnergyImageWithoutAny(cost.energyType)"/>
+            <p class="x">x</p>
+            <p class="energy-amount">{{ match.currentPlayer.energyPool[cost.energyType] }}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="opponent-player">
       <img class="profile-picture" [src]="opponent?.profilePicturePath" (click)="selectOpponentProfile(opponent)">
@@ -48,6 +60,15 @@
 
     <div id="pot">
       <img class="mid-render" src="assets/etc/goku-ssj.png">
+    </div>
+
+    <div class="container-button" *ngIf="exchangeEnergy">
+      <p class="close-button" (click)="closeExchangeEnergy()">
+          X
+      </p>
+      <div id="exchange-container">
+        <p class="exchange-title">EXCHANGE YOUR ENERGY</p>
+      </div>
     </div>
 
     <div class="right-side">

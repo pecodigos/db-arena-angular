@@ -44,6 +44,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   viewMode: ViewMode | null = null;
   isMyTurn = false;
+  exchangeEnergy = false;
 
   team: (Fighter | null)[] = Array.from({ length: 3 }, () => null);
   opponentTeam: (Fighter | null)[] = Array.from({ length: 3 }, () => null );
@@ -185,5 +186,13 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.selectedCharacter = null;
     this.selectedAbility = null;
     this.viewMode = ViewMode.PROFILE;
+  }
+
+  openExchangeEnergy(): void {
+    this.exchangeEnergy = true;
+  }
+
+  closeExchangeEnergy(): void {
+    this.exchangeEnergy = false;
   }
 }
