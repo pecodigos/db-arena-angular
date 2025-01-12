@@ -1,4 +1,4 @@
-import { EnergyPool } from "./energy-pool.interface";
+import { EnergyPool } from "./energy-pool.type";
 import { Fighter } from "./fighter.model";
 
 export interface Player {

@@ -18,6 +18,8 @@ import { CostService } from '../cost/cost.service';
 import { Character } from '../interfaces/character.interface';
 import { ClassesMapper } from '../mapper/classes-mapper.service';
 import { TurnService } from './turn.service';
+import { Skill } from '../interfaces/skill.interface';
+import { EnergyPool } from '../interfaces/energy-pool.type';
 
 @Component({
   selector: 'app-battle',
@@ -194,5 +196,48 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   closeExchangeEnergy(): void {
     this.exchangeEnergy = false;
+  }
+
+  public canUseSkill(ability: Ability): boolean {
+    if (!this.isMyTurn) { return false; }
+    return this.hasEnoughEnergy(ability);
+  }
+
+  private hasEnoughEnergy(ability: Ability): boolean {
+    if (!ability || !ability.cost) { return false; }
+
+    if (ability.cost.every(cost => cost.energyType === 'NONE')) {
+      return true;
+    }
+
+    const energyPool = this.match?.currentPlayer.energyPool || {} as EnergyPool;
+    const specificCosts: Record<string, number> = {};
+    let anyRequired = 0;
+
+    for (const cost of ability.cost) {
+      if (cost.energyType === 'NONE') {
+        continue;
+      } else if (cost.energyType === 'ANY') {
+        anyRequired += cost.amount;
+      } else {
+        specificCosts[cost.energyType] = (specificCosts[cost.energyType] || 0) + cost.amount;
+      }
+    }
+
+    for (const [energyType, needed] of Object.entries(specificCosts)) {
+      const available = energyPool[energyType] || 0;
+      if (available < needed) {
+        return false;
+      }
+    }
+
+    let totalLeftover = 0;
+    for (const [energyType, value] of Object.entries(energyPool)) {
+      const available = value as number
+      const used = specificCosts[energyType] || 0;
+      totalLeftover += Math.max(0, available - used);
+    }
+
+    return totalLeftover >= anyRequired;
   }
 }

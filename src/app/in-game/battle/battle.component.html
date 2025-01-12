@@ -52,7 +52,7 @@
             <img src="https://i.imgur.com/mqjjn35.png" class="chosen-ability">
           </div>
           <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
-            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill)">
+            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !canUseSkill(skill) }" (click)="showAbilityDetails(skill)">
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Fighter } from '../interfaces/fighter.model';
 import { EnergyType } from '../interfaces/energy-type.type';
 import { EnergyCost } from '../interfaces/energy-cost.interface';
 import { Player } from '../interfaces/player.interface';
-import { EnergyPool } from '../interfaces/energy-pool.interface';
+import { EnergyPool } from '../interfaces/energy-pool.type';
 import { CostService } from '../cost/cost.service';
 
 @Injectable({

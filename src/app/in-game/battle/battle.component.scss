@@ -10,8 +10,7 @@
   overflow: hidden;
   text-transform: uppercase;
   font-family: 'franklin', monospace;
-  font-weight: 600;
-  -webkit-font-smoothing: antialiased;
+  font-weight: 500;
 }
 
 .upper-part {
@@ -65,7 +64,7 @@
 }
 
 #pot {
-  bottom: 5%;
+  bottom: 7%;
   position: absolute;
   animation: forwards;
   animation-name: run;
@@ -176,15 +175,16 @@
 }
 
 .surrender-button {
-  background-color: rgb(255, 211, 131);
+  background-color: rgba(253, 250, 216, 0.99);
+  border: 0.2rem solid rgba(250, 209, 134, 0.99);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.99);
   color: black !important;
   margin-right: 1rem;
-  border: 1px solid black;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 .surrender-button:hover {
-  background-color:rgb(255, 185, 105);
+  background-color:rgb(250, 209, 134);
 }
 
 .green-hp {
@@ -208,15 +208,15 @@
 }
 
 .tapion {
-  height: 15rem;
+  height: 17rem;
   transform: scaleX(-1);
   position: fixed;
   bottom: 0;
-  left: 17%;
+  left: 21%;
 }
 
 .surrender {
-  margin-left: 2rem;
+  margin-left: 6rem;
   display: flex;
 }
 
@@ -242,7 +242,7 @@
   border: 2px solid rgb(196, 127, 0);
   border-radius: 0.15rem;
   color: black;
-  font-weight: 400;
+  font-weight: 600;
 
   img {
     height: 100px;
@@ -301,7 +301,7 @@
 
 .skills-container-notMyTurn {
   position: absolute;
-  background-color: rgba(253, 250, 216, 0.98);
+  background-color: rgba(253, 250, 216, 0.99);
   border: 0.5rem solid rgba(250, 209, 134, 0.99);
   box-shadow:0 0 0 1px rgba(0, 0, 0, 0.99);
   border-radius: 0.1rem;
@@ -313,7 +313,7 @@
 }
 
 .skills-container-myTurn {
-  background-color: rgba(253, 250, 216, 0.98);
+  background-color: rgba(253, 250, 216, 0.99);
   border: 0.5rem solid rgba(250, 209, 134, 0.99);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.99);
   border-radius: 0.1rem;
