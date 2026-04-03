@@ -20,11 +20,14 @@ export class SkillValidationService {
     reason?: 'COOLDOWN' | 'ENERGY' | 'STUNNED' | 'DEAD' | 'INVULNERABLE' | 'UNABLE_TO_BECOME_INVULNERABLE';
     missingEnergy?: { type: EnergyType; required: number; available: number }[];
   } {
-    if (!fighter.isAlive) {
+    const rawFighter = fighter as any;
+    const isAlive = typeof rawFighter.isAlive === 'boolean' ? rawFighter.isAlive : !!rawFighter.alive;
+    if (!isAlive || isAlive === false) {
       return { canUse: false, reason: 'DEAD' };
     }
 
-    if (fighter.isStunned) {
+    const isStunned = typeof rawFighter.isStunned === 'boolean' ? rawFighter.isStunned : !!rawFighter.stunned;
+    if (isStunned) {
       return { canUse: false, reason: 'STUNNED' };
     }
 
@@ -32,7 +35,11 @@ export class SkillValidationService {
       return { canUse: false, reason: 'COOLDOWN' };
     }
 
-    if (skill.ability.effectType === 'INVULNERABLE' && fighter.isUnableToBecomeInvulnerable) {
+    const isUnableToBecomeInvulnerable = typeof rawFighter.isUnableToBecomeInvulnerable === 'boolean' 
+        ? rawFighter.isUnableToBecomeInvulnerable 
+        : !!rawFighter.unableToBecomeInvulnerable;
+        
+    if (skill.ability.effectType === 'INVULNERABLE' && isUnableToBecomeInvulnerable) {
       return { canUse: false, reason: 'UNABLE_TO_BECOME_INVULNERABLE' };
     }
 

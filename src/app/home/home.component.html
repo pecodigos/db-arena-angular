@@ -1,18 +1,54 @@
-<main class="main-container">
-  <mat-card class="mat-card">
-    <div class="title">
-      <h1>Welcome to DB-ARENA, a turn-based online game on web.</h1>
-      <h4>Read the <a href="/game-manual" class="game-manual">game manual</a> page for more information about how to play the game and how each character work.</h4>
-    </div>
-    <div class="images">
-      <img class="vegeta-dance" src="assets/gifs/vegeta-dance.gif">
-      <img class="goku-ssj" src="/assets/gifs/ssj-goku.gif">
-    </div>
-  </mat-card>
-  <mat-paginator [length]="100"
-                [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]"
-               aria-label="Select page">
-  </mat-paginator>
-</main>
+<main class="home-page">
+  <section class="hero-panel">
+    <div class="hero-copy">
+      <p class="season-kicker">Competitive Ladder Season Live</p>
+      <h1>Fight Smart. Climb Fast. Own The Arena.</h1>
+      <p class="hero-summary">
+        Dragon Ball Arena is a tactical turn-based PvP experience where every skill cost, target pick, and cooldown window matters.
+      </p>
 
+      <div class="hero-actions">
+        <a class="cta cta-primary" routerLink="/character-selection" target="_blank" rel="noopener noreferrer">Enter Matchmaking</a>
+        <a class="cta cta-secondary" routerLink="/game-manual">Learn The System</a>
+      </div>
+
+      <div class="hero-tags" aria-label="Game highlights">
+        <span>3v3 Team Drafting</span>
+        <span>Turn Order Mind Games</span>
+        <span>Live Ranked Queue</span>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <img class="hero-logo" src="assets/etc/Dragon_Ball_logo.png" alt="Dragon Ball Arena" />
+      <div class="duo-gifs">
+        <img class="hero-gif" src="assets/gifs/ssj-goku.gif" alt="Super Saiyan Goku animation" />
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-grid">
+    <article class="feature-card">
+      <h2>Build A Ruthless Trio</h2>
+      <p>Draft three fighters and prepare around synergy, utility windows, and pressure turns.</p>
+    </article>
+
+    <article class="feature-card">
+      <h2>Outplay In Real Time</h2>
+      <p>Queue actions, predict enemy choices, and convert small reads into decisive momentum.</p>
+    </article>
+
+    <article class="feature-card">
+      <h2>Rise Through Ladder</h2>
+      <p>Track your form, push streaks, and secure a higher standing in ranked play.</p>
+    </article>
+  </section>
+
+  <section class="onboarding-band">
+    <div>
+      <h3>New player?</h3>
+      <p>Start with the manual, then jump into your first queue once your roster is set.</p>
+    </div>
+    <a class="mini-cta" routerLink="/game-manual">Open Manual</a>
+  </section>
+</main>

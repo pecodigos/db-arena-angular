@@ -1,16 +1,55 @@
 <main class="main-container" appScaleContent>
+
+  <!-- ═══════ TURN TRANSITION BANNER ═══════ -->
+  <div
+    class="turn-banner-overlay"
+    *ngIf="turnBannerText"
+    [ngClass]="{ 'banner-your-turn': turnBannerTone === 'YOUR_TURN', 'banner-enemy-turn': turnBannerTone === 'ENEMY_TURN' }">
+    <span class="turn-banner-text">{{ turnBannerText }}</span>
+  </div>
+
+  <!-- ═══════ MATCH RESULT OVERLAY ═══════ -->
+  <div class="match-result-overlay" *ngIf="matchResult">
+    <div class="match-result-card" [ngClass]="{ 'result-win': matchResult === 'WIN', 'result-loss': matchResult === 'LOSS' }">
+      <p class="result-label">{{ matchResult === 'WIN' ? 'VICTORY' : 'DEFEAT' }}</p>
+      <p class="result-sub" *ngIf="matchEndData">
+        {{ matchEndData.winner.username }} wins!
+      </p>
+      <div class="result-stats" *ngIf="matchEndData">
+        <span class="result-stat">{{ matchEndData.battleQueueType }} MATCH</span>
+      </div>
+      <button class="db-btn db-btn-primary" (click)="returnToSelection()" style="margin-top: 2rem;">RETURN TO SELECTION</button>
+    </div>
+  </div>
+
+  <!-- ═══════ SURRENDER CONFIRMATION OVERLAY ═══════ -->
+  <div class="surrender-confirm-overlay" *ngIf="showSurrenderConfirmModal && !matchResult">
+    <div class="surrender-confirm-card">
+      <p class="surrender-confirm-title">SURRENDER MATCH?</p>
+      <p class="surrender-confirm-sub">YOU WILL IMMEDIATELY FORFEIT THIS BATTLE.</p>
+      <div class="surrender-confirm-actions">
+        <button class="db-btn db-btn-primary" (click)="closeSurrenderConfirmation()">CANCEL</button>
+        <button class="db-btn db-btn-danger" (click)="confirmSurrenderMatch()">CONFIRM SURRENDER</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ UPPER PART — players + turn bar ═══════ -->
   <section class="upper-part">
     <div class="main-player">
       <div class="user-rank">
         <h3 class="username">{{ profile?.username?.toUpperCase() }}</h3>
         <p class="fighter-rank">{{ profile?.rank }}</p>
       </div>
-      <img class="profile-picture" [src]="profile?.profilePicturePath" (click)="selectProfile(profile)">
+      <img class="profile-picture" [src]="profile?.profilePicturePath" (click)="profile && selectProfile(profile)">
     </div>
     <div class="turn-bar-div">
-      <a class="whos-turn" *ngIf="!isMyTurn"><b>YOUR OPPONENT TURN...</b></a>
-      <div *ngIf="isMyTurn">
-      <a class="whos-turn"  (click)="openExchangeEnergy()"><b>PRESS WHEN READY</b></a>
+      <div class="turn-indicator" [ngClass]="{ 'indicator-my-turn': isMyTurn, 'indicator-enemy-turn': !isMyTurn }">
+        <span class="turn-number-badge" *ngIf="match">TURN {{ match.turnNumber }}</span>
+        <a class="whos-turn" *ngIf="!isMyTurn"><b>YOUR OPPONENT TURN...</b></a>
+        <div *ngIf="isMyTurn">
+          <a class="whos-turn whos-turn-active" (click)="openExchangeEnergy()"><b>PRESS WHEN READY</b></a>
+        </div>
       </div>
       <mat-progress-bar class="turn-bar" mode="determinate" [value]="progressValue" color="warn"></mat-progress-bar>
 
@@ -19,75 +58,306 @@
           <div class="energy-pool" *ngIf="cost.energyType !== 'ANY'">
             <img class="energy-image" [src]="costService.getEnergyImageWithoutAny(cost.energyType)"/>
             <p class="x">x</p>
-            <p class="energy-amount">{{ match.currentPlayer.energyPool[cost.energyType] }}</p>
+            <p class="energy-amount">{{ getProjectedEnergyAmount(cost.energyType) }}</p>
           </div>
         </div>
+        <div class="energy-pool total-energy-pool">
+          <p class="energy-total-label">T</p>
+          <p class="energy-amount">{{ getProjectedTotalEnergy() }}</p>
+        </div>
       </div>
+      <p class="queue-hint" *ngIf="isMyTurn && pendingSelection">
+        Select {{ pendingSelection.isHarmful ? 'an enemy' : 'an ally' }} target for {{ pendingSelection.ability.name }}.
+      </p>
     </div>
     <div class="opponent-player">
-      <img class="profile-picture" [src]="opponent?.profilePicturePath" (click)="selectOpponentProfile(opponent)">
+      <img class="profile-picture" [src]="opponent?.profilePicturePath" (click)="opponent && selectOpponentProfile(opponent)">
       <div>
-        <h3 class="username">{{ opponent?.username.toUpperCase() || 'OPPONENT' }}</h3>
+        <h3 class="username">{{ opponent?.username?.toUpperCase() || 'OPPONENT' }}</h3>
         <p class="fighter-rank">{{ opponent?.rank || '?' }}</p>
       </div>
     </div>
   </section>
 
+  <!-- ═══════ CORE PART — battle arena ═══════ -->
   <section class="core-part">
+
+    <!-- ── LEFT SIDE — ally team ── -->
     <div class="left-side">
-      <div class="character-container" *ngFor="let fighter of team">
-        <div class="char-data">
-          <img class="left-character" [src]="fighter?.character?.imagePath" (click)="selectCharacter(fighter?.character!)">
-          <div class="health-points green-hp">
-            {{ fighter?.currentHp }}/100
+      <div class="character-container" *ngFor="let fighter of team; let fighterIndex = index">
+        <div class="char-data" [ngClass]="{ 'fighter-dead': fighter && !isFighterAlive(fighter) }">
+          <img
+            class="left-character"
+            [src]="fighter?.character?.imagePath"
+            [ngClass]="{
+              'targetable-fighter': isTargetSelectable('ALLY', fighterIndex),
+              'queued-target': isQueuedTarget('ALLY', fighterIndex),
+              'dead-portrait': fighter && !isFighterAlive(fighter)
+            }"
+            (click)="onFighterClick('ALLY', fighterIndex)">
+
+          <!-- Floating damage/heal number -->
+          <span
+            class="hp-delta-number"
+            *ngIf="isHpDeltaVisible('ally', fighterIndex)"
+            [ngClass]="{ 'delta-heal': isHpDeltaPositive('ally', fighterIndex), 'delta-damage': !isHpDeltaPositive('ally', fighterIndex) }">
+            {{ getHpDeltaLabel('ally', fighterIndex) }}
+          </span>
+
+          <!-- K.O. badge -->
+          <span class="ko-badge" *ngIf="fighter && !isFighterAlive(fighter)">K.O.</span>
+
+          <div class="effect-rail" *ngIf="fighter && getActiveEffectIndicators(fighter, 'ALLY').length > 0">
+            <div
+              class="effect-chip"
+              *ngFor="let effect of getActiveEffectIndicators(fighter, 'ALLY')"
+                [ngClass]="{ 'effect-harmful': effect.harmful, 'effect-helpful': !effect.harmful }">
+                <img *ngIf="effect.imagePath" class="effect-icon" [src]="effect.imagePath" [alt]="effect.name" />
+                <span class="effect-fallback" *ngIf="!effect.imagePath">{{ effect.name.charAt(0) }}</span>
+                <span class="effect-turns" *ngIf="effect.remainingTurns > 0">{{ effect.remainingTurns }}</span>
+                <div class="custom-effect-tooltip">
+                        <div class="tooltip-content-wrapper">
+                          <div class="tooltip-left">
+                            <img *ngIf="effect.imagePath" [src]="effect.imagePath" [alt]="effect.name" class="tooltip-image" />
+                            <div class="tooltip-fallback" *ngIf="!effect.imagePath">{{ effect.name.charAt(0) }}</div>
+                          </div>
+                          <div class="tooltip-right">
+                            <div class="tooltip-header">
+                              <span class="tooltip-title">{{ effect.name | uppercase }}</span>
+                              <span class="tooltip-turns" *ngIf="effect.remainingTurns > 0">{{ effect.remainingTurns + (effect.remainingTurns > 1 ? ' TURNS' : ' TURN') }}</span>
+                              <span class="tooltip-turns" *ngIf="effect.remainingTurns === 0">INFINITE</span>
+                            </div>
+                            <div class="tooltip-desc" *ngIf="effect.description">{{ effect.description | uppercase }}</div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
           </div>
+          <div class="target-pill" *ngIf="isTargetSelectable('ALLY', fighterIndex)">
+            CLICK TO TARGET
+          </div>
+          <div class="health-points">
+            <div
+              class="health-fill"
+              [ngClass]="getFighterHpTone(fighter)"
+              [style.width.%]="getFighterHpPercent(fighter)">
+            </div>
+            <span class="health-label">{{ getFighterHpLabel(fighter) }}</span>
+          </div>
+
         </div>
         <div class="skills-container-notMyTurn" *ngIf="!isMyTurn">
-          <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
-            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill)">
+          <div class="skill-slot" *ngFor="let skill of fighter?.skills" [title]="skill.ability.name || ''">
+            <img class="abilities" [src]="skill.ability.imagePath" [ngClass]="{ 'opacity-filter': !isMyTurn }" (click)="showAbilityDetails(skill.ability)">
           </div>
         </div>
         <div class="skills-container-myTurn" *ngIf="isMyTurn">
-          <div class="chosen-ability-slot">
-            <img src="https://i.imgur.com/mqjjn35.png" class="chosen-ability">
+          <div
+            class="chosen-ability-slot"
+            [ngClass]="{ 'has-selection': hasQueuedAction(fighterIndex) }"
+            (dblclick)="removeQueuedAction(fighterIndex)">
+            <ng-container *ngIf="getQueuedAbilityImage(fighterIndex) as queuedAbilityImage; else noQueuedSkill">
+              <img [src]="queuedAbilityImage" class="chosen-ability">
+            </ng-container>
+            <ng-template #noQueuedSkill>
+              <span class="chosen-ability-placeholder">?</span>
+            </ng-template>
           </div>
-          <div class="skill-slot" *ngFor="let skill of fighter?.character?.abilities">
-            <img class="abilities" [src]="skill.imagePath" [ngClass]="{ 'opacity-filter': !canUseSkill(skill) }" (click)="showAbilityDetails(skill)">
+          <div class="skill-slot" *ngFor="let skill of fighter?.skills; let skillIndex = index" [title]="skill.ability.name || ''">
+            <img
+              class="abilities"
+              [src]="skill.ability.imagePath"
+              [ngClass]="{
+                'disabled-skill': !canUseSkill(fighterIndex, skillIndex) && !isSkillQueued(fighterIndex, skillIndex),
+                'queued-skill': isSkillQueued(fighterIndex, skillIndex),
+                'pending-skill': isPendingSelection(fighterIndex, skillIndex)
+              }"
+              (click)="onSkillClick(fighterIndex, skillIndex)">
+            <span class="skill-state-badge skill-state-cooldown" *ngIf="skill.currentCooldown > 0">
+              CD {{ skill.currentCooldown }}
+            </span>
+            <span class="skill-state-badge skill-state-pending" *ngIf="isPendingSelection(fighterIndex, skillIndex)">
+              TARGET
+            </span>
+            <span
+              class="skill-state-badge skill-state-queued"
+              *ngIf="!isPendingSelection(fighterIndex, skillIndex) && isSkillQueued(fighterIndex, skillIndex)">
+              QUEUED
+            </span>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- ── CENTER — decorative render ── -->
     <div id="pot">
       <img class="mid-render" src="assets/etc/goku-ssj.png">
     </div>
 
-    <div class="container-button" *ngIf="exchangeEnergy">
-      <p class="close-button" (click)="closeExchangeEnergy()">
-          X
-      </p>
-      <div id="exchange-container">
-        <p class="exchange-title">EXCHANGE YOUR ENERGY</p>
+    <!-- ── TURN QUEUE OVERLAY ── -->
+    <div class="turn-queue-overlay" *ngIf="exchangeEnergy">
+      <div class="turn-queue-card">
+        <button class="close-button" type="button" (click)="closeExchangeEnergy()">✕</button>
+        <h2 class="exchange-title">TURN QUEUE</h2>
+        <p class="queue-error" *ngIf="turnErrorMessage">{{ turnErrorMessage }}</p>
+
+        <div class="queue-list" *ngIf="queuedActions.length > 0; else emptyQueue">
+            <div class="queue-row" *ngFor="let action of queuedActions; let i = index">
+              <div class="queue-row-left">
+                <div class="queue-order-controls" *ngIf="queuedActions.length > 1">
+                  <button class="order-btn" (click)="moveActionUp(i)" [disabled]="i === 0">▲</button>
+                  <button class="order-btn" (click)="moveActionDown(i)" [disabled]="i === queuedActions.length - 1">▼</button>
+                </div>
+              <div class="skill-icon-wrapper">
+                <img class="queue-skill-image" [src]="action.ability.imagePath" [alt]="action.ability.name" />
+              </div>
+              <div class="queue-details">
+                <span class="queue-char">{{ getCharacterName(action.characterIndex) }}</span>
+                <span class="queue-arrow">➔</span>
+                <span class="queue-skill">{{ action.ability.name }}</span>
+                <span class="queue-arrow">➔</span>
+                <span class="queue-target">{{ getTargetName(action) }}</span>
+              </div>
+            </div>
+            <button class="remove-action-btn" (click)="removeQueuedAction(action.characterIndex)" title="Remove action">✕</button>
+          </div>
+        </div>
+
+        <ng-template #emptyQueue>
+          <div class="queue-empty-state">
+            <p>No skills queued yet.</p>
+            <span>Pick a skill, then click a highlighted target.</span>
+          </div>
+        </ng-template>
+
+          <!-- Any Energy Selection Inline -->
+          <div class="any-energy-panel" *ngIf="anyEnergyRequiredTotal > 0">
+            <h2 class="any-energy-title">CHOOSE {{ anyEnergyRequiredTotal }} RANDOM ENERGY</h2>
+            
+            <div class="any-energy-columns">
+              <div class="column left">
+                <h3 class="column-title">ENERGY LEFT:</h3>
+                <div class="energy-row" *ngFor="let energy of availableEnergiesForAny">
+                  <span class="energy-icon-wrapper" [ngClass]="energy.class"></span>
+                  <span class="energy-name">{{ energy.type }}</span>
+                  <span class="energy-val">{{ energy.available - energy.selected }}</span>
+                </div>
+              </div>
+
+              <div class="column center">
+                <h3 class="column-title">&nbsp;</h3>
+                <div class="energy-row controls" *ngFor="let energy of availableEnergiesForAny">
+                  <button class="control-btn" (click)="decrementAnyEnergy(energy)">-</button>
+                  <button class="control-btn" (click)="incrementAnyEnergy(energy)">+</button>
+                </div>
+              </div>
+
+              <div class="column right">
+                <h3 class="column-title">SELECTED ENERGY:</h3>
+                <div class="energy-row" *ngFor="let energy of availableEnergiesForAny">
+                  <span class="energy-icon-wrapper" [ngClass]="energy.class"></span>
+                  <span class="energy-name">{{ energy.type }}</span>
+                  <span class="energy-val selected-val">{{ energy.selected }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="queue-buttons-enhanced">
+          <button
+            class="db-btn db-btn-primary"
+            (click)="submitTurnActions()"
+            [disabled]="isSubmittingTurn || !!pendingSelection">
+            <span>{{ isSubmittingTurn ? 'SENDING...' : 'CONFIRM SELECTION' }}</span>
+          </button>
+          <button
+            class="db-btn db-btn-danger"
+            (click)="clearQueuedActions()"
+            [disabled]="isSubmittingTurn || queuedActions.length === 0">
+            <span>CLEAR QUEUE</span>
+          </button>
+        </div>
       </div>
     </div>
 
+    <!-- ── RIGHT SIDE — enemy team ── -->
     <div class="right-side">
-      <div class="character-container" *ngFor="let opponentFighter of opponentTeam">
-        <div class="char-data">
-          <img class="right-character" [src]="opponentFighter?.character?.imagePath" (click)="selectCharacter(opponentFighter?.character!)">
-          <div class="health-points green-hp">
-            {{ opponentFighter?.currentHp }}/100
+      <div class="character-container" *ngFor="let opponentFighter of opponentTeam; let fighterIndex = index">
+        <div class="char-data" [ngClass]="{ 'fighter-dead': opponentFighter && !isFighterAlive(opponentFighter) }">
+          <img
+            class="right-character"
+            [src]="opponentFighter?.character?.imagePath"
+            [ngClass]="{
+              'targetable-fighter': isTargetSelectable('ENEMY', fighterIndex),
+              'queued-target': isQueuedTarget('ENEMY', fighterIndex),
+              'dead-portrait': opponentFighter && !isFighterAlive(opponentFighter)
+            }"
+            (click)="onFighterClick('ENEMY', fighterIndex)">
+
+          <!-- Floating damage/heal number -->
+          <span
+            class="hp-delta-number"
+            *ngIf="isHpDeltaVisible('enemy', fighterIndex)"
+            [ngClass]="{ 'delta-heal': isHpDeltaPositive('enemy', fighterIndex), 'delta-damage': !isHpDeltaPositive('enemy', fighterIndex) }">
+            {{ getHpDeltaLabel('enemy', fighterIndex) }}
+          </span>
+
+          <!-- K.O. badge -->
+          <span class="ko-badge" *ngIf="opponentFighter && !isFighterAlive(opponentFighter)">K.O.</span>
+
+          <div class="effect-rail" *ngIf="opponentFighter && getActiveEffectIndicators(opponentFighter, 'ENEMY').length > 0">
+            <div
+              class="effect-chip"
+              *ngFor="let effect of getActiveEffectIndicators(opponentFighter, 'ENEMY')"
+                [ngClass]="{ 'effect-harmful': effect.harmful, 'effect-helpful': !effect.harmful }">
+                <img *ngIf="effect.imagePath" class="effect-icon" [src]="effect.imagePath" [alt]="effect.name" />
+                <span class="effect-fallback" *ngIf="!effect.imagePath">{{ effect.name.charAt(0) }}</span>
+                <span class="effect-turns" *ngIf="effect.remainingTurns > 0">{{ effect.remainingTurns }}</span>
+                <div class="custom-effect-tooltip">
+                        <div class="tooltip-content-wrapper">
+                          <div class="tooltip-left">
+                            <img *ngIf="effect.imagePath" [src]="effect.imagePath" [alt]="effect.name" class="tooltip-image" />
+                            <div class="tooltip-fallback" *ngIf="!effect.imagePath">{{ effect.name.charAt(0) }}</div>
+                          </div>
+                          <div class="tooltip-right">
+                            <div class="tooltip-header">
+                              <span class="tooltip-title">{{ effect.name | uppercase }}</span>
+                              <span class="tooltip-turns" *ngIf="effect.remainingTurns > 0">{{ effect.remainingTurns + (effect.remainingTurns > 1 ? ' TURNS' : ' TURN') }}</span>
+                              <span class="tooltip-turns" *ngIf="effect.remainingTurns === 0">INFINITE</span>
+                            </div>
+                            <div class="tooltip-desc" *ngIf="effect.description">{{ effect.description | uppercase }}</div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
           </div>
+          <div class="target-pill" *ngIf="isTargetSelectable('ENEMY', fighterIndex)">
+            CLICK TO TARGET
+          </div>
+          <div class="health-points">
+            <div
+              class="health-fill"
+              [ngClass]="getFighterHpTone(opponentFighter)"
+              [style.width.%]="getFighterHpPercent(opponentFighter)">
+            </div>
+            <span class="health-label">{{ getFighterHpLabel(opponentFighter) }}</span>
+          </div>
+
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══════ BOTTOM LEFT — surrender + info panel ═══════ -->
   <section class="bottom-left-section">
     <div class="surrender">
       <div class="bottom-left-buttons">
-        <a mat-button class="surrender-button" href="/character-selection">SURRENDER</a>
-        <a mat-button class="surrender-button">OPEN CHAT</a>
-        <a mat-button class="surrender-button">VOLUME</a>
+        <button class="db-btn db-btn-danger" (click)="surrenderMatch()" [disabled]="isSurrenderPending || !!matchResult">
+          {{ isSurrenderPending ? 'SURRENDERING...' : 'SURRENDER' }}
+        </button>
+        <button class="db-btn db-btn-primary">OPEN CHAT</button>
+        <button class="db-btn db-btn-primary">VOLUME</button>
       </div>
 
       <img class="tapion" src="assets/etc/tapion.png">
@@ -101,18 +371,18 @@
               <p class="profile-username">{{ selectedProfile.username }}</p>
               <p class="profile-not-username">{{ selectedProfile.rank }}</p>
               <p class="profile-not-username">CLAN: {{ selectedProfile.clan }}</p>
-              <p class="profile-not-username">LEVEL: {{ selectedProfile.level }}</p>
+              <p class="profile-not-username">LEVEL: {{ selectedProfile.currentLevel }}</p>
               <p class="profile-not-username">RATIO: {{ selectedProfile.wins }} - {{ selectedProfile.loses }} ({{ selectedProfile.currentStreak }})</p>
             </div>
           </div>
           <div class="players-container" *ngIf="selectedProfile === profile">
             <div *ngFor="let fighter of team">
-              <img class="left-character" [src]="fighter?.character?.imagePath" (click)="selectCharacter(fighter?.character!)">
+              <img class="left-character" [src]="fighter?.character?.imagePath" (click)="selectCharacterFromFighter(fighter)">
             </div>
           </div>
           <div class="players-container" *ngIf="selectedProfile === opponent">
             <div *ngFor="let opponentFighter of opponentTeam">
-              <img class="left-character" [src]="opponentFighter?.character?.imagePath" (click)="selectCharacter(opponentFighter?.character!)">
+              <img class="left-character" [src]="opponentFighter?.character?.imagePath" (click)="selectCharacterFromFighter(opponentFighter)">
             </div>
           </div>
         </div>
@@ -120,7 +390,7 @@
         <div class="img-row" *ngIf="selectedCharacter">
           <img class="selected-character" [src]="selectedCharacter.imagePath" [alt]="selectedCharacter.name" (click)="selectCharacter(selectedCharacter)"/>
           <div class="skills">
-            <div class="skill" *ngFor="let ability of selectedCharacter?.abilities" (click)="showAbilityDetails(ability)">
+            <div class="skill" *ngFor="let ability of selectedCharacter.abilities" (click)="showAbilityDetails(ability)">
               <img [src]="ability.imagePath" [alt]="ability.name">
             </div>
           </div>
@@ -130,13 +400,13 @@
           <div *ngIf="selectedCharacter" class="name-description">
             <p class="name">{{ selectedCharacter.name }}</p>
           </div>
-          <img *ngIf="viewMode === 'ability'" [src]="selectedAbility.imagePath" [alt]="selectedAbility.name" style="border: 1px solid black; margin-right: 1rem;">
-          <div class="details" *ngIf="viewMode === 'ability'">
+          <img *ngIf="viewMode === 'ability' && selectedAbility" [src]="selectedAbility.imagePath" [alt]="selectedAbility.name" style="border: 1px solid black; margin-right: 1rem;">
+          <div class="details" *ngIf="viewMode === 'ability' && selectedAbility">
               <div class="name-energy">
-                <p class="name">{{ selectedAbility?.name }}</p>
+                <p class="name">{{ selectedAbility.name }}</p>
                 <div class="energy-div">
                   <p class="energy">ENERGY:</p>
-                  <div class="energy-cost" *ngFor="let cost of selectedAbility?.cost">
+                  <div class="energy-cost" *ngFor="let cost of selectedAbility.cost">
                     <ng-container *ngFor="let _ of costService.getArray(cost.amount)">
                       <img class="cost-image" [src]="costService.getEnergyImage(cost.energyType)" alt="cost image" />
                     </ng-container>
@@ -159,4 +429,5 @@
         </section>
       </div>
   </section>
-</main>
+
+  </main>

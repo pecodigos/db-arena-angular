@@ -15,6 +15,8 @@ export interface Ability {
   isHarmful: boolean;
   damage: number;
   helpingPoints: number;
+  bonusDamage?: number;
+  damageReduction?: number;
   damageType: DamageType;
   effectType: EffectType;
   distance: Distance;

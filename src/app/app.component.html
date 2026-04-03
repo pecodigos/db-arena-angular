@@ -1,57 +1,111 @@
-<main>
-  <mat-card class="toolbar-card" *ngIf="router.url !== '/character-selection' && router.url !== '/battle'">
-    <mat-toolbar >
-      <button mat-icon-button (click)="toggleDrawer()" *ngIf="router.url !== '/register' && router.url !== '/login'">
-        <img class="toolbar-item menu" src="/assets/etc/menu-icon.png">
-      </button>
-      <a mat-button class="toolbar-item tb-button" href="/home">
-        <img src="/assets/buttons/home.png">
-      </a>
-      <a *ngIf="isLoggedIn" class="toolbar-item tb-button" mat-button href="/character-selection" target="_blank">
-        <img src="/assets/buttons/start-playing.png">
-      </a>
-      <a *ngIf="isLoggedIn" class="toolbar-item tb-button" mat-button href="/missions">
-        <img src="/assets/buttons/missions.png">
-      </a>
-      <a mat-button class="toolbar-item tb-button" href="/game-manual">
-        <img src="/assets/buttons/guide-manual.png">
-      </a>
-      <app-theme-toggle></app-theme-toggle>
-    </mat-toolbar>
-  </mat-card>
-  <mat-drawer-container class="main-container" *ngIf="router.url !== '/character-selection' && router.url !== '/battle' && router.url !== '/login' && router.url !== '/register'">
-    <mat-drawer mode="over" class="mat-drawer" [opened]="isDrawerOpened">
-      <div class="logo-div">
-        <img class="logo" src="/assets/etc/logo-side.png">
-      </div>
-      <mat-divider></mat-divider>
-      <a class="discord-button" href="https://discord.gg/DaQ43cndpK">
-        <img class="discord-icon" src="/assets/buttons/discord-icon.png">
-        <span class="discord-name">Discord</span>
-      </a>
-      <a class="patreon-button" href="https://discord.gg/DaQ43cndpK">
-        <img class="discord-icon" src="/assets/buttons/patreon-icon.png">
-        <span class="discord-name">Patreon</span>
-      </a>
-      <mat-divider></mat-divider>
-      <div *ngIf="username">Hey, <strong class="nickname">{{ username }}</strong>!</div>
-      <div *ngIf="!username">You <b>must</b> be logged in order to play this game.</div>
-      <div class="side-buttons">
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/profile">View profile</a>
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/clan">Clan panel</a>
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/change-avatar">Change your avatar</a>
-        <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/login">Login</a>
-        <a *ngIf="!isLoggedIn" mat-stroked-button class="side-button" href="/register">Register</a>
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/change-password">Change your password</a>
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" href="/leaderboards">Ladder game leaderboard</a>
-        <a *ngIf="isLoggedIn" mat-stroked-button class="side-button" (click)="onLogout()" href="/home">Logout</a>
-      </div>
-    </mat-drawer>
-    <mat-drawer-content class="drawer-content">
-      <router-outlet />
-    </mat-drawer-content>
-  </mat-drawer-container>
-  <div *ngIf="router.url === '/character-selection' || router.url === '/battle' || router.url === '/login' || router.url === '/register'">
+<main class="shell-root">
+  <ng-container *ngIf="isShellVisible; else isolatedRoutes">
+    <mat-card class="toolbar-card">
+      <mat-toolbar class="topbar">
+        <div class="topbar-shell">
+          <div class="topbar-left">
+            <button
+              mat-icon-button
+              class="menu-button"
+              [class.menu-button-active]="isDrawerOpened"
+              type="button"
+              (click)="toggleDrawer($event)"
+              [attr.aria-label]="isDrawerOpened ? 'Close menu' : 'Open menu'"
+              [attr.aria-expanded]="isDrawerOpened"
+            >
+              <mat-icon>menu</mat-icon>
+            </button>
+
+            <a class="brand-mark" routerLink="/home" (click)="closeDrawer()">
+              <img src="/assets/etc/logo-side.png" alt="Dragon Ball Arena logo" />
+            </a>
+          </div>
+
+          <nav class="topbar-nav" aria-label="Primary navigation">
+            <ng-container *ngFor="let link of topNavLinks; trackBy: trackByRoute">
+              <a
+                *ngIf="shouldRenderLink(link)"
+                mat-button
+                class="nav-link"
+                [routerLink]="link.route"
+                routerLinkActive="nav-link-active"
+                [routerLinkActiveOptions]="{ exact: link.route === '/home' }"
+                (click)="closeDrawer()"
+              >
+                {{ link.label }}
+              </a>
+            </ng-container>
+          </nav>
+
+          <div class="topbar-actions">
+            <span *ngIf="isLoggedIn && username" class="user-chip">{{ username }}</span>
+            <a *ngIf="isLoggedIn" class="play-cta" routerLink="/character-selection" target="_blank" rel="noopener noreferrer">Start Match</a>
+            <a *ngIf="!isLoggedIn" class="login-cta" routerLink="/login">Login</a>
+            <app-theme-toggle></app-theme-toggle>
+          </div>
+        </div>
+      </mat-toolbar>
+    </mat-card>
+
+    <mat-drawer-container class="layout-container">
+      <mat-drawer
+        mode="over"
+        class="shell-drawer"
+        [(opened)]="isDrawerOpened"
+      >
+        <div class="drawer-head">
+          <img class="drawer-logo" src="/assets/etc/logo-side.png" alt="Dragon Ball Arena emblem" />
+          <p class="drawer-caption">Saiyan-grade strategy starts here.</p>
+        </div>
+
+        <div class="drawer-user" *ngIf="isLoggedIn && username; else guestState">
+          <span class="drawer-label">Signed in as</span>
+          <strong class="drawer-username">{{ username }}</strong>
+        </div>
+
+        <ng-template #guestState>
+          <div class="drawer-user guest">
+            <span class="drawer-label">Guest mode</span>
+            <span class="drawer-tip">Login to queue matches and track your ranking.</span>
+          </div>
+        </ng-template>
+
+        <mat-divider></mat-divider>
+
+        <nav class="drawer-links" aria-label="Secondary navigation">
+          <ng-container *ngFor="let link of drawerLinks; trackBy: trackByRoute">
+            <a *ngIf="shouldRenderLink(link)" mat-stroked-button class="drawer-link" [routerLink]="link.route" (click)="closeDrawer()">
+              {{ link.label }}
+            </a>
+          </ng-container>
+        </nav>
+
+        <div class="drawer-auth-actions">
+          <a *ngIf="!isLoggedIn" mat-flat-button class="drawer-primary" routerLink="/login" (click)="closeDrawer()">Login</a>
+          <a *ngIf="!isLoggedIn" mat-stroked-button class="drawer-secondary" routerLink="/register" (click)="closeDrawer()">Register</a>
+          <a *ngIf="isLoggedIn" mat-flat-button class="drawer-primary" routerLink="/character-selection" target="_blank" rel="noopener noreferrer" (click)="closeDrawer()">Play Now</a>
+          <a *ngIf="isLoggedIn" mat-stroked-button class="drawer-secondary" routerLink="/home" (click)="onLogout()">Logout</a>
+        </div>
+
+        <div class="drawer-socials">
+          <a class="social-link discord" href="https://discord.gg/DaQ43cndpK" target="_blank" rel="noopener noreferrer">
+            <img class="social-icon" src="/assets/buttons/discord-icon.png" alt="Discord" />
+            <span>Discord</span>
+          </a>
+          <a class="social-link patreon" href="https://www.patreon.com" target="_blank" rel="noopener noreferrer">
+            <img class="social-icon" src="/assets/buttons/patreon-icon.png" alt="Patreon" />
+            <span>Patreon</span>
+          </a>
+        </div>
+      </mat-drawer>
+
+      <mat-drawer-content class="route-wrapper" (click)="isDrawerOpened && closeDrawer()">
+        <router-outlet></router-outlet>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </ng-container>
+
+  <ng-template #isolatedRoutes>
     <router-outlet></router-outlet>
-  </div>
+  </ng-template>
 </main>

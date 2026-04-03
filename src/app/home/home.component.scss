@@ -1,56 +1,267 @@
-a {
-  color: var(--red);
+.home-page {
+  max-width: 74rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+  padding: 0.35rem 0 2.4rem;
 }
 
-a:hover {
-  color: rgb(112, 0, 0)
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-mat-paginator {
-  background-color: transparent;
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-}
-
-mat-card {
-  padding: 4rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  background-color: var(--form-card-color);
-  height: auto;
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.15rem;
   border: 1px solid var(--border-color);
+  background:
+    linear-gradient(130deg, rgba(7, 16, 30, 0.95), rgba(16, 33, 55, 0.92) 50%, rgba(255, 142, 25, 0.19)),
+    var(--surface-elevated);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(1.25rem, 2.3vw, 2rem);
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.25rem;
+  isolation: isolate;
 }
 
-.kid-goku-gif {
-  width: 10rem;
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
 }
 
-.mat-card {
+.season-kicker {
+  width: fit-content;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffe8b2;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 205, 106, 0.64);
+  background-color: rgba(255, 191, 74, 0.14);
+}
+
+.hero-copy h1 {
+  margin: 0;
+  font-family: 'DiscordFont', 'Trebuchet MS', sans-serif;
+  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: #f4f8ff;
+  font-size: clamp(1.55rem, 3vw, 2.65rem);
+}
+
+.hero-summary {
+  margin: 0;
+  color: rgba(224, 236, 255, 0.88);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  max-width: 39rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.3rem;
+}
+
+.cta {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.74rem;
+  border-radius: 999px;
+  padding: 0.72rem 1.25rem;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.goku-ssj {
-  width: 10rem;
-  padding-top: 2rem;
+.cta-primary {
+  color: #101521;
+  background: linear-gradient(140deg, #ffcb50, #ff8f1b);
+  box-shadow: 0 10px 18px rgba(255, 142, 13, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 22px rgba(255, 146, 20, 0.42);
+  }
 }
 
-.vegeta-dance {
-  padding-bottom: 2rem;
+.cta-secondary {
+  color: #eef6ff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.13);
+  }
 }
 
-@media (max-height: 1200px) {
-  .kid-goku-gif {
-    width: 8rem;
+.hero-tags {
+  margin-top: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+
+  span {
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(231, 241, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-logo {
+  width: min(100%, 18rem);
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.38));
+}
+
+.duo-gifs {
+  width: min(100%, 12.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.7rem;
+}
+
+.hero-gif {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.28);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.feature-card {
+  border-radius: 0.95rem;
+  border: 1px solid var(--border-color);
+  background: var(--surface-card);
+  padding: 1.1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.04rem;
+    color: var(--text-strong);
+    font-family: 'DiscordFont', 'Trebuchet MS', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-soft);
+    line-height: 1.55;
+    font-size: 0.9rem;
+  }
+}
+
+.onboarding-band {
+  border-radius: 0.95rem;
+  border: 1px solid var(--border-color);
+  background: linear-gradient(130deg, rgba(13, 39, 66, 0.92), rgba(255, 145, 24, 0.25));
+  color: #f4f8ff;
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    margin: 0;
+    color: rgba(238, 246, 255, 0.85);
+    font-size: 0.9rem;
+  }
+}
+
+.mini-cta {
+  white-space: nowrap;
+  text-decoration: none;
+  color: #11192d;
+  background: linear-gradient(145deg, #ffca4e, #ff8e1b);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.58rem 0.95rem;
+  box-shadow: 0 8px 14px rgba(255, 142, 18, 0.3);
+  transition: transform 0.16s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 16px rgba(255, 142, 18, 0.4);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    align-items: flex-start;
+  }
+
+  .hero-logo {
+    width: min(100%, 15rem);
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .home-page {
+    padding-bottom: 1.5rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .duo-gifs {
+    grid-template-columns: 1fr;
+  }
+
+  .onboarding-band {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

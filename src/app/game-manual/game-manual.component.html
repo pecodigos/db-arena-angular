@@ -1,41 +1,44 @@
-<main class="main-container">
-  <h2 class="title">GAME MANUAL</h2>
-  <p>For new players entering the Dragon Ball Arena for the first time, our game manual provides you with all the information you need to get started right away. It contains info about the game itself, and everything related to it.</p>
-  <section class="mat-cards-section">
-    <mat-card>
-      <div class="name">
-        <img class="db-icon" src="assets/etc/dragonball_one.png"><strong>The basics</strong>
+<main class="manual-page">
+  <header class="manual-hero">
+    <p class="eyebrow">Knowledge Hub</p>
+    <h1>Game Manual</h1>
+    <p>
+      Everything you need before entering ranked queue: battle fundamentals, fighter toolkit references, and ladder progression rules.
+    </p>
+  </header>
+
+  <section class="manual-grid">
+    <mat-card class="manual-card" appearance="outlined">
+      <div class="card-head">
+        <img class="db-icon" src="assets/etc/dragonball_one.png" alt="First chapter icon" />
+        <strong>The Basics</strong>
       </div>
-      <div class="div-centered">
-        <mat-card-header>
-          Before you start playing it's important that you know the basics of the game. This page gives you an introduction to the gameplay.
-        </mat-card-header>
-        <a mat-button href="game-manual/basics" class="buttons">Read more about the basics</a>
-      </div>
+      <p>
+        Learn turn flow, skill timing, targeting concepts, and what to expect in your first live matches.
+      </p>
+      <a mat-flat-button routerLink="/game-manual/basics" class="manual-link">Open Basics</a>
     </mat-card>
 
-    <mat-card>
-      <div class="name">
-        <img class="db-icon" src="assets/etc/dragonball_two.png"><strong>Fighters and abilities</strong>
+    <mat-card class="manual-card" appearance="outlined">
+      <div class="card-head">
+        <img class="db-icon" src="assets/etc/dragonball_two.png" alt="Second chapter icon" />
+        <strong>Fighters And Abilities</strong>
       </div>
-      <div class="div-centered">
-        <mat-card-header>
-          Dragon Ball Arena focuses on fighters and abilities. This page gives you an overview of all fighters available in the game.
-        </mat-card-header>
-        <a mat-button href="game-manual/fighters" class="buttons">Read more about fighters and abilities</a>
-      </div>
+      <p>
+        Explore fighter kits, role patterns, and ability interactions to craft a lineup with strong synergy.
+      </p>
+      <a mat-flat-button routerLink="/game-manual/fighters" class="manual-link">Browse Fighters</a>
     </mat-card>
 
-    <mat-card>
-      <div class="name">
-        <img class="db-icon" src="assets/etc/dragonball_three.png"><strong>Ladder game system</strong>
+    <mat-card class="manual-card" appearance="outlined">
+      <div class="card-head">
+        <img class="db-icon" src="assets/etc/dragonball_three.png" alt="Third chapter icon" />
+        <strong>Ladder System</strong>
       </div>
-      <div class="div-centered">
-        <mat-card-header>
-          The ladder is a solution for everyone who wants to compete with players around the world. This section contains all the information you need to know about it.
-        </mat-card-header>
-        <a mat-button href="game-manual/ladder-system" class="buttons">Read more about the ladder system</a>
-      </div>
+      <p>
+        Understand ranking, progression, and how consistent performance translates into better ladder standing.
+      </p>
+      <a mat-flat-button routerLink="/game-manual/ladder-system" class="manual-link">Read Ladder Rules</a>
     </mat-card>
   </section>
 </main>

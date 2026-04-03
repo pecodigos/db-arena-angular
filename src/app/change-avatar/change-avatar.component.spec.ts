@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChangeAvatarComponent } from './change-avatar.component';
 
@@ -8,7 +11,11 @@ describe('ChangeAvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangeAvatarComponent]
+      imports: [ChangeAvatarComponent, NoopAnimationsModule],
+      providers: [
+        provideHttpClient(),
+        provideRouter([]),
+      ],
     })
     .compileComponents();
     

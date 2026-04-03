@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChangePasswordComponent } from './change-password.component';
 
@@ -8,7 +11,11 @@ describe('ChangePasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangePasswordComponent]
+      imports: [ChangePasswordComponent, NoopAnimationsModule],
+      providers: [
+        provideHttpClient(),
+        provideRouter([]),
+      ],
     })
     .compileComponents();
     

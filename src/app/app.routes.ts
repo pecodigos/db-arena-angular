@@ -14,6 +14,7 @@ import { RulingComponent } from './game-manual/ruling/ruling.component';
 import { LadderSystemComponent } from './game-manual/ladder-system/ladder-system.component';
 import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
 import { ClanComponent } from './clan/clan.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,18 +25,18 @@ export const routes: Routes = [
   { path: 'game-manual/basics', component: RulingComponent },
   { path: 'game-manual/ladder-system', component: LadderSystemComponent },
 
-  { path: 'missions', component: MissionsComponent },
-  { path: 'clan', component: ClanComponent },
+  { path: 'missions', component: MissionsComponent, canActivate: [authGuard] },
+  { path: 'clan', component: ClanComponent, canActivate: [authGuard] },
 
-  { path: 'change-avatar', component: ChangeAvatarComponent},
-  { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'change-avatar', component: ChangeAvatarComponent, canActivate: [authGuard]},
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [authGuard] },
 
   { path: 'leaderboards', component: LeaderboardComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'character-selection', component: CharacterSelectionComponent },
-  { path: 'battle', component: BattleComponent },
+  { path: 'character-selection', component: CharacterSelectionComponent, canActivate: [authGuard] },
+  { path: 'battle', component: BattleComponent, canActivate: [authGuard] },
 ];

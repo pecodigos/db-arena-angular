@@ -1,5 +1,133 @@
-.main-container {
-  display: flex;
-  flex-direction: column;
+.missions-page {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
   gap: 1rem;
+}
+
+.missions-hero {
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
+  background:
+    linear-gradient(135deg, rgba(7, 28, 50, 0.93), rgba(17, 22, 32, 0.92) 48%, rgba(255, 150, 27, 0.2)),
+    var(--surface-elevated);
+  color: #edf4ff;
+  padding: 1.15rem 1.35rem;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'DiscordFont', 'Trebuchet MS', sans-serif;
+  }
+
+  p {
+    margin: 0.45rem 0 0;
+    line-height: 1.55;
+    color: rgba(227, 238, 253, 0.88);
+    font-size: 0.9rem;
+    max-width: 48rem;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffd28f;
+  font-size: 0.7rem;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  article {
+    border-radius: 0.9rem;
+    border: 1px solid var(--border-color);
+    background: var(--surface-card);
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+
+    h2 {
+      margin: 0 0 0.4rem;
+      color: var(--text-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: 'DiscordFont', 'Trebuchet MS', sans-serif;
+      font-size: 0.9rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.5;
+      font-size: 0.88rem;
+    }
+
+    span {
+      margin-top: 0.7rem;
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #0f1b2d;
+      background: linear-gradient(145deg, #ffc54c, #ff8f1d);
+      font-weight: 700;
+    }
+  }
+}
+
+.missions-footer {
+  border-radius: 0.9rem;
+  border: 1px solid var(--border-color);
+  background: linear-gradient(130deg, rgba(12, 39, 69, 0.9), rgba(255, 145, 24, 0.22));
+  color: #eff6ff;
+  padding: 0.95rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h3 {
+    margin: 0 0 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.92rem;
+  }
+
+  p {
+    margin: 0;
+    color: rgba(239, 247, 255, 0.9);
+    font-size: 0.86rem;
+  }
+
+  a {
+    text-decoration: none;
+    white-space: nowrap;
+    color: #101726;
+    background: linear-gradient(145deg, #ffc74b, #ff8f1d);
+    border-radius: 999px;
+    padding: 0.56rem 0.92rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 9px 16px rgba(255, 150, 26, 0.3);
+  }
+}
+
+@media (max-width: 980px) {
+  .mission-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .missions-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

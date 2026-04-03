@@ -1,3 +1,11 @@
-<button mat-icon-button (click)="toggleTheme()">
-  <mat-icon>{{ darkMode ? 'wb_sunny' : 'nights_stay' }}</mat-icon>
+<button
+  mat-icon-button
+  class="theme-toggle"
+  [class.theme-toggle-light]="!darkMode"
+  [class.theme-toggle-dark]="darkMode"
+  type="button"
+  (click)="toggleTheme()"
+  [attr.aria-label]="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+>
+  <mat-icon>{{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
 </button>

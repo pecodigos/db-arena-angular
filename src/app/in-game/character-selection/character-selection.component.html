@@ -80,7 +80,7 @@
           <ng-container *ngFor="let row of characterGrid; let rowIndex = index">
             <div class="grid-row">
               <ng-container *ngFor="let character of row; let colIndex = index">
-                <div class="character-card" *ngIf="character" cdkDrag  [cdkDragData]="character" [attr.data-character-id]="character.id" [attr.data-grid-position]="rowIndex" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)" (dblclick)="addToFirstAvailableSlot(character)">
+                <div class="character-card" *ngIf="character" cdkDrag  [cdkDragData]="character" [attr.data-character-id]="character.id" [attr.data-grid-position]="rowIndex" (click)="selectCharacter(character)" (cdkDragStarted)="onDragStarted($event, character)" (cdkDragReleased)="onCharacterReleased($event, character)" (dblclick)="addToFirstAvailableSlot(character)" [ngClass]="{'in-team': isCharacterInTeamSlot(character)}">
                   <img [src]="character.imagePath" [alt]="character.name" style="font-size: 0.7rem;" [appPreventDrag]="false" />
                 </div>
               </ng-container>
@@ -97,13 +97,6 @@
           <img class="arrow-img" src="../../../assets/buttons/arrow-right.png">
         </a>
       </div>
-    </div>
-
-    <div *ngIf="viewMode === 'searching' || viewMode === 'match-found'" class="searching">
-      <h4 *ngIf="viewMode === 'searching'">SEARCHING FOR AN OPPONENT...</h4>
-      <h4 *ngIf="viewMode === 'match-found'">OPPONENT FOUND!</h4>
-      <img class="searching-gif" src="https://i.pinimg.com/originals/44/a3/e5/44a3e5c82edd5b7668787d316c9efe39.gif">
-      <a *ngIf="viewMode === 'searching'" mat-button class="cancel-button" (click)="stopSearching()">CANCEL</a>
     </div>
 
     <div class="right-section">
@@ -124,12 +117,22 @@
       </div>
 
       <div class="team-div">
-        <div class="team" *ngFor="let slot of currentTeam; let i = index">
+        <div class="team" *ngFor="let slot of currentTeam; let i = index" (click)="slot.character = null" style="cursor: pointer;">
           <ng-container *ngIf="slot.character">
-            <img [src]="slot.character.imagePath" [alt]="slot.character.name" />
+            <img [src]="slot.character.imagePath" [alt]="slot.character.name" style="transform: scaleX(-1);" />
           </ng-container>
         </div>
       </div>
     </div>
   </section>
+
+  <div *ngIf="viewMode === 'searching' || viewMode === 'match-found'" class="searching-overlay"></div>
+  <div *ngIf="viewMode === 'searching' || viewMode === 'match-found'" class="searching">
+    <h4 *ngIf="viewMode === 'searching'">SEARCHING FOR AN OPPONENT...</h4>
+    <h4 *ngIf="viewMode === 'match-found'">OPPONENT FOUND!</h4>
+    <p *ngIf="viewMode === 'searching' && searchStatusMessage" class="search-status">{{ searchStatusMessage }}</p>
+    <p *ngIf="viewMode === 'searching' && matchErrorMessage" class="search-error">{{ matchErrorMessage }}</p>
+    <img class="searching-gif" src="https://i.pinimg.com/originals/44/a3/e5/44a3e5c82edd5b7668787d316c9efe39.gif">
+    <button *ngIf="viewMode === 'searching'" class="db-btn db-btn-danger" (click)="stopSearching()" style="margin-top: 1rem;">CANCEL</button>
+  </div>
 </main>

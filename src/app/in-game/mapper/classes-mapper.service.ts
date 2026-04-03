@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Ability } from '../interfaces/ability.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ClassesMapper {
   constructor() { }
 
-  mapToClasses(ability: any): string[] {
+  mapToClasses(ability: Ability): string[] {
     return [
       ability.skillType,
       ability.distance,
