@@ -1,34 +1,44 @@
 # DB-Arena Angular frontend
 
-Angular frontend for Dragon Ball Arena.
+This is the Angular frontend for Dragon Ball Arena.
 
-## Install
+## Setup
 
+1. Make sure you have Node.js and npm installed.
+2. Install the dependencies:
 ```bash
 npm install
 ```
 
-## Run locally
+## Run
 
+To start the development server:
 ```bash
 npm start
 ```
-
-Frontend URL:
-- http://localhost:4200
+The application will be available at `http://localhost:4200`.
 
 ## Build
 
+To build the project for production:
 ```bash
 npm run build
 ```
+The build artifacts will be stored in the `dist/` directory.
 
-## Backend connection
+## Test
 
-Environment files live in:
+To run unit tests:
+```bash
+npm test
+```
+
+## Backend Configuration
+
+Environment configurations are located in:
 - `src/environments/environment.ts`
 - `src/environments/environment.development.ts`
 - `src/environments/environment.prod.ts`
 
-Default backend URL:
-- `http://localhost:8080`
+The default backend URL is `http://localhost:8080`.
+
