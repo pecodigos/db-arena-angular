@@ -18,7 +18,6 @@ import { ViewMode } from '../enums/view-mode.enum';
 import { CostService } from '../cost/cost.service';
 import { Character } from '../interfaces/character.interface';
 import { ClassesMapper } from '../mapper/classes-mapper.service';
-import { TurnService } from './turn.service';
 import { EnergyPool } from '../interfaces/energy-pool.type';
 import { Skill } from '../interfaces/skill.interface';
 import { Player } from '../interfaces/player.interface';
@@ -143,8 +142,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     private playSoundService: PlaySoundService,
     private classesMapper: ClassesMapper,
     private router: Router,
-    public costService: CostService,
-    public turnService: TurnService
+    public costService: CostService
   ) {}
 
   ngOnInit(): void {

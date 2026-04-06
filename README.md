@@ -2,6 +2,22 @@
 
 This is the Angular frontend for Dragon Ball Arena.
 
+## Architecture and Cleanup Guide
+
+See `docs/ARCHITECTURE-CLEANUP.md` for the current frontend architecture direction,
+responsibility boundaries, and phased cleanup plan.
+See `docs/adr/0001-script-lifecycle-and-root-hygiene.md` for the script lifecycle decision record.
+
+## Repository Hygiene
+
+- Archived one-off patch/fix scripts live in `scripts/legacy-patches/`.
+- Temporary active migration scripts should be created in `scripts/migrations/`.
+- Validate root hygiene with:
+
+```bash
+npm run check:structure
+```
+
 ## Setup
 
 1. Make sure you have Node.js and npm installed.
